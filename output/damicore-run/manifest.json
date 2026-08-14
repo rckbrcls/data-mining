@@ -1,0 +1,1017 @@
+{
+  "artifacts": {
+    "checkpoints/compressed-sizes.json": {
+      "path": "checkpoints/compressed-sizes.json",
+      "sha256": "2bae6ef3e21c5dfef7b6302b83c116adadd1f37521cbe2a1c3d00561e97b300d",
+      "size_bytes": 2718
+    },
+    "checkpoints/distance-shards.json": {
+      "path": "checkpoints/distance-shards.json",
+      "sha256": "69b7280fa54c2a85f711fa56d1cb44df6325e512d44042ad938ea2d24b6d7c42",
+      "size_bytes": 2135
+    },
+    "checkpoints/pipeline.json": {
+      "path": "checkpoints/pipeline.json",
+      "sha256": "0fb5deaf1a87903e8ceace0aa2096593391b5527b6bd2f4f66497a428c0f95b1",
+      "size_bytes": 19222
+    },
+    "clusters.json": {
+      "path": "clusters.json",
+      "sha256": "d70b889e663428a8c272321b3e3addc7215726f2ae98364d99b3ec550a78b038",
+      "size_bytes": 4793
+    },
+    "distance.npy": {
+      "path": "distance.npy",
+      "sha256": "12dfd8f988cdbbac4c386977cb9eb724b4691691a615acf86c9cdd5ac443fbd4",
+      "size_bytes": 30880
+    },
+    "labels.json": {
+      "path": "labels.json",
+      "sha256": "234156ff48dc2736470dff89adb7f84e3e6af1103c57ed8f387593f778e1861e",
+      "size_bytes": 3177
+    },
+    "membership.csv": {
+      "path": "membership.csv",
+      "sha256": "30ac7e749d336f0c4b2b8dceaba64dd5b8dcea4860135e4f263069167e5456cd",
+      "size_bytes": 2391
+    },
+    "report.json": {
+      "path": "report.json",
+      "sha256": "125f8ee588083dc520eec6b283dc642494dd7f4213d7e43ca3f868a6f4711e1e",
+      "size_bytes": 1016
+    },
+    "tree.json": {
+      "path": "tree.json",
+      "sha256": "99260db7d38a0dc5b73303b4ddf32743e11e4d3eb69b8692eb9239c1d5badee3",
+      "size_bytes": 25257
+    },
+    "tree.nwk": {
+      "path": "tree.nwk",
+      "sha256": "317b0a0771a9f98084f6733ce00c647ac4cf4e7fad2d5ebec2e943260c186baf",
+      "size_bytes": 4320
+    }
+  },
+  "cleanup_completed": true,
+  "completed_at": "2026-08-14T17:05:47.887832+00:00",
+  "config": {
+    "compression_chunk_bytes": 4194304,
+    "compression_level": 6,
+    "compressor": "zlib",
+    "csv_chunk_rows": 50000,
+    "delimiter": ";",
+    "encoding": "utf-8-sig",
+    "include_hidden": null,
+    "keep_normalized": false,
+    "limits": {
+      "max_matrix_bytes": 536870912,
+      "max_objects": 1000,
+      "max_pairs": 500000,
+      "max_working_memory_bytes": 536870912,
+      "required_free_disk_factor": 1.25
+    },
+    "num_clusters": null,
+    "pairs_per_shard": 10000,
+    "pandas_materialization_limit_bytes": 268435456,
+    "recursive": null,
+    "save_diagnostics": false,
+    "sheet": null,
+    "source_kind": "delimited",
+    "split": "columns",
+    "workers": 4
+  },
+  "config_hash": "c40daaddfeaafb06484bd8a66db33af9cf1e06ea963c66bc01dae6735bdfc3ff",
+  "created_at": "2026-08-14T16:40:11.062138+00:00",
+  "damicore_version": "0.2.0",
+  "estimate": {
+    "available_free_disk_bytes": 26283544576,
+    "effective_workers": 4,
+    "estimated_artifact_bytes": 2280371472,
+    "estimated_diagnostic_bytes": 0,
+    "estimated_final_metadata_bytes": 1313032,
+    "estimated_working_memory_bytes": 245011560,
+    "input_sha256": "96186a41e46ebd1df744460284ebd4466e16264b9fe51292b4f4a484531372fa",
+    "input_size_bytes": 1931449033,
+    "matrix_bytes": 30752,
+    "max_serialized_chunk_bytes": 40835260,
+    "normalized_bytes": 2278996680,
+    "object_count": 62,
+    "pair_count": 1891,
+    "required_free_disk_bytes": 2850464340,
+    "source_kind": "delimited",
+    "source_paths": [
+      "/Users/erickpatrickbarcelos/codes/research/data/disque100-primeiro-semestre-2026.csv"
+    ],
+    "split": "columns",
+    "tree_workspace_bytes": 30752,
+    "violations": [],
+    "within_limits": true
+  },
+  "failed_stage": "normalizing",
+  "input": {
+    "kind": "delimited",
+    "paths": [
+      "/Users/erickpatrickbarcelos/codes/research/data/disque100-primeiro-semestre-2026.csv"
+    ],
+    "sha256": "96186a41e46ebd1df744460284ebd4466e16264b9fe51292b4f4a484531372fa",
+    "size_bytes": 1931449033
+  },
+  "objects": [
+    {
+      "label": "hash",
+      "object_id": "column_000001",
+      "sha256": "4f7069aace97af5c892fd247b163454bde6d0f42a76a40374854e92c8b7ea9f5",
+      "size_bytes": 189316138
+    },
+    {
+      "label": "Data_de_cadastro",
+      "object_id": "column_000002",
+      "sha256": "9357a4b5c0a7d4a2e89fd16881853e9e141d9c8a0692aa861fa8e5ef5eb3dc32",
+      "size_bytes": 73465964
+    },
+    {
+      "label": "Canal_de_atendimento",
+      "object_id": "column_000003",
+      "sha256": "4574fd2bb7c2e24364f0e3251fd59614e46c5e127772cbd68ff27ad5de6b6f82",
+      "size_bytes": 38037911
+    },
+    {
+      "label": "Denúncia_emergencial",
+      "object_id": "column_000004",
+      "sha256": "080a1d1c6102971c3da3d020abddaafbee1ff55183964c8acfcb21cd45b5ec94",
+      "size_bytes": 22160770
+    },
+    {
+      "label": "Denunciante",
+      "object_id": "column_000005",
+      "sha256": "3111250d252c718484f61564f7efd1cf876204a2075dbc3ed69aee24378227e5",
+      "size_bytes": 36121799
+    },
+    {
+      "label": "Cenário_da_violação",
+      "object_id": "column_000006",
+      "sha256": "3f39a5a414fa8d8973b30d226a267bda80568f063260e4e16f726ce35c600cfc",
+      "size_bytes": 87224165
+    },
+    {
+      "label": "País",
+      "object_id": "column_000007",
+      "sha256": "a5b158d261fbf53c3b541f9fdee21cdf8e55c676e5f8b25db3723954b600cc13",
+      "size_bytes": 39564075
+    },
+    {
+      "label": "UF",
+      "object_id": "column_000008",
+      "sha256": "b0cb399b25b5f2f9057401c4e8f4d5d9ac14522883adb5d6bc01fa0bbaa7750a",
+      "size_bytes": 14699695
+    },
+    {
+      "label": "Município",
+      "object_id": "column_000009",
+      "sha256": "1ca87e9dcebd7587c9a558406ec74a7805e2a466f600c8d0816f2afe2ea4e639",
+      "size_bytes": 67142227
+    },
+    {
+      "label": "Frequência",
+      "object_id": "column_000010",
+      "sha256": "bf1a52651cce833f048602c6701e6024bbca84fa6987d4677b3ed328e917e928",
+      "size_bytes": 42439088
+    },
+    {
+      "label": "Início_das_violações",
+      "object_id": "column_000011",
+      "sha256": "66576d9b42616ec623ec76029d88935c499dfb6c1ec1c559f7a28677ec04c442",
+      "size_bytes": 57420076
+    },
+    {
+      "label": "sl_quantidade_vitimas",
+      "object_id": "column_000012",
+      "sha256": "8dfd3c86f562fa90813965f517d3e989dc74604e800e36a557eabb458eb6ef94",
+      "size_bytes": 11302456
+    },
+    {
+      "label": "Grupo_vulnerável",
+      "object_id": "column_000013",
+      "sha256": "84e7368ca463b198bdbb3ffdd36e9a035bbb06c93d7177fab6e9f071b92b0fef",
+      "size_bytes": 116628281
+    },
+    {
+      "label": "Motivação",
+      "object_id": "column_000014",
+      "sha256": "ba409bd3571d49952693697d756e72fb6b9d8745980dbccbff2b4b55868b9a3e",
+      "size_bytes": 29521891
+    },
+    {
+      "label": "Relação_vítima_suspeito",
+      "object_id": "column_000015",
+      "sha256": "37078fbfd6ac134d73fc13142210639a1b10cb8a5cacaafffc96e16d5b89396d",
+      "size_bytes": 37222221
+    },
+    {
+      "label": "sl_vitima_cadastro",
+      "object_id": "column_000016",
+      "sha256": "7c05cc605607d00a6493cc5e602562bcaf9b7129b10de0f1d6ad94ddfb7ad544",
+      "size_bytes": 48910433
+    },
+    {
+      "label": "Gênero_da_vítima",
+      "object_id": "column_000017",
+      "sha256": "09f84bca369921874c3705d2d792ebd344dc5047632d321cb7880e13a2de5d9c",
+      "size_bytes": 31884474
+    },
+    {
+      "label": "Orientação_sexual_da_vítima",
+      "object_id": "column_000018",
+      "sha256": "4cc86be065b317a5c7b94d684dbcdcf7891607690177dc62ea2cb973956c37e9",
+      "size_bytes": 20924069
+    },
+    {
+      "label": "Faixa_etária_da_vítima",
+      "object_id": "column_000019",
+      "sha256": "246d610fe697d8b34fd857ebf659a306891ef3c54351e04e9cb9a57e128d49ae",
+      "size_bytes": 38695697
+    },
+    {
+      "label": "Nacionalidade_da_vítima",
+      "object_id": "column_000020",
+      "sha256": "a3ea3e8b056d32520e6aa8803f9124985f8732e888135d2d728815c91be6beac",
+      "size_bytes": 39560778
+    },
+    {
+      "label": "sl_vitima_naturalidade",
+      "object_id": "column_000021",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "sl_vitima_naturalizado_uf",
+      "object_id": "column_000022",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "sl_vitima_naturalizado_municipio",
+      "object_id": "column_000023",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "Deficiência_da_vítima",
+      "object_id": "column_000024",
+      "sha256": "d1ed1fe3d1bb7ed1e11d67afeb752d851caf06f2a5c08c62c22e67f4b4408e5a",
+      "size_bytes": 21610683
+    },
+    {
+      "label": "Doença_rara_da_vítima",
+      "object_id": "column_000025",
+      "sha256": "969dbc6ace266191181a2f6d9bf94a97a2aee82049ed5d6ce3ae1df4d0c9b9d5",
+      "size_bytes": 21155702
+    },
+    {
+      "label": "Deficiência_relacionada_a_doença_rara",
+      "object_id": "column_000026",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "Vítima_preso_a",
+      "object_id": "column_000027",
+      "sha256": "c948f2b75c78cc5add98c30e436f35dc589245fd942e79c49b9e57291810df0a",
+      "size_bytes": 21508801
+    },
+    {
+      "label": "País_da_vítima",
+      "object_id": "column_000028",
+      "sha256": "b6c4d4b5add005e3255ed4405aab65325a97f2e2020ab9426ded8d94e89257e6",
+      "size_bytes": 39564012
+    },
+    {
+      "label": "UF_da_vítima",
+      "object_id": "column_000029",
+      "sha256": "c284b237e03e3dd6d990fd42fc16f6d229686e385685891642b81c126b77157d",
+      "size_bytes": 15514416
+    },
+    {
+      "label": "Município_da_vítima",
+      "object_id": "column_000030",
+      "sha256": "203fa5fbe6a9170833dbdfe705e793d0206b1b071c6ad225550c17f718bdf82f",
+      "size_bytes": 67434457
+    },
+    {
+      "label": "Profissão_da_vítima",
+      "object_id": "column_000031",
+      "sha256": "97c420892e1b910c6d9344a132ce9d69d501445333df2dfab9c905425edc7617",
+      "size_bytes": 20350165
+    },
+    {
+      "label": "Grau_de_instrução_da_vítima",
+      "object_id": "column_000032",
+      "sha256": "4829c1a7c049b0e093986a4f4ef81711dc47793f4773af7a8de5e81b7760308d",
+      "size_bytes": 29552219
+    },
+    {
+      "label": "Religião_da_vítima",
+      "object_id": "column_000033",
+      "sha256": "7103aefbba2d3c0133ba43e26ead2ed49b93dcb7a0365decfc9746e77deb3279",
+      "size_bytes": 25553160
+    },
+    {
+      "label": "Raça_Cor_da_vítima",
+      "object_id": "column_000034",
+      "sha256": "2b66c11c81cb02373f1424ae2d2588f1bd132f469f4891312bd723443073efa3",
+      "size_bytes": 26711241
+    },
+    {
+      "label": "Etnia_da_vítima",
+      "object_id": "column_000035",
+      "sha256": "7effe62fda831ac747a05e3db5d98ea6814abd0325f98bd9c7fe8d84ed768c9d",
+      "size_bytes": 20848374
+    },
+    {
+      "label": "Faixa_de_renda_da_vítima",
+      "object_id": "column_000036",
+      "sha256": "3e9f6beff496aa7ed12211239c93c0752d5d5e6a0c026c2549f89e9eb178624e",
+      "size_bytes": 19843975
+    },
+    {
+      "label": "Natureza_Jurídica_do_Suspeito",
+      "object_id": "column_000037",
+      "sha256": "f3c2a27f26488b40adce4ec79b26c94ca8599168cd926af1b1302bb8ddddeaf3",
+      "size_bytes": 50453559
+    },
+    {
+      "label": "Gênero_do_suspeito",
+      "object_id": "column_000038",
+      "sha256": "59284bd896c0465e6d156102bee94c364dba093e0329d81bc826a410f841cc7b",
+      "size_bytes": 31965300
+    },
+    {
+      "label": "Orientação_sexual_do_suspeito",
+      "object_id": "column_000039",
+      "sha256": "e2c7dc34af784d4fe8266f71da7871f541aaa30dbaff1e9a364cb8198f4d3b3c",
+      "size_bytes": 20176994
+    },
+    {
+      "label": "Faixa_etária_do_suspeito",
+      "object_id": "column_000040",
+      "sha256": "0c01e625a5cf3b3ca645b9cf42a8fe0846f94e7f9dbb56c36590f704934359ed",
+      "size_bytes": 37234045
+    },
+    {
+      "label": "Suspeito_nacionalidade",
+      "object_id": "column_000041",
+      "sha256": "3b85a273465160397a09d999df0255acf01a9ab4daaef48a2903f6740d47f219",
+      "size_bytes": 39551814
+    },
+    {
+      "label": "sl_suspeito_naturalidade",
+      "object_id": "column_000042",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "sl_suspeito_naturalizado_uf",
+      "object_id": "column_000043",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "sl_suspeito_naturalizado_municipio",
+      "object_id": "column_000044",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "Deficiência_do_suspeito",
+      "object_id": "column_000045",
+      "sha256": "b2347f3f0116bc8dc3751cbbbe68e753680ee8eb5c8c2e7c2d06d15ee386db05",
+      "size_bytes": 19886191
+    },
+    {
+      "label": "Doença_rara_do_suspeito",
+      "object_id": "column_000046",
+      "sha256": "8f1f98d99eb9303b582ddfef9842a03a001e463f13e58d5f3483dccc16cfc51f",
+      "size_bytes": 19948998
+    },
+    {
+      "label": "Deficiência_relacionada_a_doença_rara_suspeito",
+      "object_id": "column_000047",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "Suspeito_preso",
+      "object_id": "column_000048",
+      "sha256": "2935672d33ac756632e67cf8270fddf34f5106389b26b8e37f2b68cd8115840d",
+      "size_bytes": 23800285
+    },
+    {
+      "label": "País_do_suspeito",
+      "object_id": "column_000049",
+      "sha256": "c44700d5a97bd8e7438517183b30ed5d03f5acbfd43fc01cde7cdccc91105541",
+      "size_bytes": 39571564
+    },
+    {
+      "label": "UF_do_suspeito",
+      "object_id": "column_000050",
+      "sha256": "32f4a36cee8689e9924b8ad848342af3232e4c26e3c94bbdf5b2f28ee69e5a2e",
+      "size_bytes": 18736389
+    },
+    {
+      "label": "sl_suspeito_municipio",
+      "object_id": "column_000051",
+      "sha256": "e5a184f9756a34774ee1d9323e78feefc96b95e849a4d2dfc7ec1b4dc800ff0f",
+      "size_bytes": 68523468
+    },
+    {
+      "label": "Profissão_do_suspeito",
+      "object_id": "column_000052",
+      "sha256": "82106a6b378563b1515724ea8c437fea5cd9abaaf680d1bfcf970dee4146e1a3",
+      "size_bytes": 63241900
+    },
+    {
+      "label": "Grau_de_instrução_do_suspeito",
+      "object_id": "column_000053",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "Religião_do_suspeito",
+      "object_id": "column_000054",
+      "sha256": "48c09eaea7e50684310f6f9ab4e1711c10a798f22841b0dc3306a9942e1a2e33",
+      "size_bytes": 23382487
+    },
+    {
+      "label": "Raça_Cor_do_suspeito",
+      "object_id": "column_000055",
+      "sha256": "3329ed4c536b0c5381854db6414641cd97e3b4d75bdefb8b87887099d2be4cae",
+      "size_bytes": 24257468
+    },
+    {
+      "label": "Suspeito_Etnia",
+      "object_id": "column_000056",
+      "sha256": "994c3d99af94aff94708f39e8ccbe20738590ef20c61f04f84b303c21b86fa68",
+      "size_bytes": 20013402
+    },
+    {
+      "label": "Faixa_de_renda_do_suspeito",
+      "object_id": "column_000057",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "Vínculo_Órgão_PJ_do_suspeito",
+      "object_id": "column_000058",
+      "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+      "size_bytes": 19779298
+    },
+    {
+      "label": "sl_suspeito_ramo",
+      "object_id": "column_000059",
+      "sha256": "2294fbd52e08af7bb5ee5bcfe65a9a08e723d846a90a26703d1d2d30d479f046",
+      "size_bytes": 35795095
+    },
+    {
+      "label": "suspeito_especificacao_etnia",
+      "object_id": "column_000060",
+      "sha256": "33bf5098c1facb6104e032014e9aa56f8afa7f7866a7c86a80f87f534b6d9957",
+      "size_bytes": 20019353
+    },
+    {
+      "label": "vitima_especificacao_etnia",
+      "object_id": "column_000061",
+      "sha256": "250b0396e94d6d7f4179962ea027fce4168f23020fa13d9ac825751b60435cf2",
+      "size_bytes": 19901078
+    },
+    {
+      "label": "violacao",
+      "object_id": "column_000062",
+      "sha256": "c1ee92fdad2b157346e900523e0223e2105a1cdbf68fdc571c3cd68a58f7d7a5",
+      "size_bytes": 113075599
+    }
+  ],
+  "run_dir": "/Users/erickpatrickbarcelos/codes/research/output/damicore-run",
+  "run_id": "27ee51d187a3e3b3",
+  "runtime": {
+    "damicore": "0.2.0",
+    "damicore-clusterizer": "0.2.0",
+    "damicore-distance": "0.2.0",
+    "damicore-normalizer": "0.2.0",
+    "damicore-tree-builder": "0.2.0",
+    "igraph": "1.0.0",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "pydantic": "2.13.4",
+    "python": "3.14.7",
+    "tqdm": "4.70.0",
+    "zlib_build": "1.2.12",
+    "zlib_runtime": "1.2.12"
+  },
+  "schema_version": 2,
+  "stages": {
+    "clusterizing": {
+      "finished_at": "2026-08-14T17:05:47.565810+00:00",
+      "inputs": [
+        {
+          "path": "tree.json",
+          "sha256": "99260db7d38a0dc5b73303b4ddf32743e11e4d3eb69b8692eb9239c1d5badee3",
+          "size_bytes": 25257
+        }
+      ],
+      "metrics": {
+        "cluster_count": 10,
+        "community_count": 10,
+        "modularity": 0.801049015542411,
+        "seconds": 0.005497375037521124
+      },
+      "outputs": [
+        {
+          "path": "membership.csv",
+          "sha256": "30ac7e749d336f0c4b2b8dceaba64dd5b8dcea4860135e4f263069167e5456cd",
+          "size_bytes": 2391
+        },
+        {
+          "path": "clusters.json",
+          "sha256": "d70b889e663428a8c272321b3e3addc7215726f2ae98364d99b3ec550a78b038",
+          "size_bytes": 4793
+        }
+      ],
+      "runtime": {
+        "damicore": "0.2.0",
+        "damicore-clusterizer": "0.2.0",
+        "damicore-distance": "0.2.0",
+        "damicore-normalizer": "0.2.0",
+        "damicore-tree-builder": "0.2.0",
+        "igraph": "1.0.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "pydantic": "2.13.4",
+        "python": "3.14.7",
+        "tqdm": "4.70.0",
+        "zlib_build": "1.2.12",
+        "zlib_runtime": "1.2.12"
+      },
+      "started_at": "2026-08-14T17:05:47.560442+00:00",
+      "status": "completed"
+    },
+    "distancing": {
+      "finished_at": "2026-08-14T17:05:47.504975+00:00",
+      "inputs": [
+        {
+          "path": "normalization/manifest.json",
+          "sha256": "531bb352710e30d83aa6e7dd600a31b9c6691da9c36c2982d0ce7f0dbcb2e15d",
+          "size_bytes": 16297
+        }
+      ],
+      "metrics": {
+        "object_count": 62,
+        "pair_count": 1891,
+        "seconds": 629.1235563340597
+      },
+      "outputs": [
+        {
+          "path": "distance.npy",
+          "sha256": "12dfd8f988cdbbac4c386977cb9eb724b4691691a615acf86c9cdd5ac443fbd4",
+          "size_bytes": 30880
+        },
+        {
+          "path": "labels.json",
+          "sha256": "234156ff48dc2736470dff89adb7f84e3e6af1103c57ed8f387593f778e1861e",
+          "size_bytes": 3177
+        },
+        {
+          "path": "checkpoints/compressed-sizes.json",
+          "sha256": "2bae6ef3e21c5dfef7b6302b83c116adadd1f37521cbe2a1c3d00561e97b300d",
+          "size_bytes": 2718
+        },
+        {
+          "path": "checkpoints/distance-shards.json",
+          "sha256": "69b7280fa54c2a85f711fa56d1cb44df6325e512d44042ad938ea2d24b6d7c42",
+          "size_bytes": 2135
+        }
+      ],
+      "runtime": {
+        "damicore": "0.2.0",
+        "damicore-clusterizer": "0.2.0",
+        "damicore-distance": "0.2.0",
+        "damicore-normalizer": "0.2.0",
+        "damicore-tree-builder": "0.2.0",
+        "igraph": "1.0.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "pydantic": "2.13.4",
+        "python": "3.14.7",
+        "tqdm": "4.70.0",
+        "zlib_build": "1.2.12",
+        "zlib_runtime": "1.2.12"
+      },
+      "started_at": "2026-08-14T16:55:18.376434+00:00",
+      "status": "completed"
+    },
+    "normalizing": {
+      "finished_at": "2026-08-14T16:55:17.008368+00:00",
+      "inputs": [
+        {
+          "path": "/Users/erickpatrickbarcelos/codes/research/data/disque100-primeiro-semestre-2026.csv",
+          "sha256": "96186a41e46ebd1df744460284ebd4466e16264b9fe51292b4f4a484531372fa",
+          "size_bytes": 1931449033
+        }
+      ],
+      "metrics": {
+        "normalized_bytes": 2278996680,
+        "object_count": 62,
+        "seconds": 293.23388970899396
+      },
+      "outputs": [
+        {
+          "path": "normalization/manifest.json",
+          "sha256": "531bb352710e30d83aa6e7dd600a31b9c6691da9c36c2982d0ce7f0dbcb2e15d",
+          "size_bytes": 16297
+        },
+        {
+          "path": "normalization/objects/column_000001.jsonl",
+          "sha256": "4f7069aace97af5c892fd247b163454bde6d0f42a76a40374854e92c8b7ea9f5",
+          "size_bytes": 189316138
+        },
+        {
+          "path": "normalization/objects/column_000002.jsonl",
+          "sha256": "9357a4b5c0a7d4a2e89fd16881853e9e141d9c8a0692aa861fa8e5ef5eb3dc32",
+          "size_bytes": 73465964
+        },
+        {
+          "path": "normalization/objects/column_000003.jsonl",
+          "sha256": "4574fd2bb7c2e24364f0e3251fd59614e46c5e127772cbd68ff27ad5de6b6f82",
+          "size_bytes": 38037911
+        },
+        {
+          "path": "normalization/objects/column_000004.jsonl",
+          "sha256": "080a1d1c6102971c3da3d020abddaafbee1ff55183964c8acfcb21cd45b5ec94",
+          "size_bytes": 22160770
+        },
+        {
+          "path": "normalization/objects/column_000005.jsonl",
+          "sha256": "3111250d252c718484f61564f7efd1cf876204a2075dbc3ed69aee24378227e5",
+          "size_bytes": 36121799
+        },
+        {
+          "path": "normalization/objects/column_000006.jsonl",
+          "sha256": "3f39a5a414fa8d8973b30d226a267bda80568f063260e4e16f726ce35c600cfc",
+          "size_bytes": 87224165
+        },
+        {
+          "path": "normalization/objects/column_000007.jsonl",
+          "sha256": "a5b158d261fbf53c3b541f9fdee21cdf8e55c676e5f8b25db3723954b600cc13",
+          "size_bytes": 39564075
+        },
+        {
+          "path": "normalization/objects/column_000008.jsonl",
+          "sha256": "b0cb399b25b5f2f9057401c4e8f4d5d9ac14522883adb5d6bc01fa0bbaa7750a",
+          "size_bytes": 14699695
+        },
+        {
+          "path": "normalization/objects/column_000009.jsonl",
+          "sha256": "1ca87e9dcebd7587c9a558406ec74a7805e2a466f600c8d0816f2afe2ea4e639",
+          "size_bytes": 67142227
+        },
+        {
+          "path": "normalization/objects/column_000010.jsonl",
+          "sha256": "bf1a52651cce833f048602c6701e6024bbca84fa6987d4677b3ed328e917e928",
+          "size_bytes": 42439088
+        },
+        {
+          "path": "normalization/objects/column_000011.jsonl",
+          "sha256": "66576d9b42616ec623ec76029d88935c499dfb6c1ec1c559f7a28677ec04c442",
+          "size_bytes": 57420076
+        },
+        {
+          "path": "normalization/objects/column_000012.jsonl",
+          "sha256": "8dfd3c86f562fa90813965f517d3e989dc74604e800e36a557eabb458eb6ef94",
+          "size_bytes": 11302456
+        },
+        {
+          "path": "normalization/objects/column_000013.jsonl",
+          "sha256": "84e7368ca463b198bdbb3ffdd36e9a035bbb06c93d7177fab6e9f071b92b0fef",
+          "size_bytes": 116628281
+        },
+        {
+          "path": "normalization/objects/column_000014.jsonl",
+          "sha256": "ba409bd3571d49952693697d756e72fb6b9d8745980dbccbff2b4b55868b9a3e",
+          "size_bytes": 29521891
+        },
+        {
+          "path": "normalization/objects/column_000015.jsonl",
+          "sha256": "37078fbfd6ac134d73fc13142210639a1b10cb8a5cacaafffc96e16d5b89396d",
+          "size_bytes": 37222221
+        },
+        {
+          "path": "normalization/objects/column_000016.jsonl",
+          "sha256": "7c05cc605607d00a6493cc5e602562bcaf9b7129b10de0f1d6ad94ddfb7ad544",
+          "size_bytes": 48910433
+        },
+        {
+          "path": "normalization/objects/column_000017.jsonl",
+          "sha256": "09f84bca369921874c3705d2d792ebd344dc5047632d321cb7880e13a2de5d9c",
+          "size_bytes": 31884474
+        },
+        {
+          "path": "normalization/objects/column_000018.jsonl",
+          "sha256": "4cc86be065b317a5c7b94d684dbcdcf7891607690177dc62ea2cb973956c37e9",
+          "size_bytes": 20924069
+        },
+        {
+          "path": "normalization/objects/column_000019.jsonl",
+          "sha256": "246d610fe697d8b34fd857ebf659a306891ef3c54351e04e9cb9a57e128d49ae",
+          "size_bytes": 38695697
+        },
+        {
+          "path": "normalization/objects/column_000020.jsonl",
+          "sha256": "a3ea3e8b056d32520e6aa8803f9124985f8732e888135d2d728815c91be6beac",
+          "size_bytes": 39560778
+        },
+        {
+          "path": "normalization/objects/column_000021.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000022.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000023.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000024.jsonl",
+          "sha256": "d1ed1fe3d1bb7ed1e11d67afeb752d851caf06f2a5c08c62c22e67f4b4408e5a",
+          "size_bytes": 21610683
+        },
+        {
+          "path": "normalization/objects/column_000025.jsonl",
+          "sha256": "969dbc6ace266191181a2f6d9bf94a97a2aee82049ed5d6ce3ae1df4d0c9b9d5",
+          "size_bytes": 21155702
+        },
+        {
+          "path": "normalization/objects/column_000026.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000027.jsonl",
+          "sha256": "c948f2b75c78cc5add98c30e436f35dc589245fd942e79c49b9e57291810df0a",
+          "size_bytes": 21508801
+        },
+        {
+          "path": "normalization/objects/column_000028.jsonl",
+          "sha256": "b6c4d4b5add005e3255ed4405aab65325a97f2e2020ab9426ded8d94e89257e6",
+          "size_bytes": 39564012
+        },
+        {
+          "path": "normalization/objects/column_000029.jsonl",
+          "sha256": "c284b237e03e3dd6d990fd42fc16f6d229686e385685891642b81c126b77157d",
+          "size_bytes": 15514416
+        },
+        {
+          "path": "normalization/objects/column_000030.jsonl",
+          "sha256": "203fa5fbe6a9170833dbdfe705e793d0206b1b071c6ad225550c17f718bdf82f",
+          "size_bytes": 67434457
+        },
+        {
+          "path": "normalization/objects/column_000031.jsonl",
+          "sha256": "97c420892e1b910c6d9344a132ce9d69d501445333df2dfab9c905425edc7617",
+          "size_bytes": 20350165
+        },
+        {
+          "path": "normalization/objects/column_000032.jsonl",
+          "sha256": "4829c1a7c049b0e093986a4f4ef81711dc47793f4773af7a8de5e81b7760308d",
+          "size_bytes": 29552219
+        },
+        {
+          "path": "normalization/objects/column_000033.jsonl",
+          "sha256": "7103aefbba2d3c0133ba43e26ead2ed49b93dcb7a0365decfc9746e77deb3279",
+          "size_bytes": 25553160
+        },
+        {
+          "path": "normalization/objects/column_000034.jsonl",
+          "sha256": "2b66c11c81cb02373f1424ae2d2588f1bd132f469f4891312bd723443073efa3",
+          "size_bytes": 26711241
+        },
+        {
+          "path": "normalization/objects/column_000035.jsonl",
+          "sha256": "7effe62fda831ac747a05e3db5d98ea6814abd0325f98bd9c7fe8d84ed768c9d",
+          "size_bytes": 20848374
+        },
+        {
+          "path": "normalization/objects/column_000036.jsonl",
+          "sha256": "3e9f6beff496aa7ed12211239c93c0752d5d5e6a0c026c2549f89e9eb178624e",
+          "size_bytes": 19843975
+        },
+        {
+          "path": "normalization/objects/column_000037.jsonl",
+          "sha256": "f3c2a27f26488b40adce4ec79b26c94ca8599168cd926af1b1302bb8ddddeaf3",
+          "size_bytes": 50453559
+        },
+        {
+          "path": "normalization/objects/column_000038.jsonl",
+          "sha256": "59284bd896c0465e6d156102bee94c364dba093e0329d81bc826a410f841cc7b",
+          "size_bytes": 31965300
+        },
+        {
+          "path": "normalization/objects/column_000039.jsonl",
+          "sha256": "e2c7dc34af784d4fe8266f71da7871f541aaa30dbaff1e9a364cb8198f4d3b3c",
+          "size_bytes": 20176994
+        },
+        {
+          "path": "normalization/objects/column_000040.jsonl",
+          "sha256": "0c01e625a5cf3b3ca645b9cf42a8fe0846f94e7f9dbb56c36590f704934359ed",
+          "size_bytes": 37234045
+        },
+        {
+          "path": "normalization/objects/column_000041.jsonl",
+          "sha256": "3b85a273465160397a09d999df0255acf01a9ab4daaef48a2903f6740d47f219",
+          "size_bytes": 39551814
+        },
+        {
+          "path": "normalization/objects/column_000042.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000043.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000044.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000045.jsonl",
+          "sha256": "b2347f3f0116bc8dc3751cbbbe68e753680ee8eb5c8c2e7c2d06d15ee386db05",
+          "size_bytes": 19886191
+        },
+        {
+          "path": "normalization/objects/column_000046.jsonl",
+          "sha256": "8f1f98d99eb9303b582ddfef9842a03a001e463f13e58d5f3483dccc16cfc51f",
+          "size_bytes": 19948998
+        },
+        {
+          "path": "normalization/objects/column_000047.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000048.jsonl",
+          "sha256": "2935672d33ac756632e67cf8270fddf34f5106389b26b8e37f2b68cd8115840d",
+          "size_bytes": 23800285
+        },
+        {
+          "path": "normalization/objects/column_000049.jsonl",
+          "sha256": "c44700d5a97bd8e7438517183b30ed5d03f5acbfd43fc01cde7cdccc91105541",
+          "size_bytes": 39571564
+        },
+        {
+          "path": "normalization/objects/column_000050.jsonl",
+          "sha256": "32f4a36cee8689e9924b8ad848342af3232e4c26e3c94bbdf5b2f28ee69e5a2e",
+          "size_bytes": 18736389
+        },
+        {
+          "path": "normalization/objects/column_000051.jsonl",
+          "sha256": "e5a184f9756a34774ee1d9323e78feefc96b95e849a4d2dfc7ec1b4dc800ff0f",
+          "size_bytes": 68523468
+        },
+        {
+          "path": "normalization/objects/column_000052.jsonl",
+          "sha256": "82106a6b378563b1515724ea8c437fea5cd9abaaf680d1bfcf970dee4146e1a3",
+          "size_bytes": 63241900
+        },
+        {
+          "path": "normalization/objects/column_000053.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000054.jsonl",
+          "sha256": "48c09eaea7e50684310f6f9ab4e1711c10a798f22841b0dc3306a9942e1a2e33",
+          "size_bytes": 23382487
+        },
+        {
+          "path": "normalization/objects/column_000055.jsonl",
+          "sha256": "3329ed4c536b0c5381854db6414641cd97e3b4d75bdefb8b87887099d2be4cae",
+          "size_bytes": 24257468
+        },
+        {
+          "path": "normalization/objects/column_000056.jsonl",
+          "sha256": "994c3d99af94aff94708f39e8ccbe20738590ef20c61f04f84b303c21b86fa68",
+          "size_bytes": 20013402
+        },
+        {
+          "path": "normalization/objects/column_000057.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000058.jsonl",
+          "sha256": "56c32eee1ad90d8a6a9bfaf8e88b79b182e17fd4f7feb0043e9232e3ee7434ce",
+          "size_bytes": 19779298
+        },
+        {
+          "path": "normalization/objects/column_000059.jsonl",
+          "sha256": "2294fbd52e08af7bb5ee5bcfe65a9a08e723d846a90a26703d1d2d30d479f046",
+          "size_bytes": 35795095
+        },
+        {
+          "path": "normalization/objects/column_000060.jsonl",
+          "sha256": "33bf5098c1facb6104e032014e9aa56f8afa7f7866a7c86a80f87f534b6d9957",
+          "size_bytes": 20019353
+        },
+        {
+          "path": "normalization/objects/column_000061.jsonl",
+          "sha256": "250b0396e94d6d7f4179962ea027fce4168f23020fa13d9ac825751b60435cf2",
+          "size_bytes": 19901078
+        },
+        {
+          "path": "normalization/objects/column_000062.jsonl",
+          "sha256": "c1ee92fdad2b157346e900523e0223e2105a1cdbf68fdc571c3cd68a58f7d7a5",
+          "size_bytes": 113075599
+        }
+      ],
+      "runtime": {
+        "damicore": "0.2.0",
+        "damicore-clusterizer": "0.2.0",
+        "damicore-distance": "0.2.0",
+        "damicore-normalizer": "0.2.0",
+        "damicore-tree-builder": "0.2.0",
+        "igraph": "1.0.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "pydantic": "2.13.4",
+        "python": "3.14.7",
+        "tqdm": "4.70.0",
+        "zlib_build": "1.2.12",
+        "zlib_runtime": "1.2.12"
+      },
+      "started_at": "2026-08-14T16:50:25.124271+00:00",
+      "status": "completed"
+    },
+    "tree_building": {
+      "finished_at": "2026-08-14T17:05:47.559398+00:00",
+      "inputs": [
+        {
+          "path": "distance.npy",
+          "sha256": "12dfd8f988cdbbac4c386977cb9eb724b4691691a615acf86c9cdd5ac443fbd4",
+          "size_bytes": 30880
+        },
+        {
+          "path": "labels.json",
+          "sha256": "234156ff48dc2736470dff89adb7f84e3e6af1103c57ed8f387593f778e1861e",
+          "size_bytes": 3177
+        }
+      ],
+      "metrics": {
+        "leaf_count": 62,
+        "negative_branch_count": 0,
+        "seconds": 0.05231133312918246
+      },
+      "outputs": [
+        {
+          "path": "tree.json",
+          "sha256": "99260db7d38a0dc5b73303b4ddf32743e11e4d3eb69b8692eb9239c1d5badee3",
+          "size_bytes": 25257
+        },
+        {
+          "path": "tree.nwk",
+          "sha256": "317b0a0771a9f98084f6733ce00c647ac4cf4e7fad2d5ebec2e943260c186baf",
+          "size_bytes": 4320
+        }
+      ],
+      "runtime": {
+        "damicore": "0.2.0",
+        "damicore-clusterizer": "0.2.0",
+        "damicore-distance": "0.2.0",
+        "damicore-normalizer": "0.2.0",
+        "damicore-tree-builder": "0.2.0",
+        "igraph": "1.0.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "pydantic": "2.13.4",
+        "python": "3.14.7",
+        "tqdm": "4.70.0",
+        "zlib_build": "1.2.12",
+        "zlib_runtime": "1.2.12"
+      },
+      "started_at": "2026-08-14T17:05:47.507301+00:00",
+      "status": "completed"
+    }
+  },
+  "status": "completed",
+  "updated_at": "2026-08-14T17:05:47.887819+00:00",
+  "warnings": []
+}

@@ -1,0 +1,199 @@
+{
+  "clusters": [
+    {
+      "cluster": 0,
+      "labels": [
+        "hash",
+        "Data_de_cadastro",
+        "Doen\u00e7a_rara_da_v\u00edtima",
+        "Profiss\u00e3o_da_v\u00edtima",
+        "Grau_de_instru\u00e7\u00e3o_da_v\u00edtima",
+        "Religi\u00e3o_do_suspeito",
+        "suspeito_especificacao_etnia",
+        "vitima_especificacao_etnia"
+      ],
+      "object_ids": [
+        "column_000001",
+        "column_000002",
+        "column_000025",
+        "column_000031",
+        "column_000032",
+        "column_000054",
+        "column_000060",
+        "column_000061"
+      ]
+    },
+    {
+      "cluster": 1,
+      "labels": [
+        "Canal_de_atendimento",
+        "Pa\u00eds",
+        "Frequ\u00eancia",
+        "In\u00edcio_das_viola\u00e7\u00f5es",
+        "Nacionalidade_da_v\u00edtima",
+        "Pa\u00eds_da_v\u00edtima",
+        "Suspeito_nacionalidade",
+        "Pa\u00eds_do_suspeito"
+      ],
+      "object_ids": [
+        "column_000003",
+        "column_000007",
+        "column_000010",
+        "column_000011",
+        "column_000020",
+        "column_000028",
+        "column_000041",
+        "column_000049"
+      ]
+    },
+    {
+      "cluster": 2,
+      "labels": [
+        "Den\u00fancia_emergencial",
+        "sl_vitima_naturalidade",
+        "sl_vitima_naturalizado_uf",
+        "sl_vitima_naturalizado_municipio",
+        "Defici\u00eancia_relacionada_a_doen\u00e7a_rara",
+        "Religi\u00e3o_da_v\u00edtima"
+      ],
+      "object_ids": [
+        "column_000004",
+        "column_000021",
+        "column_000022",
+        "column_000023",
+        "column_000026",
+        "column_000033"
+      ]
+    },
+    {
+      "cluster": 3,
+      "labels": [
+        "Denunciante",
+        "Cen\u00e1rio_da_viola\u00e7\u00e3o",
+        "sl_vitima_cadastro",
+        "Natureza_Jur\u00eddica_do_Suspeito"
+      ],
+      "object_ids": [
+        "column_000005",
+        "column_000006",
+        "column_000016",
+        "column_000037"
+      ]
+    },
+    {
+      "cluster": 4,
+      "labels": [
+        "UF",
+        "sl_quantidade_vitimas",
+        "G\u00eanero_da_v\u00edtima",
+        "UF_da_v\u00edtima",
+        "Ra\u00e7a_Cor_da_v\u00edtima",
+        "G\u00eanero_do_suspeito",
+        "Defici\u00eancia_do_suspeito",
+        "UF_do_suspeito",
+        "Ra\u00e7a_Cor_do_suspeito"
+      ],
+      "object_ids": [
+        "column_000008",
+        "column_000012",
+        "column_000017",
+        "column_000029",
+        "column_000034",
+        "column_000038",
+        "column_000045",
+        "column_000050",
+        "column_000055"
+      ]
+    },
+    {
+      "cluster": 5,
+      "labels": [
+        "Munic\u00edpio",
+        "Rela\u00e7\u00e3o_v\u00edtima_suspeito",
+        "Faixa_et\u00e1ria_da_v\u00edtima",
+        "Munic\u00edpio_da_v\u00edtima",
+        "sl_suspeito_municipio",
+        "Profiss\u00e3o_do_suspeito"
+      ],
+      "object_ids": [
+        "column_000009",
+        "column_000015",
+        "column_000019",
+        "column_000030",
+        "column_000051",
+        "column_000052"
+      ]
+    },
+    {
+      "cluster": 6,
+      "labels": [
+        "Grupo_vulner\u00e1vel",
+        "Orienta\u00e7\u00e3o_sexual_do_suspeito",
+        "Doen\u00e7a_rara_do_suspeito",
+        "sl_suspeito_ramo",
+        "violacao"
+      ],
+      "object_ids": [
+        "column_000013",
+        "column_000039",
+        "column_000046",
+        "column_000059",
+        "column_000062"
+      ]
+    },
+    {
+      "cluster": 7,
+      "labels": [
+        "Motiva\u00e7\u00e3o",
+        "Orienta\u00e7\u00e3o_sexual_da_v\u00edtima",
+        "Defici\u00eancia_da_v\u00edtima",
+        "V\u00edtima_preso_a",
+        "Faixa_et\u00e1ria_do_suspeito",
+        "Suspeito_preso"
+      ],
+      "object_ids": [
+        "column_000014",
+        "column_000018",
+        "column_000024",
+        "column_000027",
+        "column_000040",
+        "column_000048"
+      ]
+    },
+    {
+      "cluster": 8,
+      "labels": [
+        "Etnia_da_v\u00edtima",
+        "sl_suspeito_naturalidade",
+        "Suspeito_Etnia"
+      ],
+      "object_ids": [
+        "column_000035",
+        "column_000042",
+        "column_000056"
+      ]
+    },
+    {
+      "cluster": 9,
+      "labels": [
+        "Faixa_de_renda_da_v\u00edtima",
+        "sl_suspeito_naturalizado_uf",
+        "sl_suspeito_naturalizado_municipio",
+        "Defici\u00eancia_relacionada_a_doen\u00e7a_rara_suspeito",
+        "Grau_de_instru\u00e7\u00e3o_do_suspeito",
+        "Faixa_de_renda_do_suspeito",
+        "V\u00ednculo_\u00d3rg\u00e3o_PJ_do_suspeito"
+      ],
+      "object_ids": [
+        "column_000036",
+        "column_000043",
+        "column_000044",
+        "column_000047",
+        "column_000053",
+        "column_000057",
+        "column_000058"
+      ]
+    }
+  ],
+  "schema_version": 1
+}
