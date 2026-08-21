@@ -1,1 +1,6 @@
 .DS_Store
+
+# DAMICORE inputs, runs and row-level manifests
+output/damicore-analysis/input/
+output/damicore-analysis/runs/
+output/damicore-analysis/row_level_mapping.csv
