@@ -1,5 +1,51 @@
 {
   "receipts": {
+    "clusterizing": {
+      "finished_at": "2026-08-21T12:15:43.527696+00:00",
+      "inputs": [
+        {
+          "path": "tree.json",
+          "sha256": "896a0d69260532afc337d249fee05e6582484aa4a3dd42afecc7b214eff9fd11",
+          "size_bytes": 448331
+        }
+      ],
+      "metrics": {
+        "cluster_count": 45,
+        "community_count": 45,
+        "modularity": 0.9496410778545814,
+        "seconds": 0.028981416020542383
+      },
+      "outputs": [
+        {
+          "path": "membership.csv",
+          "sha256": "9dc8df198b8ad51886c7339a8e0da2ef4906c863fa59e76d3619c6ec44e4a029",
+          "size_bytes": 83768
+        },
+        {
+          "path": "clusters.json",
+          "sha256": "b7bce46931ffb28c9815c75749a2ad85af3c7e2edf96ca7843ff9808bb799aac",
+          "size_bytes": 107041
+        }
+      ],
+      "runtime": {
+        "damicore": "0.2.0",
+        "damicore-clusterizer": "0.2.0",
+        "damicore-distance": "0.2.0",
+        "damicore-normalizer": "0.2.0",
+        "damicore-tree-builder": "0.2.0",
+        "igraph": "1.0.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "pydantic": "2.13.4",
+        "python": "3.14.7",
+        "tqdm": "4.70.0",
+        "zlib_build": "1.2.12",
+        "zlib_runtime": "1.2.12"
+      },
+      "started_at": "2026-08-21T12:15:43.499043+00:00",
+      "status": "completed"
+    },
     "distancing": {
       "finished_at": "2026-08-21T12:13:21.401656+00:00",
       "inputs": [
@@ -10091,7 +10137,7 @@
       "status": "completed"
     },
     "tree_building": {
-      "finished_at": null,
+      "finished_at": "2026-08-21T12:15:43.491450+00:00",
       "inputs": [
         {
           "path": "distance.npy",
@@ -10104,8 +10150,23 @@
           "size_bytes": 95066
         }
       ],
-      "metrics": {},
-      "outputs": [],
+      "metrics": {
+        "leaf_count": 1000,
+        "negative_branch_count": 0,
+        "seconds": 142.082754583098
+      },
+      "outputs": [
+        {
+          "path": "tree.json",
+          "sha256": "896a0d69260532afc337d249fee05e6582484aa4a3dd42afecc7b214eff9fd11",
+          "size_bytes": 448331
+        },
+        {
+          "path": "tree.nwk",
+          "sha256": "51f062f8da2cf01c3db8e4d64097bd0ef0692b3f50e8b0209e1ed7e5e7b2e473",
+          "size_bytes": 67497
+        }
+      ],
       "runtime": {
         "damicore": "0.2.0",
         "damicore-clusterizer": "0.2.0",
@@ -10123,7 +10184,7 @@
         "zlib_runtime": "1.2.12"
       },
       "started_at": "2026-08-21T12:13:21.415174+00:00",
-      "status": "running"
+      "status": "completed"
     }
   },
   "runtime": {
