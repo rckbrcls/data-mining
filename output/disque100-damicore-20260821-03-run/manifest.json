@@ -2081,7 +2081,7 @@
   "schema_version": 2,
   "stages": {
     "distancing": {
-      "finished_at": null,
+      "finished_at": "2026-08-21T12:13:21.401656+00:00",
       "inputs": [
         {
           "path": "normalization/manifest.json",
@@ -2089,8 +2089,33 @@
           "size_bytes": 289764
         }
       ],
-      "metrics": {},
-      "outputs": [],
+      "metrics": {
+        "object_count": 1000,
+        "pair_count": 499500,
+        "seconds": 20.154502708930522
+      },
+      "outputs": [
+        {
+          "path": "distance.npy",
+          "sha256": "0f8464f9fd9dd8e5db3b3ba05e8d18b8d6272d9fc840cb51eac908647b193d3b",
+          "size_bytes": 8000128
+        },
+        {
+          "path": "labels.json",
+          "sha256": "3c17c9a0b3d006f646ce8c8346ce5d9f690bb525c196c4c7040196f00fde0380",
+          "size_bytes": 95066
+        },
+        {
+          "path": "checkpoints/compressed-sizes.json",
+          "sha256": "62b491e1705d561ae0f0c81c099fa03a703ae1e03edbc66a380cd98903fb79f0",
+          "size_bytes": 30599
+        },
+        {
+          "path": "checkpoints/distance-shards.json",
+          "sha256": "3e8025135ebd6186f47d2eb6853226457c909c4e6399cd57bd24567b5902c29f",
+          "size_bytes": 25908
+        }
+      ],
       "runtime": {
         "damicore": "0.2.0",
         "damicore-clusterizer": "0.2.0",
@@ -2108,7 +2133,7 @@
         "zlib_runtime": "1.2.12"
       },
       "started_at": "2026-08-21T12:13:01.254564+00:00",
-      "status": "running"
+      "status": "completed"
     },
     "normalizing": {
       "finished_at": "2026-08-21T12:13:01.167736+00:00",
@@ -12144,9 +12169,44 @@
       },
       "started_at": "2026-08-21T12:13:00.820507+00:00",
       "status": "completed"
+    },
+    "tree_building": {
+      "finished_at": null,
+      "inputs": [
+        {
+          "path": "distance.npy",
+          "sha256": "0f8464f9fd9dd8e5db3b3ba05e8d18b8d6272d9fc840cb51eac908647b193d3b",
+          "size_bytes": 8000128
+        },
+        {
+          "path": "labels.json",
+          "sha256": "3c17c9a0b3d006f646ce8c8346ce5d9f690bb525c196c4c7040196f00fde0380",
+          "size_bytes": 95066
+        }
+      ],
+      "metrics": {},
+      "outputs": [],
+      "runtime": {
+        "damicore": "0.2.0",
+        "damicore-clusterizer": "0.2.0",
+        "damicore-distance": "0.2.0",
+        "damicore-normalizer": "0.2.0",
+        "damicore-tree-builder": "0.2.0",
+        "igraph": "1.0.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "pydantic": "2.13.4",
+        "python": "3.14.7",
+        "tqdm": "4.70.0",
+        "zlib_build": "1.2.12",
+        "zlib_runtime": "1.2.12"
+      },
+      "started_at": "2026-08-21T12:13:21.415174+00:00",
+      "status": "running"
     }
   },
-  "status": "distancing",
-  "updated_at": "2026-08-21T12:13:01.257467+00:00",
+  "status": "tree_building",
+  "updated_at": "2026-08-21T12:13:21.422916+00:00",
   "warnings": []
 }
