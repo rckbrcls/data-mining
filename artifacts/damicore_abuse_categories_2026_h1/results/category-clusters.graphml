@@ -1,0 +1,489 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d5" for="edge" attr.name="report_count" attr.type="long" />
+  <key id="d4" for="node" attr.name="cluster" attr.type="long" />
+  <key id="d3" for="node" attr.name="report_count" attr.type="long" />
+  <key id="d2" for="node" attr.name="label" attr.type="string" />
+  <key id="d1" for="node" attr.name="node_type" attr.type="string" />
+  <key id="d0" for="graph" attr.name="experiment" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="cluster:0">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 0</data>
+      <data key="d3">10366</data>
+    </node>
+    <node id="category:category-001.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; ACESSO À INFORMAÇÃO</data>
+      <data key="d4">0</data>
+      <data key="d3">626</data>
+    </node>
+    <node id="category:category-007.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; PROPRIEDADE</data>
+      <data key="d4">0</data>
+      <data key="d3">1273</data>
+    </node>
+    <node id="category:category-014.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; EDUCAÇÃO</data>
+      <data key="d4">0</data>
+      <data key="d3">2847</data>
+    </node>
+    <node id="category:category-015.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; LAZER</data>
+      <data key="d4">0</data>
+      <data key="d3">1372</data>
+    </node>
+    <node id="category:category-016.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; MORADIA</data>
+      <data key="d4">0</data>
+      <data key="d3">2239</data>
+    </node>
+    <node id="category:category-025.txt">
+      <data key="d1">category</data>
+      <data key="d2">IGUALDADE &gt; INJÚRIA RACIAL E ÉTNICA</data>
+      <data key="d4">0</data>
+      <data key="d3">787</data>
+    </node>
+    <node id="category:category-026.txt">
+      <data key="d1">category</data>
+      <data key="d2">IGUALDADE &gt; RACISMO</data>
+      <data key="d4">0</data>
+      <data key="d3">1222</data>
+    </node>
+    <node id="cluster:1">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 1</data>
+      <data key="d3">154</data>
+    </node>
+    <node id="category:category-002.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; CULTURAL</data>
+      <data key="d4">1</data>
+      <data key="d3">17</data>
+    </node>
+    <node id="category:category-005.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; NACIONALIDADE</data>
+      <data key="d4">1</data>
+      <data key="d3">8</data>
+    </node>
+    <node id="category:category-006.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; PARTICIPAÇÃO/DEMOCRACIA</data>
+      <data key="d4">1</data>
+      <data key="d3">15</data>
+    </node>
+    <node id="category:category-036.txt">
+      <data key="d1">category</data>
+      <data key="d2">MEIO AMBIENTE &gt; AR</data>
+      <data key="d4">1</data>
+      <data key="d3">14</data>
+    </node>
+    <node id="category:category-037.txt">
+      <data key="d1">category</data>
+      <data key="d2">MEIO AMBIENTE &gt; FAUNA</data>
+      <data key="d4">1</data>
+      <data key="d3">19</data>
+    </node>
+    <node id="category:category-038.txt">
+      <data key="d1">category</data>
+      <data key="d2">MEIO AMBIENTE &gt; FLORA</data>
+      <data key="d4">1</data>
+      <data key="d3">19</data>
+    </node>
+    <node id="category:category-039.txt">
+      <data key="d1">category</data>
+      <data key="d2">MEIO AMBIENTE &gt; SOLO</data>
+      <data key="d4">1</data>
+      <data key="d3">34</data>
+    </node>
+    <node id="category:category-040.txt">
+      <data key="d1">category</data>
+      <data key="d2">MEIO AMBIENTE &gt; ÁGUA</data>
+      <data key="d4">1</data>
+      <data key="d3">28</data>
+    </node>
+    <node id="cluster:2">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 2</data>
+      <data key="d3">3923</data>
+    </node>
+    <node id="category:category-003.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; LIVRE EXERCÍCIO DO PODER FAMILIAR</data>
+      <data key="d4">2</data>
+      <data key="d3">751</data>
+    </node>
+    <node id="category:category-008.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; RETENÇÃO DE DOCUMENTOS</data>
+      <data key="d4">2</data>
+      <data key="d3">627</data>
+    </node>
+    <node id="category:category-017.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; PREVIDÊNCIA SOCIAL</data>
+      <data key="d4">2</data>
+      <data key="d3">539</data>
+    </node>
+    <node id="category:category-031.txt">
+      <data key="d1">category</data>
+      <data key="d2">LIBERDADE &gt; DE RELIGIÃO ou CRENÇA</data>
+      <data key="d4">2</data>
+      <data key="d3">689</data>
+    </node>
+    <node id="category:category-034.txt">
+      <data key="d1">category</data>
+      <data key="d2">LIBERDADE &gt; LABORAL</data>
+      <data key="d4">2</data>
+      <data key="d3">508</data>
+    </node>
+    <node id="category:category-048.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL &gt; EM RAZÃO DE SER POLICIAL/MILITAR/DEMAIS AGENTE DE SEGURANÇA PÚBLICA</data>
+      <data key="d4">2</data>
+      <data key="d3">809</data>
+    </node>
+    <node id="cluster:3">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 3</data>
+      <data key="d3">1249</data>
+    </node>
+    <node id="category:category-004.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; MEMÓRIA E VERDADE</data>
+      <data key="d4">3</data>
+      <data key="d3">257</data>
+    </node>
+    <node id="category:category-033.txt">
+      <data key="d1">category</data>
+      <data key="d2">LIBERDADE &gt; EXPRESSÃO</data>
+      <data key="d4">3</data>
+      <data key="d3">384</data>
+    </node>
+    <node id="category:category-044.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; HOMICÍDIO</data>
+      <data key="d4">3</data>
+      <data key="d3">282</data>
+    </node>
+    <node id="category:category-045.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; INCITAÇÃO AO SUICÍDIO</data>
+      <data key="d4">3</data>
+      <data key="d3">326</data>
+    </node>
+    <node id="cluster:4">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 4</data>
+      <data key="d3">871</data>
+    </node>
+    <node id="category:category-009.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; VIOLÊNCIA POLITÍCA DE GÊNERO E CONTRA AS MULHERES</data>
+      <data key="d4">4</data>
+      <data key="d3">56</data>
+    </node>
+    <node id="category:category-019.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; PROTEÇÃO À MATERNIDADE</data>
+      <data key="d4">4</data>
+      <data key="d3">196</data>
+    </node>
+    <node id="category:category-023.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; TRANSPORTE</data>
+      <data key="d4">4</data>
+      <data key="d3">199</data>
+    </node>
+    <node id="category:category-042.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; AUTOMUTILAÇAO</data>
+      <data key="d4">4</data>
+      <data key="d3">193</data>
+    </node>
+    <node id="category:category-046.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; SUICÍDIO</data>
+      <data key="d4">4</data>
+      <data key="d3">227</data>
+    </node>
+    <node id="cluster:5">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 5</data>
+      <data key="d3">145</data>
+    </node>
+    <node id="category:category-010.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; VIOLÊNCIA POLITÍCA ÉTNICO/RACIAL</data>
+      <data key="d4">5</data>
+      <data key="d3">18</data>
+    </node>
+    <node id="category:category-011.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; VOTAR E SER VOTADO</data>
+      <data key="d4">5</data>
+      <data key="d3">1</data>
+    </node>
+    <node id="category:category-041.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; ABORTO</data>
+      <data key="d4">5</data>
+      <data key="d3">50</data>
+    </node>
+    <node id="category:category-043.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; FEMINICÍDIO</data>
+      <data key="d4">5</data>
+      <data key="d3">76</data>
+    </node>
+    <node id="cluster:6">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 6</data>
+      <data key="d3">15041</data>
+    </node>
+    <node id="category:category-012.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; ALIMENTAÇÃO</data>
+      <data key="d4">6</data>
+      <data key="d3">4208</data>
+    </node>
+    <node id="category:category-013.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; ASSISTÊNCIA AOS DESAMPARADOS</data>
+      <data key="d4">6</data>
+      <data key="d3">1717</data>
+    </node>
+    <node id="category:category-018.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; PROTEÇÃO À INFÂNCIA</data>
+      <data key="d4">6</data>
+      <data key="d3">4259</data>
+    </node>
+    <node id="category:category-022.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; TRABALHO</data>
+      <data key="d4">6</data>
+      <data key="d3">1707</data>
+    </node>
+    <node id="category:category-047.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL</data>
+      <data key="d4">6</data>
+      <data key="d3">3150</data>
+    </node>
+    <node id="cluster:7">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 7</data>
+      <data key="d3">71552</data>
+    </node>
+    <node id="category:category-020.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; SAÚDE</data>
+      <data key="d4">7</data>
+      <data key="d3">8067</data>
+    </node>
+    <node id="category:category-021.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS SOCIAIS &gt; SEGURANÇA</data>
+      <data key="d4">7</data>
+      <data key="d3">7691</data>
+    </node>
+    <node id="category:category-024.txt">
+      <data key="d1">category</data>
+      <data key="d2">IGUALDADE &gt; DISCRIMINAÇÃO</data>
+      <data key="d4">7</data>
+      <data key="d3">3506</data>
+    </node>
+    <node id="category:category-029.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; PATRIMONIAL</data>
+      <data key="d4">7</data>
+      <data key="d3">24187</data>
+    </node>
+    <node id="category:category-032.txt">
+      <data key="d1">category</data>
+      <data key="d2">LIBERDADE &gt; DIREITOS INDIVIDUAIS</data>
+      <data key="d4">7</data>
+      <data key="d3">10808</data>
+    </node>
+    <node id="category:category-035.txt">
+      <data key="d1">category</data>
+      <data key="d2">LIBERDADE &gt; SEXUAL</data>
+      <data key="d4">7</data>
+      <data key="d3">17293</data>
+    </node>
+    <node id="cluster:8">
+      <data key="d1">cluster</data>
+      <data key="d2">Cluster 8</data>
+      <data key="d3">467879</data>
+    </node>
+    <node id="category:category-027.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; FÍSICA</data>
+      <data key="d4">8</data>
+      <data key="d3">154097</data>
+    </node>
+    <node id="category:category-028.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; NEGLIGÊNCIA</data>
+      <data key="d4">8</data>
+      <data key="d3">153638</data>
+    </node>
+    <node id="category:category-030.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; PSÍQUICA</data>
+      <data key="d4">8</data>
+      <data key="d3">160144</data>
+    </node>
+    <edge source="cluster:0" target="category:category-001.txt">
+      <data key="d5">626</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-007.txt">
+      <data key="d5">1273</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-014.txt">
+      <data key="d5">2847</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-015.txt">
+      <data key="d5">1372</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-016.txt">
+      <data key="d5">2239</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-025.txt">
+      <data key="d5">787</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-026.txt">
+      <data key="d5">1222</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-002.txt">
+      <data key="d5">17</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-005.txt">
+      <data key="d5">8</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-006.txt">
+      <data key="d5">15</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-036.txt">
+      <data key="d5">14</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-037.txt">
+      <data key="d5">19</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-038.txt">
+      <data key="d5">19</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-039.txt">
+      <data key="d5">34</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-040.txt">
+      <data key="d5">28</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-003.txt">
+      <data key="d5">751</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-008.txt">
+      <data key="d5">627</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-017.txt">
+      <data key="d5">539</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-031.txt">
+      <data key="d5">689</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-034.txt">
+      <data key="d5">508</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-048.txt">
+      <data key="d5">809</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-004.txt">
+      <data key="d5">257</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-033.txt">
+      <data key="d5">384</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-044.txt">
+      <data key="d5">282</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-045.txt">
+      <data key="d5">326</data>
+    </edge>
+    <edge source="cluster:4" target="category:category-009.txt">
+      <data key="d5">56</data>
+    </edge>
+    <edge source="cluster:4" target="category:category-019.txt">
+      <data key="d5">196</data>
+    </edge>
+    <edge source="cluster:4" target="category:category-023.txt">
+      <data key="d5">199</data>
+    </edge>
+    <edge source="cluster:4" target="category:category-042.txt">
+      <data key="d5">193</data>
+    </edge>
+    <edge source="cluster:4" target="category:category-046.txt">
+      <data key="d5">227</data>
+    </edge>
+    <edge source="cluster:5" target="category:category-010.txt">
+      <data key="d5">18</data>
+    </edge>
+    <edge source="cluster:5" target="category:category-011.txt">
+      <data key="d5">1</data>
+    </edge>
+    <edge source="cluster:5" target="category:category-041.txt">
+      <data key="d5">50</data>
+    </edge>
+    <edge source="cluster:5" target="category:category-043.txt">
+      <data key="d5">76</data>
+    </edge>
+    <edge source="cluster:6" target="category:category-012.txt">
+      <data key="d5">4208</data>
+    </edge>
+    <edge source="cluster:6" target="category:category-013.txt">
+      <data key="d5">1717</data>
+    </edge>
+    <edge source="cluster:6" target="category:category-018.txt">
+      <data key="d5">4259</data>
+    </edge>
+    <edge source="cluster:6" target="category:category-022.txt">
+      <data key="d5">1707</data>
+    </edge>
+    <edge source="cluster:6" target="category:category-047.txt">
+      <data key="d5">3150</data>
+    </edge>
+    <edge source="cluster:7" target="category:category-020.txt">
+      <data key="d5">8067</data>
+    </edge>
+    <edge source="cluster:7" target="category:category-021.txt">
+      <data key="d5">7691</data>
+    </edge>
+    <edge source="cluster:7" target="category:category-024.txt">
+      <data key="d5">3506</data>
+    </edge>
+    <edge source="cluster:7" target="category:category-029.txt">
+      <data key="d5">24187</data>
+    </edge>
+    <edge source="cluster:7" target="category:category-032.txt">
+      <data key="d5">10808</data>
+    </edge>
+    <edge source="cluster:7" target="category:category-035.txt">
+      <data key="d5">17293</data>
+    </edge>
+    <edge source="cluster:8" target="category:category-027.txt">
+      <data key="d5">154097</data>
+    </edge>
+    <edge source="cluster:8" target="category:category-028.txt">
+      <data key="d5">153638</data>
+    </edge>
+    <edge source="cluster:8" target="category:category-030.txt">
+      <data key="d5">160144</data>
+    </edge>
+    <data key="d0">DAMICORE abuse categories 2026 H1</data>
+  </graph>
+</graphml>
