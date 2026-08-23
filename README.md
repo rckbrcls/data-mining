@@ -25,14 +25,14 @@ The repository has one analysis notebook:
 
 - `notebooks/01_damicore_abuse_categories.ipynb`
 
-It aggregates every female-victim report from January through June 2026 into one context document per abuse category, runs DAMICORE on those category documents, and creates two NetworkX views of the direct result. There is no report sampling or later classification step.
+It aggregates every female-victim report from January through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy, runs DAMICORE on those category documents, checks whether support or document size still dominates NCD, and creates a colored tree plus two NetworkX views. There is no report sampling or later classification step.
 
 ## Artifact Privacy Split
 
 Artifacts are stored under `artifacts/damicore_abuse_categories_2026_h1/`:
 
 - `work/` contains the category corpus, category mapping, and DAMICORE run. It is ignored by Git.
-- `results/` contains one aggregate CSV, two GraphML files, and two figures. No report hash or individual report is exported.
+- `results/` contains one aggregate CSV, two GraphML files, the cluster tree, and two NetworkX figures. No report hash or individual report is exported.
 
 ## Execution
 
@@ -42,7 +42,7 @@ The notebook is intentionally stored without outputs. Open it and run its cells 
 jupyter nbconvert --execute --to notebook --inplace notebooks/01_damicore_abuse_categories.ipynb
 ```
 
-The command is documented for reproducibility; it was not run during this refactor.
+The command is documented for reproducibility; it was not run during this refactor. Existing files under `results/` remain stale until the notebook is executed again.
 
 ## Run the migration
 
