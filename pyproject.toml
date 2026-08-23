@@ -1,11 +1,7 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "disque100_research"
+name = "disque100-research"
 version = "0.1.0"
-description = "Shared infrastructure for Disque 100 research notebooks"
+description = "Dependencies for the Disque 100 DAMICORE category experiment"
 requires-python = ">=3.11"
 dependencies = [
     "damicore==0.2.0",
@@ -20,5 +16,5 @@ dependencies = [
     "nbconvert>=7,<8"
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools]
+py-modules = []

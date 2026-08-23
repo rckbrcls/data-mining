@@ -11,39 +11,38 @@ This repository contains the first-semester 2026 Disque 100 dataset and a Postgr
 
 ## Installation
 
-This repository uses an editable Python package for shared infrastructure.
+The notebook is self-contained. The project metadata is used only to install its dependencies.
 
 ```bash
 python -m venv venv
 source venv/bin/activate
-pip install -e .
+pip install .
 ```
 
-## Notebook Order and Contracts
+## Experiment
 
-The analysis is divided into three notebooks. Execute them in order because they communicate through explicit artifacts:
+The repository has one analysis notebook:
 
-1. `notebooks/01_damicore_structural_baseline.ipynb` creates the deterministic female-victim cohort, DAMICORE run, membership, tree, and structural summaries.
-2. `notebooks/02_semantic_abuse_graphs.ipynb` reads the membership and creates observed cluster profiles and static semantic graphs.
-3. `notebooks/03_temporal_abuse_graphs.ipynb` reads the aggregate category support and creates the six monthly graph snapshots and final interpretation.
+- `notebooks/01_damicore_abuse_categories.ipynb`
+
+It aggregates every female-victim report from January through June 2026 into one context document per abuse category, runs DAMICORE on those category documents, and creates two NetworkX views of the direct result. There is no report sampling or later classification step.
 
 ## Artifact Privacy Split
 
-Artifacts are stored under `artifacts/<experiment_id>`:
+Artifacts are stored under `artifacts/damicore_abuse_categories_2026_h1/`:
 
-- `work/` contains private intermediate data, corpus files, memberships, and raw DAMICORE outputs. It is ignored by Git.
-- `results/` contains aggregate, privacy-safe tables, GraphML files, and figures. Public text artifacts cannot contain `source_hash` or 64-character hexadecimal identifiers.
+- `work/` contains the category corpus, category mapping, and DAMICORE run. It is ignored by Git.
+- `results/` contains one aggregate CSV, two GraphML files, and two figures. No report hash or individual report is exported.
 
 ## Execution
 
-Set the local database URL and execute the notebooks in place:
+The notebook is intentionally stored without outputs. Open it and run its cells from top to bottom. It defaults to `postgresql:///disque100`; set `DISQUE100_DATABASE_URL` only to override that connection.
 
 ```bash
-export DISQUE100_DATABASE_URL="postgresql:///disque100"
-jupyter nbconvert --execute --to notebook --inplace notebooks/01_damicore_structural_baseline.ipynb
-jupyter nbconvert --execute --to notebook --inplace notebooks/02_semantic_abuse_graphs.ipynb
-jupyter nbconvert --execute --to notebook --inplace notebooks/03_temporal_abuse_graphs.ipynb
+jupyter nbconvert --execute --to notebook --inplace notebooks/01_damicore_abuse_categories.ipynb
 ```
+
+The command is documented for reproducibility; it was not run during this refactor.
 
 ## Run the migration
 
