@@ -25,7 +25,7 @@ The repository has one analysis notebook:
 
 - `notebooks/01_damicore_abuse_categories.ipynb`
 
-It aggregates every female-victim report from January through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy, runs DAMICORE on those category documents, checks whether support or document size still dominates NCD, and creates a colored tree plus two NetworkX views. There is no report sampling or later classification step.
+It aggregates every female-victim report from January through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy. Profiles include demographic, reporting-process, relationship, setting, and monthly dimensions; DAMICORE checks whether support or document size still dominates NCD, then creates a colored tree plus two NetworkX views. There is no report sampling or later classification step.
 
 ## Artifact Privacy Split
 
