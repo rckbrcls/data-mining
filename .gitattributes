@@ -1,2 +1,1 @@
-*.csv filter=lfs diff=lfs merge=lfs -text
-disque100-primeiro-semestre-2026.csv filter=lfs diff=lfs merge=lfs -text
+data/*.csv filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d4" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d3" for="edge" attr.name="month" attr.type="string" />
+  <key id="d2" for="edge" attr.name="relation" attr.type="string" />
+  <key id="d1" for="node" attr.name="report_count" attr.type="long" />
+  <key id="d0" for="node" attr.name="node_type" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="INTEGRIDADE &gt; PSÍQUICA">
+      <data key="d0">category</data>
+      <data key="d1">160144</data>
+    </node>
+    <node id="INTEGRIDADE &gt; FÍSICA">
+      <data key="d0">category</data>
+      <data key="d1">154097</data>
+    </node>
+    <node id="INTEGRIDADE &gt; NEGLIGÊNCIA">
+      <data key="d0">category</data>
+      <data key="d1">153638</data>
+    </node>
+    <node id="INTEGRIDADE &gt; PATRIMONIAL">
+      <data key="d0">category</data>
+      <data key="d1">24187</data>
+    </node>
+    <node id="LIBERDADE &gt; SEXUAL">
+      <data key="d0">category</data>
+      <data key="d1">17293</data>
+    </node>
+    <node id="LIBERDADE &gt; DIREITOS INDIVIDUAIS">
+      <data key="d0">category</data>
+      <data key="d1">10808</data>
+    </node>
+    <node id="DIREITOS SOCIAIS &gt; SAÚDE">
+      <data key="d0">category</data>
+      <data key="d1">8067</data>
+    </node>
+    <node id="DIREITOS SOCIAIS &gt; SEGURANÇA">
+      <data key="d0">category</data>
+      <data key="d1">7691</data>
+    </node>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; FÍSICA" id="2026-01-01-0">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">20194</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; FÍSICA" id="2026-02-01-0">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">19663</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; FÍSICA" id="2026-03-01-0">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">22926</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; FÍSICA" id="2026-04-01-0">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">22093</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; FÍSICA" id="2026-05-01-0">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">23431</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; FÍSICA" id="2026-06-01-1">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">22638</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-01-01-1">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">19549</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-02-01-1">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">19292</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-03-01-1">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">22593</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-04-01-1">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">21995</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-05-01-1">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">23343</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-06-01-0">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">22910</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-01-01-2">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">3394</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-02-01-2">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">3185</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-03-01-2">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">3672</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-04-01-2">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">3543</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-05-01-2">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">3841</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-06-01-2">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">4078</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; SEXUAL" id="2026-01-01-3">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1939</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; SEXUAL" id="2026-02-01-3">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">2082</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; SEXUAL" id="2026-03-01-3">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">2564</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; SEXUAL" id="2026-04-01-3">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">2212</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; SEXUAL" id="2026-05-01-3">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">2797</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; SEXUAL" id="2026-06-01-3">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">2386</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-01-01-4">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1604</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-02-01-4">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1597</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-03-01-4">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">1591</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-04-01-4">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1638</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-05-01-4">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">1726</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-06-01-4">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">1575</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-01-01-5">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">914</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-01-01-6">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">20503</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-02-01-5">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">20036</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-03-01-5">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">23717</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-04-01-5">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">23273</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-05-01-5">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">23980</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA" id="2026-06-01-5">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">23253</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-01-01-7">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">3064</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-02-01-6">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">2854</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-03-01-6">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">3358</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-04-01-6">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">3186</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-05-01-6">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">3432</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-06-01-6">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">3728</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; SEXUAL" id="2026-01-01-8">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1599</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; SEXUAL" id="2026-02-01-7">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1678</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; SEXUAL" id="2026-03-01-7">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">2223</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; SEXUAL" id="2026-04-01-7">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1902</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; SEXUAL" id="2026-05-01-7">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">2272</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; SEXUAL" id="2026-06-01-7">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">2068</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-01-01-9">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1358</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-02-01-8">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1411</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-03-01-10">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">1402</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-04-01-8">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1425</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-05-01-8">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">1457</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-06-01-8">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">1355</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-01-01-10">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1105</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-02-01-9">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1083</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-03-01-8">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">1690</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-04-01-10">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1248</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-05-01-9">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">1408</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-06-01-9">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">936</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SEGURANÇA" id="2026-02-01-10">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1026</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SEGURANÇA" id="2026-03-01-9">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">1556</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SEGURANÇA" id="2026-04-01-9">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1349</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SEGURANÇA" id="2026-05-01-10">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">1283</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-01-01-11">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">2930</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-02-01-11">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">2815</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-03-01-11">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">3234</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-04-01-11">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">3180</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-05-01-11">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">3342</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="INTEGRIDADE &gt; PATRIMONIAL" id="2026-06-01-10">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">3694</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; SEXUAL" id="2026-01-01-12">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1586</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; SEXUAL" id="2026-02-01-12">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1673</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; SEXUAL" id="2026-03-01-12">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">2192</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; SEXUAL" id="2026-04-01-12">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1949</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; SEXUAL" id="2026-05-01-12">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">2429</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; SEXUAL" id="2026-06-01-11">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">2167</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-01-01-13">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1349</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-02-01-13">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1297</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-04-01-13">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1385</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-05-01-13">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">1489</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS" id="2026-06-01-12">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">1380</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-01-01-14">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-01-01</data>
+      <data key="d4">1077</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-02-01-14">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-02-01</data>
+      <data key="d4">1088</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-03-01-13">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">1617</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-05-01-14">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-05-01</data>
+      <data key="d4">1392</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SAÚDE" id="2026-06-01-13">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">941</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SEGURANÇA" id="2026-03-01-14">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-03-01</data>
+      <data key="d4">1468</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SEGURANÇA" id="2026-04-01-14">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-04-01</data>
+      <data key="d4">1276</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SEGURANÇA" id="2026-06-01-14">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">2026-06-01</data>
+      <data key="d4">869</data>
+    </edge>
+  </graph>
+</graphml>

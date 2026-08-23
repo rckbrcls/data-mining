@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d3" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d2" for="edge" attr.name="relation" attr.type="string" />
+  <key id="d1" for="node" attr.name="report_count" attr.type="long" />
+  <key id="d0" for="node" attr.name="node_type" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="INTEGRIDADE &gt; PSÍQUICA">
+      <data key="d0">category</data>
+      <data key="d1">160144</data>
+    </node>
+    <node id="INTEGRIDADE &gt; FÍSICA">
+      <data key="d0">category</data>
+      <data key="d1">154097</data>
+    </node>
+    <node id="INTEGRIDADE &gt; NEGLIGÊNCIA">
+      <data key="d0">category</data>
+      <data key="d1">153638</data>
+    </node>
+    <node id="INTEGRIDADE &gt; PATRIMONIAL">
+      <data key="d0">category</data>
+      <data key="d1">24187</data>
+    </node>
+    <node id="LIBERDADE &gt; SEXUAL">
+      <data key="d0">category</data>
+      <data key="d1">17293</data>
+    </node>
+    <node id="LIBERDADE &gt; DIREITOS INDIVIDUAIS">
+      <data key="d0">category</data>
+      <data key="d1">10808</data>
+    </node>
+    <node id="DIREITOS SOCIAIS &gt; SAÚDE">
+      <data key="d0">category</data>
+      <data key="d1">8067</data>
+    </node>
+    <node id="DIREITOS SOCIAIS &gt; SEGURANÇA">
+      <data key="d0">category</data>
+      <data key="d1">7691</data>
+    </node>
+    <node id="DIREITOS SOCIAIS &gt; PROTEÇÃO À INFÂNCIA">
+      <data key="d0">category</data>
+      <data key="d1">4259</data>
+    </node>
+    <node id="DIREITOS SOCIAIS &gt; ALIMENTAÇÃO">
+      <data key="d0">category</data>
+      <data key="d1">4208</data>
+    </node>
+    <node id="IGUALDADE &gt; DISCRIMINAÇÃO">
+      <data key="d0">category</data>
+      <data key="d1">3506</data>
+    </node>
+    <node id="VIOLÊNCIA INSTITUCIONAL">
+      <data key="d0">category</data>
+      <data key="d1">3150</data>
+    </node>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; FÍSICA">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">130945</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">129682</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="INTEGRIDADE &gt; PATRIMONIAL">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">21713</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; SEXUAL">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">13980</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">9731</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="DIREITOS SOCIAIS &gt; SEGURANÇA">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">6221</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; PSÍQUICA" target="DIREITOS SOCIAIS &gt; SAÚDE">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">6103</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; NEGLIGÊNCIA">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">134762</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="INTEGRIDADE &gt; PATRIMONIAL">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">19622</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; SEXUAL">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">11742</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">8408</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SAÚDE">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">7470</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; SEGURANÇA">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">6979</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; FÍSICA" target="DIREITOS SOCIAIS &gt; ALIMENTAÇÃO">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">4061</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="INTEGRIDADE &gt; PATRIMONIAL">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">19195</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; SEXUAL">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">11996</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="LIBERDADE &gt; DIREITOS INDIVIDUAIS">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">8259</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SAÚDE">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">7333</data>
+    </edge>
+    <edge source="INTEGRIDADE &gt; NEGLIGÊNCIA" target="DIREITOS SOCIAIS &gt; SEGURANÇA">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">6764</data>
+    </edge>
+    <edge source="DIREITOS SOCIAIS &gt; SAÚDE" target="DIREITOS SOCIAIS &gt; SEGURANÇA">
+      <data key="d2">co-occurs with</data>
+      <data key="d3">4308</data>
+    </edge>
+  </graph>
+</graphml>

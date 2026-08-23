@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CSV_FILE="$REPO_ROOT/disque100-primeiro-semestre-2026.csv"
+CSV_FILE="$REPO_ROOT/data/disque100-primeiro-semestre-2026.csv"
 MIGRATION_FILE="$REPO_ROOT/migrations/001_create_disque100_reports.sql"
 DB_TARGET="${DISQUE100_DATABASE_URL:-disque100}"
 
