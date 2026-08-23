@@ -1,7 +1,0 @@
-experiment_id = "female_abuse_2026_h1"
-registered_from = "2026-01-01"
-registered_before = "2026-07-01"
-victim_gender = "FEMININO"
-sample_size = 500
-sample_seed = 42
-database_url_env = "DISQUE100_DATABASE_URL"
