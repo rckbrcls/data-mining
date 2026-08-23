@@ -33,7 +33,7 @@ COLUMNS = [
     "violation",
 ]
 
-HASH_RE = re.compile(r"^[0-9A-F]{64}$")
+HASH_RE = re.compile(r"^(?:[0-9A-F]{32}|[0-9A-F]{64})$")
 
 
 def clean(value):

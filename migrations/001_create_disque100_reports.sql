@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS public.disque100_raw;
 
 CREATE TABLE public.disque100_reports (
     id bigint generated always as identity primary key,
-    source_hash varchar(64) not null constraint disque100_reports_source_hash_check check (source_hash ~ '^[0-9A-F]{64}$'),
+    source_hash varchar(64) not null constraint disque100_reports_source_hash_check check (source_hash ~ '^(?:[0-9A-F]{32}|[0-9A-F]{64})$'),
     registered_at timestamp(3) without time zone not null,
     service_channel text,
     emergency_status text,
