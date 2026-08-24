@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d5" for="edge" attr.name="report_count" attr.type="long" />
+  <key id="d4" for="node" attr.name="cluster" attr.type="long" />
+  <key id="d3" for="node" attr.name="report_count" attr.type="long" />
+  <key id="d2" for="node" attr.name="label" attr.type="string" />
+  <key id="d1" for="node" attr.name="node_type" attr.type="string" />
+  <key id="d0" for="graph" attr.name="experiment" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="cluster:0">
+      <data key="d1">cluster</data>
+      <data key="d2">Grupo 0</data>
+      <data key="d3">15864</data>
+    </node>
+    <node id="category:category-001.txt">
+      <data key="d1">category</data>
+      <data key="d2">DIREITOS CIVIS E POLÍTICOS &gt; VIOLÊNCIA POLITÍCA DE GÊNERO E CONTRA AS MULHERES</data>
+      <data key="d4">0</data>
+      <data key="d3">247</data>
+    </node>
+    <node id="category:category-009.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; FEMINICÍDIO</data>
+      <data key="d4">0</data>
+      <data key="d3">343</data>
+    </node>
+    <node id="category:category-013.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL</data>
+      <data key="d4">0</data>
+      <data key="d3">12482</data>
+    </node>
+    <node id="category:category-014.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL &gt; EM RAZÃO DE SER POLICIAL/MILITAR/DEMAIS AGENTE DE SEGURANÇA PÚBLICA</data>
+      <data key="d4">0</data>
+      <data key="d3">2792</data>
+    </node>
+    <node id="cluster:1">
+      <data key="d1">cluster</data>
+      <data key="d2">Grupo 1</data>
+      <data key="d3">2569929</data>
+    </node>
+    <node id="category:category-002.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; FÍSICA</data>
+      <data key="d4">1</data>
+      <data key="d3">1100754</data>
+    </node>
+    <node id="category:category-004.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; PATRIMONIAL</data>
+      <data key="d4">1</data>
+      <data key="d3">200197</data>
+    </node>
+    <node id="category:category-005.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; PSÍQUICA</data>
+      <data key="d4">1</data>
+      <data key="d3">1121598</data>
+    </node>
+    <node id="category:category-006.txt">
+      <data key="d1">category</data>
+      <data key="d2">LIBERDADE &gt; SEXUAL</data>
+      <data key="d4">1</data>
+      <data key="d3">147380</data>
+    </node>
+    <node id="cluster:2">
+      <data key="d1">cluster</data>
+      <data key="d2">Grupo 2</data>
+      <data key="d3">837265</data>
+    </node>
+    <node id="category:category-003.txt">
+      <data key="d1">category</data>
+      <data key="d2">INTEGRIDADE &gt; NEGLIGÊNCIA</data>
+      <data key="d4">2</data>
+      <data key="d3">835748</data>
+    </node>
+    <node id="category:category-010.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; HOMICÍDIO</data>
+      <data key="d4">2</data>
+      <data key="d3">1517</data>
+    </node>
+    <node id="cluster:3">
+      <data key="d1">cluster</data>
+      <data key="d2">Grupo 3</data>
+      <data key="d3">4961</data>
+    </node>
+    <node id="category:category-007.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; ABORTO</data>
+      <data key="d4">3</data>
+      <data key="d3">393</data>
+    </node>
+    <node id="category:category-008.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; AUTOMUTILAÇAO</data>
+      <data key="d4">3</data>
+      <data key="d3">1322</data>
+    </node>
+    <node id="category:category-011.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; INCITAÇÃO AO SUICÍDIO</data>
+      <data key="d4">3</data>
+      <data key="d3">1954</data>
+    </node>
+    <node id="category:category-012.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; SUICÍDIO</data>
+      <data key="d4">3</data>
+      <data key="d3">1292</data>
+    </node>
+    <edge source="cluster:0" target="category:category-001.txt">
+      <data key="d5">247</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-009.txt">
+      <data key="d5">343</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-013.txt">
+      <data key="d5">12482</data>
+    </edge>
+    <edge source="cluster:0" target="category:category-014.txt">
+      <data key="d5">2792</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-002.txt">
+      <data key="d5">1100754</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-004.txt">
+      <data key="d5">200197</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-005.txt">
+      <data key="d5">1121598</data>
+    </edge>
+    <edge source="cluster:1" target="category:category-006.txt">
+      <data key="d5">147380</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-003.txt">
+      <data key="d5">835748</data>
+    </edge>
+    <edge source="cluster:2" target="category:category-010.txt">
+      <data key="d5">1517</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-007.txt">
+      <data key="d5">393</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-008.txt">
+      <data key="d5">1322</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-011.txt">
+      <data key="d5">1954</data>
+    </edge>
+    <edge source="cluster:3" target="category:category-012.txt">
+      <data key="d5">1292</data>
+    </edge>
+    <data key="d0">DAMICORE categorias de abuso 2020 a 2026</data>
+  </graph>
+</graphml>

@@ -212,7 +212,7 @@ DECLARE
   v_table_count int;
 BEGIN
   SELECT count(*), count(distinct source_hash), min(registered_at), max(registered_at),
-         count(*) filter (where source_hash is null or source_hash !~ '^[0-9A-F]{64}$'),
+         count(*) filter (where source_hash is null or source_hash !~ '^(?:[0-9A-F]{32}|[0-9A-F]{64})$'),
          count(*) filter (where registered_at is null),
          count(*) filter (where victim_count is null or victim_count <= 0)
   INTO v_count, v_distinct_hash, v_min_date, v_max_date, v_invalid_hashes, v_null_dates, v_non_positive_victims

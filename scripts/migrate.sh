@@ -41,7 +41,7 @@ if [[ "$TABLE_EXISTS" == "t" ]]; then
             count(distinct source_hash),
             to_char(min(registered_at), 'YYYY-MM-DD HH24:MI:SS.MS'),
             to_char(max(registered_at), 'YYYY-MM-DD HH24:MI:SS.MS'),
-            count(*) filter (where source_hash is null or source_hash !~ '^[0-9A-F]{64}$'),
+            count(*) filter (where source_hash is null or source_hash !~ '^(?:[0-9A-F]{32}|[0-9A-F]{64})$'),
             count(*) filter (where registered_at is null),
             count(*) filter (where victim_count is null or victim_count <= 0),
             (select count(*) from pg_tables where schemaname = 'public')
