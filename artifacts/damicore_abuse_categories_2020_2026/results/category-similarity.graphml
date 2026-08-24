@@ -14,23 +14,17 @@
       <data key="d3">0</data>
       <data key="d4">247</data>
     </node>
+    <node id="category-007.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; ABORTO</data>
+      <data key="d3">0</data>
+      <data key="d4">393</data>
+    </node>
     <node id="category-009.txt">
       <data key="d1">category</data>
       <data key="d2">VIDA &gt; FEMINICÍDIO</data>
       <data key="d3">0</data>
       <data key="d4">343</data>
-    </node>
-    <node id="category-013.txt">
-      <data key="d1">category</data>
-      <data key="d2">VIOLÊNCIA INSTITUCIONAL</data>
-      <data key="d3">0</data>
-      <data key="d4">12482</data>
-    </node>
-    <node id="category-014.txt">
-      <data key="d1">category</data>
-      <data key="d2">VIOLÊNCIA INSTITUCIONAL &gt; EM RAZÃO DE SER POLICIAL/MILITAR/DEMAIS AGENTE DE SEGURANÇA PÚBLICA</data>
-      <data key="d3">0</data>
-      <data key="d4">2792</data>
     </node>
     <node id="category-002.txt">
       <data key="d1">category</data>
@@ -56,23 +50,29 @@
       <data key="d3">1</data>
       <data key="d4">147380</data>
     </node>
+    <node id="category-010.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; HOMICÍDIO</data>
+      <data key="d3">1</data>
+      <data key="d4">1517</data>
+    </node>
     <node id="category-003.txt">
       <data key="d1">category</data>
       <data key="d2">INTEGRIDADE &gt; NEGLIGÊNCIA</data>
       <data key="d3">2</data>
       <data key="d4">835748</data>
     </node>
-    <node id="category-010.txt">
+    <node id="category-013.txt">
       <data key="d1">category</data>
-      <data key="d2">VIDA &gt; HOMICÍDIO</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL</data>
       <data key="d3">2</data>
-      <data key="d4">1517</data>
+      <data key="d4">12482</data>
     </node>
-    <node id="category-007.txt">
+    <node id="category-014.txt">
       <data key="d1">category</data>
-      <data key="d2">VIDA &gt; ABORTO</data>
-      <data key="d3">3</data>
-      <data key="d4">393</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL &gt; EM RAZÃO DE SER POLICIAL/MILITAR/DEMAIS AGENTE DE SEGURANÇA PÚBLICA</data>
+      <data key="d3">2</data>
+      <data key="d4">2792</data>
     </node>
     <node id="category-008.txt">
       <data key="d1">category</data>
@@ -93,52 +93,24 @@
       <data key="d4">1292</data>
     </node>
     <edge source="category-001.txt" target="category-009.txt">
-      <data key="d5">0.37251356238698013</data>
-      <data key="d6">0.7285902503293807</data>
-    </edge>
-    <edge source="category-001.txt" target="category-014.txt">
-      <data key="d5">0.39051220350635957</data>
-      <data key="d6">0.719159456118665</data>
-    </edge>
-    <edge source="category-001.txt" target="category-003.txt">
-      <data key="d5">0.42516778523489934</data>
-      <data key="d6">0.7016717683070403</data>
-    </edge>
-    <edge source="category-001.txt" target="category-007.txt">
-      <data key="d5">0.43278805120910385</data>
-      <data key="d6">0.697939935467858</data>
+      <data key="d5">0.4517426273458445</data>
+      <data key="d6">0.6888273314866112</data>
     </edge>
     <edge source="category-001.txt" target="category-013.txt">
-      <data key="d5">0.40040174087713426</data>
-      <data key="d6">0.714080803251255</data>
+      <data key="d5">0.46269655403144866</data>
+      <data key="d6">0.6836688014638609</data>
     </edge>
-    <edge source="category-009.txt" target="category-007.txt">
-      <data key="d5">0.4096728307254623</data>
-      <data key="d6">0.7093844601412714</data>
+    <edge source="category-001.txt" target="category-007.txt">
+      <data key="d5">0.46597731821214144</data>
+      <data key="d6">0.6821387940841865</data>
     </edge>
-    <edge source="category-009.txt" target="category-014.txt">
-      <data key="d5">0.3850120316259883</data>
-      <data key="d6">0.7220153884338546</data>
+    <edge source="category-007.txt" target="category-009.txt">
+      <data key="d5">0.43395597064709807</data>
+      <data key="d6">0.6973714817399395</data>
     </edge>
     <edge source="category-009.txt" target="category-010.txt">
-      <data key="d5">0.46512407780013415</data>
-      <data key="d6">0.682536049439231</data>
-    </edge>
-    <edge source="category-009.txt" target="category-011.txt">
-      <data key="d5">0.4465790360633637</data>
-      <data key="d6">0.6912861136999068</data>
-    </edge>
-    <edge source="category-009.txt" target="category-012.txt">
-      <data key="d5">0.4531143052703628</data>
-      <data key="d6">0.688177107866227</data>
-    </edge>
-    <edge source="category-013.txt" target="category-003.txt">
-      <data key="d5">0.42618011382658183</data>
-      <data key="d6">0.7011737089201877</data>
-    </edge>
-    <edge source="category-013.txt" target="category-014.txt">
-      <data key="d5">0.4014060930699699</data>
-      <data key="d6">0.7135690396559962</data>
+      <data key="d5">0.4816031537450723</data>
+      <data key="d6">0.6749445676274944</data>
     </edge>
     <edge source="category-002.txt" target="category-005.txt">
       <data key="d5">0.4394575395544075</data>
@@ -153,36 +125,48 @@
       <data key="d6">0.6803602811950791</data>
     </edge>
     <edge source="category-004.txt" target="category-003.txt">
-      <data key="d5">0.4856020942408377</data>
-      <data key="d6">0.6731277533039648</data>
+      <data key="d5">0.48495748855461085</data>
+      <data key="d6">0.6734199515525214</data>
     </edge>
     <edge source="category-004.txt" target="category-006.txt">
-      <data key="d5">0.5008082767539606</data>
-      <data key="d6">0.6663076260232659</data>
+      <data key="d5">0.5024201355275896</data>
+      <data key="d6">0.6655927835051547</data>
     </edge>
     <edge source="category-005.txt" target="category-003.txt">
-      <data key="d5">0.46722634807878594</data>
-      <data key="d6">0.6815580985915493</data>
+      <data key="d5">0.4662576687116564</data>
+      <data key="d6">0.6820083682008369</data>
     </edge>
     <edge source="category-005.txt" target="category-006.txt">
-      <data key="d5">0.5017759121730707</data>
-      <data key="d6">0.665878305740701</data>
+      <data key="d5">0.5004840271055179</data>
+      <data key="d6">0.6664516129032257</data>
     </edge>
-    <edge source="category-010.txt" target="category-007.txt">
-      <data key="d5">0.4614352783366868</data>
-      <data key="d6">0.6842588343276732</data>
+    <edge source="category-010.txt" target="category-008.txt">
+      <data key="d5">0.480946123521682</data>
+      <data key="d6">0.6752440106477373</data>
     </edge>
-    <edge source="category-007.txt" target="category-008.txt">
-      <data key="d5">0.4456260720411664</data>
-      <data key="d6">0.6917418130042714</data>
+    <edge source="category-003.txt" target="category-013.txt">
+      <data key="d5">0.4265640682502509</data>
+      <data key="d6">0.700984990619137</data>
+    </edge>
+    <edge source="category-003.txt" target="category-014.txt">
+      <data key="d5">0.44511581067472306</data>
+      <data key="d6">0.6919860627177701</data>
+    </edge>
+    <edge source="category-013.txt" target="category-014.txt">
+      <data key="d5">0.42890598862495816</data>
+      <data key="d6">0.6998361039569188</data>
     </edge>
     <edge source="category-008.txt" target="category-011.txt">
-      <data key="d5">0.44860128075497135</data>
-      <data key="d6">0.6903210795718939</data>
+      <data key="d5">0.45660881174899864</data>
+      <data key="d6">0.6865261228230981</data>
     </edge>
     <edge source="category-008.txt" target="category-012.txt">
-      <data key="d5">0.45037645448323066</data>
-      <data key="d6">0.6894761680037753</data>
+      <data key="d5">0.45958583834335337</data>
+      <data key="d6">0.6851258581235699</data>
+    </edge>
+    <edge source="category-011.txt" target="category-012.txt">
+      <data key="d5">0.4606141522029373</data>
+      <data key="d6">0.6846435100548446</data>
     </edge>
     <data key="d0">DAMICORE semelhança entre categorias 2020 a 2026</data>
   </graph>

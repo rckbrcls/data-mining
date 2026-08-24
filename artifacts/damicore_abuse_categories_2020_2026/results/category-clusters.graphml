@@ -10,7 +10,7 @@
     <node id="cluster:0">
       <data key="d1">cluster</data>
       <data key="d2">Grupo 0</data>
-      <data key="d3">15864</data>
+      <data key="d3">983</data>
     </node>
     <node id="category:category-001.txt">
       <data key="d1">category</data>
@@ -18,28 +18,22 @@
       <data key="d4">0</data>
       <data key="d3">247</data>
     </node>
+    <node id="category:category-007.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; ABORTO</data>
+      <data key="d4">0</data>
+      <data key="d3">393</data>
+    </node>
     <node id="category:category-009.txt">
       <data key="d1">category</data>
       <data key="d2">VIDA &gt; FEMINICÍDIO</data>
       <data key="d4">0</data>
       <data key="d3">343</data>
     </node>
-    <node id="category:category-013.txt">
-      <data key="d1">category</data>
-      <data key="d2">VIOLÊNCIA INSTITUCIONAL</data>
-      <data key="d4">0</data>
-      <data key="d3">12482</data>
-    </node>
-    <node id="category:category-014.txt">
-      <data key="d1">category</data>
-      <data key="d2">VIOLÊNCIA INSTITUCIONAL &gt; EM RAZÃO DE SER POLICIAL/MILITAR/DEMAIS AGENTE DE SEGURANÇA PÚBLICA</data>
-      <data key="d4">0</data>
-      <data key="d3">2792</data>
-    </node>
     <node id="cluster:1">
       <data key="d1">cluster</data>
       <data key="d2">Grupo 1</data>
-      <data key="d3">2569929</data>
+      <data key="d3">2571446</data>
     </node>
     <node id="category:category-002.txt">
       <data key="d1">category</data>
@@ -65,10 +59,16 @@
       <data key="d4">1</data>
       <data key="d3">147380</data>
     </node>
+    <node id="category:category-010.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIDA &gt; HOMICÍDIO</data>
+      <data key="d4">1</data>
+      <data key="d3">1517</data>
+    </node>
     <node id="cluster:2">
       <data key="d1">cluster</data>
       <data key="d2">Grupo 2</data>
-      <data key="d3">837265</data>
+      <data key="d3">851022</data>
     </node>
     <node id="category:category-003.txt">
       <data key="d1">category</data>
@@ -76,22 +76,22 @@
       <data key="d4">2</data>
       <data key="d3">835748</data>
     </node>
-    <node id="category:category-010.txt">
+    <node id="category:category-013.txt">
       <data key="d1">category</data>
-      <data key="d2">VIDA &gt; HOMICÍDIO</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL</data>
       <data key="d4">2</data>
-      <data key="d3">1517</data>
+      <data key="d3">12482</data>
+    </node>
+    <node id="category:category-014.txt">
+      <data key="d1">category</data>
+      <data key="d2">VIOLÊNCIA INSTITUCIONAL &gt; EM RAZÃO DE SER POLICIAL/MILITAR/DEMAIS AGENTE DE SEGURANÇA PÚBLICA</data>
+      <data key="d4">2</data>
+      <data key="d3">2792</data>
     </node>
     <node id="cluster:3">
       <data key="d1">cluster</data>
       <data key="d2">Grupo 3</data>
-      <data key="d3">4961</data>
-    </node>
-    <node id="category:category-007.txt">
-      <data key="d1">category</data>
-      <data key="d2">VIDA &gt; ABORTO</data>
-      <data key="d4">3</data>
-      <data key="d3">393</data>
+      <data key="d3">4568</data>
     </node>
     <node id="category:category-008.txt">
       <data key="d1">category</data>
@@ -114,14 +114,11 @@
     <edge source="cluster:0" target="category:category-001.txt">
       <data key="d5">247</data>
     </edge>
+    <edge source="cluster:0" target="category:category-007.txt">
+      <data key="d5">393</data>
+    </edge>
     <edge source="cluster:0" target="category:category-009.txt">
       <data key="d5">343</data>
-    </edge>
-    <edge source="cluster:0" target="category:category-013.txt">
-      <data key="d5">12482</data>
-    </edge>
-    <edge source="cluster:0" target="category:category-014.txt">
-      <data key="d5">2792</data>
     </edge>
     <edge source="cluster:1" target="category:category-002.txt">
       <data key="d5">1100754</data>
@@ -135,14 +132,17 @@
     <edge source="cluster:1" target="category:category-006.txt">
       <data key="d5">147380</data>
     </edge>
+    <edge source="cluster:1" target="category:category-010.txt">
+      <data key="d5">1517</data>
+    </edge>
     <edge source="cluster:2" target="category:category-003.txt">
       <data key="d5">835748</data>
     </edge>
-    <edge source="cluster:2" target="category:category-010.txt">
-      <data key="d5">1517</data>
+    <edge source="cluster:2" target="category:category-013.txt">
+      <data key="d5">12482</data>
     </edge>
-    <edge source="cluster:3" target="category:category-007.txt">
-      <data key="d5">393</data>
+    <edge source="cluster:2" target="category:category-014.txt">
+      <data key="d5">2792</data>
     </edge>
     <edge source="cluster:3" target="category:category-008.txt">
       <data key="d5">1322</data>
