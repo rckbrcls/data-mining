@@ -1,0 +1,3 @@
+- criar uma pagina de ajuda, e escanear com um qr code
+- colocar o nome dos palestrantes nas palestras principais e o titulo das palestras
+- mudar visualizacao do minha agenda para ficar igual como eh no mobile sempre
