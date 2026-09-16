@@ -33,18 +33,22 @@ The repository has one analysis notebook:
 
 - `notebooks/01_damicore_abuse_categories.ipynb`
 
-It aggregates every female-victim report from January 2020 through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy. Profiles include demographic, reporting-process, relationship, setting, and monthly dimensions; DAMICORE checks whether support or document size still dominates NCD, then creates a colored tree plus two NetworkX views. The first-semester 2020 file has a legacy violation format and is preserved in PostgreSQL but excluded from the comparable hierarchy until it is harmonized. There is no report sampling or later classification step.
+It aggregates every female-victim report from January 2020 through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy. Profiles include demographic, reporting-process, relationship, setting, and monthly dimensions; DAMICORE checks whether support or document size still dominates NCD, then produces a distance-based tree and quantitative mining figures. The first-semester 2020 file has a legacy violation format and is preserved in PostgreSQL but excluded from the comparable hierarchy until it is harmonized. There is no report sampling or later classification step.
+
+The same notebook now includes a second, case-level experiment. It builds one canonical line per distinct `source_hash + category` using the same 12 contextual dimensions, then runs DAMICORE over a `case-full` corpus and five uniformly sampled `case-balanced` replicas. `case-full` preserves category prevalence and volume; `case-balanced` gives every included category the same number of reports so the comparison can test whether co-occurring context remains stable when support is equal.
 
 ## Artifact Privacy Split
 
 Artifacts are stored under `artifacts/damicore_abuse_categories_2020_2026/`:
 
 - `work/` contains the category corpus, category mapping, and DAMICORE run. It is ignored by Git.
-- `results/` contains one aggregate CSV, two GraphML files, the cluster tree, and two NetworkX figures. No report hash or individual report is exported.
+- `work/case-corpus/` contains the case-level full corpus, balanced replicas, combination counts, and case-level DAMICORE runs. It is ignored by Git and does not export `source_hash`.
+- `results/` contains aggregate CSV summaries and quantitative figures for category support, contextual counts, NCD distances, experiment agreement, replica stability, and the DAMICORE tree. No report hash or individual report is exported.
+- The notebook writes `category-support.png`, `category-ncd-heatmap.png`, `case-distance-agreement.png`, and `case-cluster-stability.png` when the corresponding experiments complete.
 
 ## Execution
 
-The notebook is intentionally stored without outputs. Open it and run its cells from top to bottom. The Nitro PostgreSQL container is bound to its loopback interface; create an SSH tunnel and point the notebook to it:
+Open the notebook and run its cells from top to bottom. The Nitro PostgreSQL container is bound to its loopback interface; create an SSH tunnel and point the notebook to it:
 
 ```bash
 ssh -N -L 5433:127.0.0.1:5432 nitro
@@ -52,10 +56,10 @@ DISQUE100_DATABASE_URL="postgresql://postgres@127.0.0.1:5433/disque100" jupyter 
 ```
 
 ```bash
-jupyter nbconvert --execute --to notebook --inplace notebooks/01_damicore_abuse_categories.ipynb
+python -m nbconvert --execute --to notebook --inplace notebooks/01_damicore_abuse_categories.ipynb
 ```
 
-The command is documented for reproducibility; it was not run during this refactor. Existing files under `results/` remain stale until the notebook is executed again.
+The command regenerates both the existing normalized experiment and the case-level comparison. Existing files under `results/` remain stale until the notebook is executed again.
 
 ## Load the historical database
 

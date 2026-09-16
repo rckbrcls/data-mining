@@ -7,7 +7,6 @@ dependencies = [
     "damicore==0.2.0",
     "pandas>=3,<4",
     "psycopg[binary]>=3.2,<4",
-    "networkx>=3.5,<4",
     "matplotlib>=3.10,<4",
     "biopython>=1.85,<2",
     "jupyterlab>=4,<5",
