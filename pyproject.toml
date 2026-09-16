@@ -1,7 +1,7 @@
 [project]
-name = "disque100-research"
+name = "data-mining-damicore"
 version = "0.1.0"
-description = "Dependencies for the Disque 100 DAMICORE category experiment"
+description = "Dependencies for the Data Mining DAMICORE experiment over Disque 100 data"
 requires-python = ">=3.11"
 dependencies = [
     "damicore==0.2.0",

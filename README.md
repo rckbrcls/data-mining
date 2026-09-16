@@ -1,6 +1,14 @@
-# Disque 100 Research Data
+# Data Mining Research - DAMICORE and Disque 100
 
-This repository contains Disque 100 datasets from 2020 through the first semester of 2026 and a canonical PostgreSQL loader for one analysis-ready table.
+This repository contains the work for the current Data Mining course. It combines the Disque 100 datasets from 2020 through the first semester of 2026, a canonical PostgreSQL loader, and a DAMICORE experiment over complex public data.
+
+The course project is intentionally separate from the future master's research. The professional learning roadmap and the provisional conflict-research architecture live in the public [`conflict-research`](https://github.com/rckbrcls/conflict-research) repository, under [`research/`](https://github.com/rckbrcls/conflict-research/tree/main/research).
+
+## Study guides
+
+- [`DATA_MINING_STUDY_GUIDE.md`](DATA_MINING_STUDY_GUIDE.md) - general course topics, study order, and the bridge to professional skills.
+- [`DAMICORE_STUDY_GUIDE.md`](DAMICORE_STUDY_GUIDE.md) - focused guide for the current DAMICORE experiment.
+- [`AED Proposito Geral.pdf`](AED%20Proposito%20Geral.pdf) - course material about general-purpose Estimation of Distribution Algorithms and complex-data mining.
 
 ## Prerequisites
 
