@@ -33,9 +33,9 @@ The repository has one analysis notebook:
 
 - `notebooks/01_damicore_abuse_categories.ipynb`
 
-It aggregates every female-victim report from January 2020 through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy. Profiles include demographic, reporting-process, relationship, setting, and monthly dimensions; DAMICORE checks whether support or document size still dominates NCD, then produces a distance-based tree and quantitative mining figures. The first-semester 2020 file has a legacy violation format and is preserved in PostgreSQL but excluded from the comparable hierarchy until it is harmonized. There is no report sampling or later classification step.
+It aggregates every female-victim report from January 2020 through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy. The normalized profiles now use 20 dimensions: the original reporting, relationship, setting, monthly, victim, and suspect fields plus violation start period, motivation, victim race/color, victim education, victim income, victim ethnicity, suspect age group, and suspect education. DAMICORE checks whether support or document size still dominates NCD, then produces a distance-based tree and quantitative mining figures. The first-semester 2020 file has a legacy violation format and is preserved in PostgreSQL but excluded from the comparable hierarchy until it is harmonized. There is no report sampling or later classification step.
 
-The same notebook now includes a second, case-level experiment. It builds one canonical line per distinct `source_hash + category` using the same 12 contextual dimensions, then runs DAMICORE over a `case-full` corpus and five uniformly sampled `case-balanced` replicas. `case-full` preserves category prevalence and volume; `case-balanced` gives every included category the same number of reports so the comparison can test whether co-occurring context remains stable when support is equal.
+The same notebook now includes a second, case-level experiment. It builds one canonical line per distinct `source_hash + category` using the same 20 contextual dimensions, then runs DAMICORE over a `case-full` corpus and five uniformly sampled `case-balanced` replicas. `case-full` preserves category prevalence and volume; `case-balanced` gives every included category the same number of reports so the comparison can test whether co-occurring context remains stable when support is equal. `month` represents the registration period, while `violation_start_period` represents the reported onset period; both are retained as distinct dimensions.
 
 ## Artifact Privacy Split
 
@@ -44,7 +44,9 @@ Artifacts are stored under `artifacts/damicore_abuse_categories_2020_2026/`:
 - `work/` contains the category corpus, category mapping, and DAMICORE run. It is ignored by Git.
 - `work/case-corpus/` contains the case-level full corpus, balanced replicas, combination counts, and case-level DAMICORE runs. It is ignored by Git and does not export `source_hash`.
 - `results/` contains aggregate CSV summaries and quantitative figures for category support, contextual counts, NCD distances, experiment agreement, replica stability, and the DAMICORE tree. No report hash or individual report is exported.
-- The notebook writes `category-support.png`, `category-ncd-heatmap.png`, `case-distance-agreement.png`, and `case-cluster-stability.png` when the corresponding experiments complete.
+- The notebook writes `category-support.png`, `category-ncd-heatmap.png`, `category-tree.html`, `category-tree.svg`, `case-distance-agreement.png`, and `case-cluster-stability.png` when the corresponding experiments complete.
+
+The DAMICORE tree is rendered with `toytree` for interactive HTML exploration and publication-quality SVG output. `toytree` consumes the Newick tree already produced by DAMICORE; it does not recalculate NCD distances, topology, or clusters. This research project accepts its GPL-3.0-only dependency for visualization.
 
 ## Execution
 

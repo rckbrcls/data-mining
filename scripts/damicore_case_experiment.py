@@ -13,13 +13,21 @@ CASE_FIELDS = [
     ("relationship", "relacao_vitima_suspeito"),
     ("setting", "ambiente"),
     ("month", "mes"),
+    ("violation_start_period", "inicio_violacoes"),
     ("service_channel", "canal_atendimento"),
     ("reporter_type", "tipo_denunciante"),
     ("frequency", "frequencia"),
     ("emergency_status", "situacao_emergencia"),
+    ("motivation", "motivacao"),
     ("vulnerable_group", "grupo_vulneravel"),
     ("victim_disability", "deficiencia_vitima"),
+    ("victim_race_color", "raca_cor_vitima"),
+    ("victim_education_level", "escolaridade_vitima"),
+    ("victim_income_range", "renda_vitima"),
+    ("victim_ethnicity", "etnia_vitima"),
+    ("suspect_age_group", "faixa_etaria_suspeito"),
     ("suspect_gender", "genero_suspeito"),
+    ("suspect_education_level", "escolaridade_suspeito"),
     ("suspect_legal_nature", "natureza_juridica_suspeito"),
 ]
 
@@ -37,13 +45,21 @@ def _case_query(category_sql: str) -> str:
             "age_group": "victim_age_group",
             "relationship": "victim_suspect_relationship",
             "setting": "violation_setting",
+            "violation_start_period": "violation_start_period",
             "service_channel": "service_channel",
             "reporter_type": "reporter_type",
             "frequency": "frequency",
             "emergency_status": "emergency_status",
+            "motivation": "motivation",
             "vulnerable_group": "vulnerable_group",
             "victim_disability": "victim_disability",
+            "victim_race_color": "victim_race_color",
+            "victim_education_level": "victim_education_level",
+            "victim_income_range": "victim_income_range",
+            "victim_ethnicity": "victim_ethnicity",
+            "suspect_age_group": "suspect_age_group",
             "suspect_gender": "suspect_gender",
+            "suspect_education_level": "suspect_education_level",
             "suspect_legal_nature": "suspect_legal_nature",
         }.items()
     }
@@ -57,13 +73,21 @@ WITH source_rows AS (
         {expressions["relationship"]} AS relationship,
         {expressions["setting"]} AS setting,
         to_char(date_trunc('month', registered_at), 'YYYY-MM') AS month,
+        {expressions["violation_start_period"]} AS violation_start_period,
         {expressions["service_channel"]} AS service_channel,
         {expressions["reporter_type"]} AS reporter_type,
         {expressions["frequency"]} AS frequency,
         {expressions["emergency_status"]} AS emergency_status,
+        {expressions["motivation"]} AS motivation,
         {expressions["vulnerable_group"]} AS vulnerable_group,
         {expressions["victim_disability"]} AS victim_disability,
+        {expressions["victim_race_color"]} AS victim_race_color,
+        {expressions["victim_education_level"]} AS victim_education_level,
+        {expressions["victim_income_range"]} AS victim_income_range,
+        {expressions["victim_ethnicity"]} AS victim_ethnicity,
+        {expressions["suspect_age_group"]} AS suspect_age_group,
         {expressions["suspect_gender"]} AS suspect_gender,
+        {expressions["suspect_education_level"]} AS suspect_education_level,
         {expressions["suspect_legal_nature"]} AS suspect_legal_nature
     FROM public.disque100_reports
     WHERE registered_at >= %s
@@ -78,13 +102,21 @@ SELECT
     array_agg(DISTINCT relationship ORDER BY relationship) AS relationship,
     array_agg(DISTINCT setting ORDER BY setting) AS setting,
     array_agg(DISTINCT month ORDER BY month) AS month,
+    array_agg(DISTINCT violation_start_period ORDER BY violation_start_period) AS violation_start_period,
     array_agg(DISTINCT service_channel ORDER BY service_channel) AS service_channel,
     array_agg(DISTINCT reporter_type ORDER BY reporter_type) AS reporter_type,
     array_agg(DISTINCT frequency ORDER BY frequency) AS frequency,
     array_agg(DISTINCT emergency_status ORDER BY emergency_status) AS emergency_status,
+    array_agg(DISTINCT motivation ORDER BY motivation) AS motivation,
     array_agg(DISTINCT vulnerable_group ORDER BY vulnerable_group) AS vulnerable_group,
     array_agg(DISTINCT victim_disability ORDER BY victim_disability) AS victim_disability,
+    array_agg(DISTINCT victim_race_color ORDER BY victim_race_color) AS victim_race_color,
+    array_agg(DISTINCT victim_education_level ORDER BY victim_education_level) AS victim_education_level,
+    array_agg(DISTINCT victim_income_range ORDER BY victim_income_range) AS victim_income_range,
+    array_agg(DISTINCT victim_ethnicity ORDER BY victim_ethnicity) AS victim_ethnicity,
+    array_agg(DISTINCT suspect_age_group ORDER BY suspect_age_group) AS suspect_age_group,
     array_agg(DISTINCT suspect_gender ORDER BY suspect_gender) AS suspect_gender,
+    array_agg(DISTINCT suspect_education_level ORDER BY suspect_education_level) AS suspect_education_level,
     array_agg(DISTINCT suspect_legal_nature ORDER BY suspect_legal_nature) AS suspect_legal_nature
 FROM source_rows
 GROUP BY source_hash, category
@@ -282,4 +314,3 @@ def compare_combination_distributions(
     ).abs()
     comparison.to_csv(output_path, index=False)
     return comparison
-
