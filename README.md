@@ -4,11 +4,9 @@ This repository contains the work for the current Data Mining course. It combine
 
 The course project is intentionally separate from the future master's research. The professional learning roadmap and the provisional conflict-research architecture live in the public [`conflict-research`](https://github.com/rckbrcls/conflict-research) repository, under [`research/`](https://github.com/rckbrcls/conflict-research/tree/main/research).
 
-## Study guides
+## Course material
 
-- [`DATA_MINING_STUDY_GUIDE.md`](DATA_MINING_STUDY_GUIDE.md) - general course topics, study order, and the bridge to professional skills.
-- [`DAMICORE_STUDY_GUIDE.md`](DAMICORE_STUDY_GUIDE.md) - focused guide for the current DAMICORE experiment.
-- [`AED Proposito Geral.pdf`](AED%20Proposito%20Geral.pdf) - course material about general-purpose Estimation of Distribution Algorithms and complex-data mining.
+- [`AED Proposito Geral.pdf`](docs/AED%20Proposito%20Geral.pdf) - course material about general-purpose Estimation of Distribution Algorithms and complex-data mining.
 
 ## Prerequisites
 
@@ -19,7 +17,7 @@ The course project is intentionally separate from the future master's research. 
 
 ## Installation
 
-The notebook is self-contained. The project metadata is used only to install its dependencies.
+The hypothesis notebooks are self-contained. The project metadata is used only to install their dependencies.
 
 ```bash
 python -m venv venv
@@ -53,7 +51,8 @@ distance matrix, a deterministic representative tree, and stability summaries.
 Hypothesis-specific artifacts live under each hypothesis directory. For the current
 analysis, `hypotheses/violence_against_women/artifacts/work/` contains generated corpora,
 metadata, and raw DAMICORE runs and is ignored by Git. Aggregate tables, figures, trees,
-and comparison summaries live under `artifacts/results/` and do not export `source_hash`.
+and comparison summaries live under
+`hypotheses/violence_against_women/artifacts/results/` and do not export `source_hash`.
 
 The DAMICORE tree is rendered with `toytree` for interactive HTML exploration and
 publication-quality SVG output. `toytree` consumes the Newick tree already produced by
