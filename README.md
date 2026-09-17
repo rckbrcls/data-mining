@@ -27,30 +27,42 @@ source venv/bin/activate
 pip install .
 ```
 
-## Experiment
+## Research hypotheses
 
-The repository has one analysis notebook:
+The repository organizes analysis by hypothesis so that a shared Disque 100 dataset can
+support multiple research questions without mixing their derived corpora or results.
 
-- `notebooks/01_damicore_abuse_categories.ipynb`
+- [`hypotheses/violence_against_women/`](hypotheses/violence_against_women/) - DAMICORE
+  experiments over contextual profiles related to violence against women.
 
-It aggregates every female-victim report from January 2020 through June 2026 into normalized context profiles for an explicit violence-related subset of the source taxonomy. The normalized profiles now use 20 dimensions: the original reporting, relationship, setting, monthly, victim, and suspect fields plus violation start period, motivation, victim race/color, victim education, victim income, victim ethnicity, suspect age group, and suspect education. DAMICORE checks whether support or document size still dominates NCD, then produces a distance-based tree and quantitative mining figures. The first-semester 2020 file has a legacy violation format and is preserved in PostgreSQL but excluded from the comparable hierarchy until it is harmonized. There is no report sampling or later classification step.
+The raw CSVs, database loader, and migrations remain shared. Each hypothesis owns its
+notebooks, generated inputs, experiment results, figures, and interpretation notes.
 
-The same notebook now includes a second, case-level experiment. It builds one canonical line per distinct `source_hash + category` using the same 20 contextual dimensions, then runs DAMICORE over a `case-full` corpus and five uniformly sampled `case-balanced` replicas. `case-full` preserves category prevalence and volume; `case-balanced` gives every included category the same number of reports so the comparison can test whether co-occurring context remains stable when support is equal. `month` represents the registration period, while `violation_start_period` represents the reported onset period; both are retained as distinct dimensions.
+The current violence-against-women hypothesis uses three experiments:
 
-## Artifact Privacy Split
+1. normalized category profiles;
+2. full case profiles with observed prevalence;
+3. balanced case profiles across five deterministic replicas.
 
-Artifacts are stored under `artifacts/damicore_abuse_categories_2020_2026/`:
+All three experiments use the same 20 contextual dimensions and standardized figure
+outputs. The balanced experiment preserves its five replica outputs and adds a median
+distance matrix, a deterministic representative tree, and stability summaries.
 
-- `work/` contains the category corpus, category mapping, and DAMICORE run. It is ignored by Git.
-- `work/case-corpus/` contains the case-level full corpus, balanced replicas, combination counts, and case-level DAMICORE runs. It is ignored by Git and does not export `source_hash`.
-- `results/` contains aggregate CSV summaries and quantitative figures for category support, contextual counts, NCD distances, experiment agreement, replica stability, and the DAMICORE tree. No report hash or individual report is exported.
-- The notebook writes `category-support.png`, `category-ncd-heatmap.png`, `category-tree.html`, `category-tree.svg`, `case-distance-agreement.png`, and `case-cluster-stability.png` when the corresponding experiments complete.
+## Artifact privacy split
 
-The DAMICORE tree is rendered with `toytree` for interactive HTML exploration and publication-quality SVG output. `toytree` consumes the Newick tree already produced by DAMICORE; it does not recalculate NCD distances, topology, or clusters. This research project accepts its GPL-3.0-only dependency for visualization.
+Hypothesis-specific artifacts live under each hypothesis directory. For the current
+analysis, `hypotheses/violence_against_women/artifacts/work/` contains generated corpora,
+metadata, and raw DAMICORE runs and is ignored by Git. Aggregate tables, figures, trees,
+and comparison summaries live under `artifacts/results/` and do not export `source_hash`.
+
+The DAMICORE tree is rendered with `toytree` for interactive HTML exploration and
+publication-quality SVG output. `toytree` consumes the Newick tree already produced by
+DAMICORE; it does not recalculate NCD distances, topology, or clusters.
 
 ## Execution
 
-Open the notebook and run its cells from top to bottom. The Nitro PostgreSQL container is bound to its loopback interface; create an SSH tunnel and point the notebook to it:
+Open the hypothesis notebooks in order. The artifact notebook is the only database-facing
+stage. The Nitro PostgreSQL container is bound to its loopback interface; create an SSH tunnel and point the notebook to it:
 
 ```bash
 ssh -N -L 5433:127.0.0.1:5432 nitro
@@ -58,10 +70,16 @@ DISQUE100_DATABASE_URL="postgresql://postgres@127.0.0.1:5433/disque100" jupyter 
 ```
 
 ```bash
-python -m nbconvert --execute --to notebook --inplace notebooks/01_damicore_abuse_categories.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/00_create_artifacts.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/01_experiment_normalized_categories.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/02_experiment_case_full.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/03_experiment_case_balanced.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/04_compare_experiments.ipynb
 ```
 
-The command regenerates both the existing normalized experiment and the case-level comparison. Existing files under `results/` remain stale until the notebook is executed again.
+The full execution regenerates the input artifacts, all three experiment result packs,
+and the final comparison. Existing generated outputs are not treated as authoritative
+until this sequence completes again.
 
 ## Load the historical database
 

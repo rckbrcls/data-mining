@@ -223,6 +223,7 @@ def build_case_corpora(
     category_map: pd.DataFrame,
     work_dir: Path,
     seeds: Iterable[int],
+    metadata_dir: Path | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, int]:
     required_columns = {"source_hash", "category", "canonical_record"}
     if not required_columns.issubset(case_records.columns):
@@ -230,9 +231,9 @@ def build_case_corpora(
     if case_records.duplicated(["source_hash", "category"]).any():
         raise ValueError("case_records is not unique at source_hash + category grain.")
 
-    case_work_dir = work_dir / "case-corpus"
-    full_dir = case_work_dir / "full"
-    balanced_dir = case_work_dir / "balanced"
+    case_work_dir = work_dir
+    full_dir = case_work_dir / "case_full" / "corpus"
+    balanced_dir = case_work_dir / "case_balanced"
     full_dir.mkdir(parents=True, exist_ok=True)
     balanced_dir.mkdir(parents=True, exist_ok=True)
 
@@ -280,10 +281,11 @@ def build_case_corpora(
     case_category_map = pd.concat(maps, ignore_index=True)
     case_combination_counts = pd.concat(combinations, ignore_index=True)
 
-    case_work_dir.mkdir(parents=True, exist_ok=True)
-    case_category_map.to_csv(case_work_dir / "case-category-map.csv", index=False)
+    metadata_dir = metadata_dir or case_work_dir
+    metadata_dir.mkdir(parents=True, exist_ok=True)
+    case_category_map.to_csv(metadata_dir / "case-category-map.csv", index=False)
     case_combination_counts.to_csv(
-        case_work_dir / "case-combination-counts.csv",
+        metadata_dir / "case-combination-counts.csv",
         index=False,
     )
     return case_category_map, case_combination_counts, balanced_sample_size
