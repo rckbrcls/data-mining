@@ -24,11 +24,11 @@ or confirmed social typologies.
 Run the notebooks in this order:
 
 1. `notebooks/00_create_artifacts.ipynb` creates the shared corpora and manifest.
-2. `notebooks/01_experiment_normalized_categories.ipynb` runs the normalized category
-   experiment.
-3. `notebooks/02_experiment_case_full.ipynb` runs the full case experiment.
-4. `notebooks/03_experiment_case_balanced.ipynb` runs five balanced replicas and selects
+2. `notebooks/01_experiment_case_full.ipynb` runs the full case experiment.
+3. `notebooks/02_experiment_case_balanced.ipynb` runs five balanced replicas and selects
    a deterministic representative result.
+4. `notebooks/03_experiment_normalized_categories.ipynb` runs the normalized category
+   experiment.
 5. `notebooks/04_compare_experiments.ipynb` compares the three standardized result packs.
 
 The experiment notebooks do not query PostgreSQL. They consume the artifact manifest
@@ -70,8 +70,8 @@ The notebooks can then be executed in order with `nbconvert`:
 
 ```bash
 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/00_create_artifacts.ipynb
-python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/01_experiment_normalized_categories.ipynb
-python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/02_experiment_case_full.ipynb
-python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/03_experiment_case_balanced.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/01_experiment_case_full.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/02_experiment_case_balanced.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/03_experiment_normalized_categories.ipynb
 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/04_compare_experiments.ipynb
 ```

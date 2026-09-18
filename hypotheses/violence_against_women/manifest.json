@@ -3,9 +3,9 @@
   "artifact_schema_version": "1.0",
   "notebooks": [
     "00_create_artifacts.ipynb",
-    "01_experiment_normalized_categories.ipynb",
-    "02_experiment_case_full.ipynb",
-    "03_experiment_case_balanced.ipynb",
+    "01_experiment_case_full.ipynb",
+    "02_experiment_case_balanced.ipynb",
+    "03_experiment_normalized_categories.ipynb",
     "04_compare_experiments.ipynb"
   ]
 }

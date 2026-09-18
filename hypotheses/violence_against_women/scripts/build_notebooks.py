@@ -473,9 +473,9 @@ write_json(HYPOTHESIS_ROOT / "manifest.json", {
     "artifact_schema_version": ARTIFACT_SCHEMA_VERSION,
     "notebooks": [
         "00_create_artifacts.ipynb",
-        "01_experiment_normalized_categories.ipynb",
-        "02_experiment_case_full.ipynb",
-        "03_experiment_case_balanced.ipynb",
+        "01_experiment_case_full.ipynb",
+        "02_experiment_case_balanced.ipynb",
+        "03_experiment_normalized_categories.ipynb",
         "04_compare_experiments.ipynb",
     ],
 })
@@ -542,7 +542,7 @@ def normalized_notebook():
     return [
         markdown(
             """
-            # Experiment 1: normalized category profiles
+            # Experiment 3: normalized category profiles
 
             One DAMICORE object represents one eligible source category. The input documents
             are fixed-width relative-context profiles created by `00_create_artifacts`.
@@ -596,7 +596,7 @@ def case_full_notebook():
     return [
         markdown(
             """
-            # Experiment 2: full case corpus
+            # Experiment 1: full case corpus
 
             One DAMICORE object represents one eligible category, while each document preserves
             the canonical contextual combinations observed in all distinct `source_hash + category`
@@ -659,7 +659,7 @@ def case_balanced_notebook():
     return [
         markdown(
             """
-            # Experiment 3: balanced case corpus
+            # Experiment 2: balanced case corpus
 
             Five deterministic replicas sample the same number of cases per category. The common
             result pack uses the median NCD matrix and the replicate closest to that median as the
@@ -869,7 +869,7 @@ from hypotheses.violence_against_women.scripts.experiment_common import (
 manifest = load_artifact_manifest()
 category_order = category_order_from_manifest(manifest)
 category_map = load_category_map(COMMON_WORK_ROOT / "category-map.csv")
-experiment_names = ["normalized_categories", "case_full", "case_balanced"]
+experiment_names = ["case_full", "case_balanced", "normalized_categories"]
 result_dirs = {name: RESULTS_ROOT / name for name in experiment_names}
 for name, directory in result_dirs.items():
     if not (directory / "distance-matrix.csv").exists():
@@ -1064,9 +1064,9 @@ write_json(
 def main():
     NOTEBOOK_DIR.mkdir(parents=True, exist_ok=True)
     write_notebook("00_create_artifacts.ipynb", ARTIFACT_NOTEBOOK_CELLS)
-    write_notebook("01_experiment_normalized_categories.ipynb", normalized_notebook())
-    write_notebook("02_experiment_case_full.ipynb", case_full_notebook())
-    write_notebook("03_experiment_case_balanced.ipynb", case_balanced_notebook())
+    write_notebook("01_experiment_case_full.ipynb", case_full_notebook())
+    write_notebook("02_experiment_case_balanced.ipynb", case_balanced_notebook())
+    write_notebook("03_experiment_normalized_categories.ipynb", normalized_notebook())
     write_notebook("04_compare_experiments.ipynb", comparison_notebook())
 
 

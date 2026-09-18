@@ -38,9 +38,9 @@ notebooks, generated inputs, experiment results, figures, and interpretation not
 
 The current violence-against-women hypothesis uses three experiments:
 
-1. normalized category profiles;
-2. full case profiles with observed prevalence;
-3. balanced case profiles across five deterministic replicas.
+1. full case profiles with observed prevalence;
+2. balanced case profiles across five deterministic replicas;
+3. normalized category profiles.
 
 All three experiments use the same 20 contextual dimensions and standardized figure
 outputs. The balanced experiment preserves its five replica outputs and adds a median
@@ -70,9 +70,9 @@ DISQUE100_DATABASE_URL="postgresql://postgres@127.0.0.1:5433/disque100" jupyter 
 
 ```bash
 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/00_create_artifacts.ipynb
-python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/01_experiment_normalized_categories.ipynb
-python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/02_experiment_case_full.ipynb
-python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/03_experiment_case_balanced.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/01_experiment_case_full.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/02_experiment_case_balanced.ipynb
+python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/03_experiment_normalized_categories.ipynb
 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/04_compare_experiments.ipynb
 ```
 
