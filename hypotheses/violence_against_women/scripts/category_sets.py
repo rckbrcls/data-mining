@@ -1,0 +1,76 @@
+from __future__ import annotations
+
+import hashlib
+import json
+from typing import Final
+
+
+CATEGORY_SET_V1_14: Final[tuple[str, ...]] = (
+    "DIREITOS CIVIS E POLÍTICOS > VIOLÊNCIA POLITÍCA DE GÊNERO E CONTRA AS MULHERES",
+    "INTEGRIDADE > FÍSICA",
+    "INTEGRIDADE > NEGLIGÊNCIA",
+    "INTEGRIDADE > PATRIMONIAL",
+    "INTEGRIDADE > PSÍQUICA",
+    "LIBERDADE > SEXUAL",
+    "VIDA > ABORTO",
+    "VIDA > AUTOMUTILAÇAO",
+    "VIDA > FEMINICÍDIO",
+    "VIDA > HOMICÍDIO",
+    "VIDA > INCITAÇÃO AO SUICÍDIO",
+    "VIDA > SUICÍDIO",
+    "VIOLÊNCIA INSTITUCIONAL",
+    "VIOLÊNCIA INSTITUCIONAL > EM RAZÃO DE SER POLICIAL/MILITAR/DEMAIS AGENTE DE SEGURANÇA PÚBLICA",
+)
+
+CATEGORY_SET_V2_30: Final[tuple[str, ...]] = (
+    "LIBERDADE > SEXUAL > FÍSICA > ESTUPRO",
+    "LIBERDADE > SEXUAL > ESTUPRO DE VULNERÁVEL",
+    "LIBERDADE > SEXUAL > ESTUPRO DE VULNERÁVEL > PEDOFILIA",
+    "LIBERDADE > SEXUAL > ESTUPRO VIRTUAL",
+    "LIBERDADE > SEXUAL > ESTUPRO CORRETIVO",
+    "LIBERDADE > SEXUAL > FÍSICA > ABUSO SEXUAL FÍSICO",
+    "LIBERDADE > SEXUAL > FÍSICA > EXPLORAÇÃO SEXUAL",
+    "LIBERDADE > SEXUAL > IMPORTUNAÇÃO SEXUAL",
+    "LIBERDADE > SEXUAL > PSÍQUICA > ABUSO SEXUAL PSÍQUICO",
+    "LIBERDADE > SEXUAL > PSÍQUICA > ASSÉDIO SEXUAL",
+    "LIBERDADE > SEXUAL > VIOLÊNCIA SEXUAL MEDIANTE FRAUDE",
+    "INTEGRIDADE > FÍSICA > AGRESSÃO ou VIAS DE FATO",
+    "INTEGRIDADE > FÍSICA > LESÃO CORPORAL",
+    "INTEGRIDADE > FÍSICA > MAUS TRATOS",
+    "INTEGRIDADE > FÍSICA > TORTURA FÍSICA",
+    "INTEGRIDADE > FÍSICA > VIOLÊNCIA OBSTÉTRICA",
+    "INTEGRIDADE > PSÍQUICA > AMEAÇA ou COAÇÃO",
+    "INTEGRIDADE > PSÍQUICA > ASSÉDIO MORAL",
+    "INTEGRIDADE > PSÍQUICA > TORTURA PSÍQUICA",
+    "INTEGRIDADE > PSÍQUICA > ALIENAÇÃO PARENTAL",
+    "INTEGRIDADE > PSÍQUICA > CONSTRANGIMENTO",
+    "INTEGRIDADE > PSÍQUICA > EXPOSIÇÃO (EROTIZAÇÃO)",
+    "INTEGRIDADE > PATRIMONIAL > INDIVIDUAL",
+    "LIBERDADE > DIREITOS INDIVIDUAIS > CÁRCERE PRIVADO",
+    "LIBERDADE > DIREITOS INDIVIDUAIS > SEQUESTRO",
+    "LIBERDADE > DIREITOS INDIVIDUAIS > STALKING",
+    "LIBERDADE > DIREITOS INDIVIDUAIS > TRÁFICO DE MULHERES - INTERNACIONAL",
+    "LIBERDADE > DIREITOS INDIVIDUAIS > TRÁFICO DE MULHERES - NACIONAL",
+    "VIDA > FEMINICÍDIO",
+    "DIREITOS CIVIS E POLÍTICOS > VIOLÊNCIA POLITÍCA DE GÊNERO E CONTRA AS MULHERES",
+)
+
+CATEGORY_SETS: Final[dict[str, tuple[str, ...]]] = {
+    "v1_14": CATEGORY_SET_V1_14,
+    "v2_30": CATEGORY_SET_V2_30,
+}
+
+
+def get_category_set(version: str) -> tuple[str, ...]:
+    try:
+        return CATEGORY_SETS[version]
+    except KeyError as error:
+        available = ", ".join(sorted(CATEGORY_SETS))
+        raise ValueError(
+            f"Unknown category set {version!r}; expected one of: {available}."
+        ) from error
+
+
+def category_definition_hash(categories: tuple[str, ...]) -> str:
+    payload = json.dumps(categories, ensure_ascii=False, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()

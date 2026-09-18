@@ -36,11 +36,16 @@ support multiple research questions without mixing their derived corpora or resu
 The raw CSVs, database loader, and migrations remain shared. Each hypothesis owns its
 notebooks, generated inputs, experiment results, figures, and interpretation notes.
 
-The current violence-against-women hypothesis uses three experiments:
+The current violence-against-women hypothesis uses three experiments and two frozen
+category-set versions:
 
 1. full case profiles with observed prevalence;
 2. balanced case profiles across five deterministic replicas;
 3. normalized category profiles.
+
+The `v1_14` baseline preserves the original 14-category aggregation. The default `v2_30`
+version uses 30 specialized source-taxonomy paths. Both versions use the same 20 contextual
+dimensions and write their work and result artifacts under separate version directories.
 
 All three experiments use the same 20 contextual dimensions and standardized figure
 outputs. The balanced experiment preserves its five replica outputs and adds a median
@@ -49,10 +54,10 @@ distance matrix, a deterministic representative tree, and stability summaries.
 ## Artifact privacy split
 
 Hypothesis-specific artifacts live under each hypothesis directory. For the current
-analysis, `hypotheses/violence_against_women/artifacts/work/` contains generated corpora,
-metadata, and raw DAMICORE runs and is ignored by Git. Aggregate tables, figures, trees,
-and comparison summaries live under
-`hypotheses/violence_against_women/artifacts/results/` and do not export `source_hash`.
+analysis, `hypotheses/violence_against_women/artifacts/versions/<category_set_version>/work/`
+contains generated corpora, metadata, and raw DAMICORE runs and is ignored by Git. Aggregate
+tables, figures, trees, and comparison summaries live under the corresponding versioned
+`results/` directory and do not export `source_hash`.
 
 The DAMICORE tree is rendered with `toytree` for interactive HTML exploration and
 publication-quality SVG output. `toytree` consumes the Newick tree already produced by
@@ -75,6 +80,21 @@ python -m nbconvert --execute --to notebook --inplace hypotheses/violence_agains
 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/03_experiment_normalized_categories.ipynb
 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/04_compare_experiments.ipynb
 ```
+
+The notebooks default to `v2_30`. To rebuild the baseline, set the version for the complete
+five-notebook sequence:
+
+```bash
+DAMICORE_CATEGORY_SET_VERSION=v1_14 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/00_create_artifacts.ipynb
+DAMICORE_CATEGORY_SET_VERSION=v1_14 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/01_experiment_case_full.ipynb
+DAMICORE_CATEGORY_SET_VERSION=v1_14 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/02_experiment_case_balanced.ipynb
+DAMICORE_CATEGORY_SET_VERSION=v1_14 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/03_experiment_normalized_categories.ipynb
+DAMICORE_CATEGORY_SET_VERSION=v1_14 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/04_compare_experiments.ipynb
+```
+
+After both versions have complete result packs, run
+`hypotheses/violence_against_women/notebooks/05_compare_category_sets.ipynb`. It reads both
+versioned result packs and does not compare distance matrices whose category universes differ.
 
 The full execution regenerates the input artifacts, all three experiment result packs,
 and the final comparison. Existing generated outputs are not treated as authoritative

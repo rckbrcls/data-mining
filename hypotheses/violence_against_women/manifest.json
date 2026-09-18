@@ -1,11 +1,17 @@
 {
   "hypothesis": "violence_against_women",
   "artifact_schema_version": "1.0",
+  "default_category_set_version": "v2_30",
+  "category_set_versions": [
+    "v1_14",
+    "v2_30"
+  ],
   "notebooks": [
     "00_create_artifacts.ipynb",
     "01_experiment_case_full.ipynb",
     "02_experiment_case_balanced.ipynb",
     "03_experiment_normalized_categories.ipynb",
-    "04_compare_experiments.ipynb"
+    "04_compare_experiments.ipynb",
+    "05_compare_category_sets.ipynb"
   ]
 }

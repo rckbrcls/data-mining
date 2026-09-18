@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import datetime
 import json
 from itertools import combinations
@@ -19,16 +20,14 @@ import toyplot
 from damicore import estimate, run
 from damicore.config import ExecutionConfig, ResourceLimits
 
+from .category_sets import category_definition_hash, get_category_set
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 HYPOTHESIS_ROOT = PROJECT_ROOT / "hypotheses" / "violence_against_women"
 ARTIFACT_ROOT = HYPOTHESIS_ROOT / "artifacts"
-WORK_ROOT = ARTIFACT_ROOT / "work"
-RESULTS_ROOT = ARTIFACT_ROOT / "results"
-COMMON_WORK_ROOT = WORK_ROOT / "common"
-NORMALIZED_WORK_ROOT = WORK_ROOT / "normalized_categories"
-CASE_FULL_WORK_ROOT = WORK_ROOT / "case_full"
-CASE_BALANCED_WORK_ROOT = WORK_ROOT / "case_balanced"
+VERSIONED_ARTIFACT_ROOT = ARTIFACT_ROOT / "versions"
+DEFAULT_CATEGORY_SET_VERSION = "v2_30"
 
 START_DATE = "2020-01-01"
 END_DATE = "2026-07-01"
@@ -65,17 +64,45 @@ CLUSTER_COLORS = [
 ]
 
 
+@dataclass(frozen=True)
+class ArtifactPaths:
+    category_set_version: str
+    root: Path
+    work: Path
+    results: Path
+    common: Path
+    normalized: Path
+    case_full: Path
+    case_balanced: Path
+
+
+def artifact_paths(category_set_version: str = DEFAULT_CATEGORY_SET_VERSION) -> ArtifactPaths:
+    get_category_set(category_set_version)
+    root = VERSIONED_ARTIFACT_ROOT / category_set_version
+    work = root / "work"
+    return ArtifactPaths(
+        category_set_version=category_set_version,
+        root=root,
+        work=work,
+        results=root / "results",
+        common=work / "common",
+        normalized=work / "normalized_categories",
+        case_full=work / "case_full",
+        case_balanced=work / "case_balanced",
+    )
+
+
 def wrapped_label(value: object, width: int = 30) -> str:
     return "\n".join(textwrap.wrap(str(value), width=width))
 
 
-def ensure_artifact_directories() -> None:
+def ensure_artifact_directories(paths: ArtifactPaths) -> None:
     for directory in (
-        COMMON_WORK_ROOT,
-        NORMALIZED_WORK_ROOT,
-        CASE_FULL_WORK_ROOT,
-        CASE_BALANCED_WORK_ROOT,
-        RESULTS_ROOT,
+        paths.common,
+        paths.normalized,
+        paths.case_full,
+        paths.case_balanced,
+        paths.results,
     ):
         directory.mkdir(parents=True, exist_ok=True)
 
@@ -92,16 +119,25 @@ def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def artifact_manifest_path() -> Path:
-    return COMMON_WORK_ROOT / "artifact-manifest.json"
+def artifact_manifest_path(
+    category_set_version: str = DEFAULT_CATEGORY_SET_VERSION,
+) -> Path:
+    return artifact_paths(category_set_version).common / "artifact-manifest.json"
 
 
-def load_artifact_manifest() -> dict[str, Any]:
-    manifest = read_json(artifact_manifest_path())
+def load_artifact_manifest(
+    manifest_path: Path | None = None,
+    category_set_version: str | None = None,
+) -> dict[str, Any]:
+    requested_version = category_set_version or DEFAULT_CATEGORY_SET_VERSION
+    manifest = read_json(manifest_path or artifact_manifest_path(requested_version))
     if manifest.get("schema_version") != ARTIFACT_SCHEMA_VERSION:
         raise ValueError(
             f"Unsupported artifact schema: {manifest.get('schema_version')}"
         )
+    selected_version = category_set_version or manifest.get(
+        "category_set_version", requested_version
+    )
     expected = {
         "start_date": START_DATE,
         "end_date": END_DATE,
@@ -109,6 +145,7 @@ def load_artifact_manifest() -> dict[str, Any]:
         "smoothing_alpha": SMOOTHING_ALPHA,
         "log_ratio_limit": LOG_RATIO_LIMIT,
         "case_seeds": CASE_SEEDS,
+        "category_set_version": selected_version,
     }
     for key, value in expected.items():
         if manifest.get(key) != value:
@@ -116,6 +153,21 @@ def load_artifact_manifest() -> dict[str, Any]:
                 f"Artifact manifest mismatch for {key}: "
                 f"expected {value!r}, got {manifest.get(key)!r}"
             )
+    categories = get_category_set(selected_version)
+    if manifest.get("category_count") != len(categories):
+        raise ValueError(
+            "Artifact manifest category count does not match the versioned catalog."
+        )
+    if manifest.get("category_order") != list(categories):
+        raise ValueError(
+            "Artifact manifest category order does not match the versioned catalog."
+        )
+    if manifest.get("category_definition_hash") != category_definition_hash(categories):
+        raise ValueError(
+            "Artifact manifest category definition hash does not match the catalog."
+        )
+    if manifest.get("dimension_count") != 20:
+        raise ValueError("Artifact manifest must describe exactly 20 dimensions.")
     return manifest
 
 
@@ -244,9 +296,14 @@ def write_common_result_artifacts(
     support_column: str,
     support_label: str,
     title_prefix: str,
+    manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if result["status"] != "completed":
-        write_json(output_dir / "run-summary.json", result["preview"])
+        summary = {
+            **result["preview"],
+            **_manifest_run_metadata(manifest),
+        }
+        write_json(output_dir / "run-summary.json", summary)
         return result
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -296,6 +353,7 @@ def write_common_result_artifacts(
 
     summary = {
         **result["preview"],
+        **_manifest_run_metadata(manifest),
         "experiment": result["name"],
         "status": result["status"],
         "corpus_dir": result["corpus_dir"],
@@ -304,6 +362,17 @@ def write_common_result_artifacts(
     }
     write_json(output_dir / "run-summary.json", summary)
     return {**result, "membership_by_category": membership, "distance": distance}
+
+
+def _manifest_run_metadata(manifest: dict[str, Any] | None) -> dict[str, Any]:
+    if manifest is None:
+        return {}
+    return {
+        "category_set_version": manifest["category_set_version"],
+        "category_definition_hash": manifest["category_definition_hash"],
+        "category_count": manifest["category_count"],
+        "dimension_count": manifest["dimension_count"],
+    }
 
 
 def ncd_diagnostics(

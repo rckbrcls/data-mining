@@ -48,16 +48,13 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from hypotheses.violence_against_women.scripts.experiment_common import (
     BIAS_WARNING_THRESHOLD,
-    CASE_BALANCED_WORK_ROOT,
-    CASE_FULL_WORK_ROOT,
-    COMMON_WORK_ROOT,
+    CASE_SEEDS,
     END_DATE,
     HYPOTHESIS_ROOT,
     MIN_REPORT_COUNT,
-    NORMALIZED_WORK_ROOT,
-    RESULTS_ROOT,
     START_DATE,
     VICTIM_GENDER,
+    artifact_paths,
     category_order_from_manifest,
     load_artifact_manifest,
     load_category_map,
@@ -71,6 +68,13 @@ from hypotheses.violence_against_women.scripts.experiment_common import (
 )
 
 load_dotenv(PROJECT_ROOT / ".env")
+CATEGORY_SET_VERSION = os.getenv("DAMICORE_CATEGORY_SET_VERSION", "v2_30")
+PATHS = artifact_paths(CATEGORY_SET_VERSION)
+COMMON_WORK_ROOT = PATHS.common
+NORMALIZED_WORK_ROOT = PATHS.normalized
+CASE_FULL_WORK_ROOT = PATHS.case_full
+CASE_BALANCED_WORK_ROOT = PATHS.case_balanced
+RESULTS_ROOT = PATHS.results
 '''
 
 
@@ -104,14 +108,14 @@ from hypotheses.violence_against_women.scripts.damicore_case_experiment import (
     compare_combination_distributions,
     load_case_records,
 )
+from hypotheses.violence_against_women.scripts.category_sets import (
+    category_definition_hash,
+    get_category_set,
+)
 from hypotheses.violence_against_women.scripts.experiment_common import (
-    ARTIFACT_ROOT,
     ARTIFACT_SCHEMA_VERSION,
-    CASE_SEEDS,
     LOG_RATIO_LIMIT,
-    RESULTS_ROOT,
     SMOOTHING_ALPHA,
-    WORK_ROOT,
     ensure_artifact_directories,
     write_json,
 )
@@ -121,11 +125,11 @@ DATABASE_URL = os.getenv(
     "postgresql://postgres@127.0.0.1:5433/disque100",
 )
 
-# This hypothesis owns its generated workspace. Re-running this cell starts its work
-# artifacts from zero without touching shared raw data or the database.
-if ARTIFACT_ROOT.exists():
-    shutil.rmtree(ARTIFACT_ROOT)
-ensure_artifact_directories()
+# Re-running this cell rebuilds only the selected version. Other category-set versions
+# and the shared raw data remain untouched.
+if PATHS.root.exists():
+    shutil.rmtree(PATHS.root)
+ensure_artifact_directories(PATHS)
 '''
     ),
     markdown(
@@ -138,12 +142,27 @@ ensure_artifact_directories()
     ),
     code(
         r'''
-CATEGORY_SQL = """
-nullif(concat_ws(' > ',
-    nullif(trim(split_part(violation, '>', 1)), ''),
-    nullif(trim(split_part(violation, '>', 2)), '')
-), '')
-"""
+if CATEGORY_SET_VERSION == "v1_14":
+    CATEGORY_SQL = """
+    nullif(concat_ws(' > ',
+        nullif(trim(split_part(violation, '>', 1)), ''),
+        nullif(trim(split_part(violation, '>', 2)), '')
+    ), '')
+    """
+else:
+    CATEGORY_SQL = """
+    nullif(
+        array_to_string(
+            ARRAY(
+                SELECT nullif(trim(path_part), '')
+                FROM unnest(string_to_array(violation, '>')) AS split(path_part)
+                WHERE nullif(trim(path_part), '') IS NOT NULL
+            ),
+            ' > '
+        ),
+        ''
+    )
+    """
 
 CONTEXT_FIELDS = [
     ("faixa_etaria", "victim_age_group"),
@@ -256,30 +275,41 @@ category_summary = context_counts.loc[
     ["category", "report_count"],
 ].rename(columns={"report_count": "support"})
 
-scope_mask = (
-    category_summary["category"].str.startswith(
-        ("INTEGRIDADE", "VIDA", "VIOLÊNCIA INSTITUCIONAL")
-    )
-    | category_summary["category"].eq("LIBERDADE > SEXUAL")
-    | category_summary["category"].str.contains(
-        "VIOLÊNCIA POLITÍCA DE GÊNERO E CONTRA AS MULHERES",
-        regex=False,
-    )
-)
+category_order = list(get_category_set(CATEGORY_SET_VERSION))
+category_set = set(category_order)
 category_support = category_summary.copy()
-category_support["status"] = "included"
-category_support.loc[~scope_mask, "status"] = "out_of_scope"
+category_support["status"] = "out_of_version"
+category_support.loc[category_support["category"].isin(category_set), "status"] = "included"
 category_support.loc[
-    scope_mask & category_support["support"].lt(MIN_REPORT_COUNT),
+    category_support["category"].isin(category_set)
+    & category_support["support"].lt(MIN_REPORT_COUNT),
     "status",
 ] = "below_minimum_support"
 
-included_support = category_support.loc[
-    category_support["status"] == "included"
-].copy()
-included_support = included_support.sort_values("category").reset_index(drop=True)
-category_order = included_support["category"].tolist()
-assert category_order
+selected_support = category_summary.loc[
+    category_summary["category"].isin(category_set)
+].set_index("category")
+missing_categories = [
+    category for category in category_order if category not in selected_support.index
+]
+if missing_categories:
+    raise ValueError(
+        f"Category set {CATEGORY_SET_VERSION} is missing from the source taxonomy: "
+        f"{missing_categories}"
+    )
+below_minimum = [
+    category
+    for category in category_order
+    if int(selected_support.loc[category, "support"]) < MIN_REPORT_COUNT
+]
+if below_minimum:
+    raise ValueError(
+        f"Category set {CATEGORY_SET_VERSION} contains categories below the minimum "
+        f"support of {MIN_REPORT_COUNT}: {below_minimum}"
+    )
+
+included_support = selected_support.loc[category_order].reset_index()
+assert len(included_support) == len(category_order)
 
 profile_counts = context_counts.loc[
     context_counts["category"].isin(category_order)
@@ -402,7 +432,7 @@ assert case_support_check["expected_case_count"].equals(
 case_category_map, case_combination_counts, balanced_sample_size = build_case_corpora(
     case_records=case_records,
     category_map=category_map,
-    work_dir=WORK_ROOT,
+    work_dir=PATHS.work,
     seeds=CASE_SEEDS,
     metadata_dir=COMMON_WORK_ROOT,
 )
@@ -446,6 +476,10 @@ del case_records, case_combination_counts, case_combination_comparison
 manifest = {
     "schema_version": ARTIFACT_SCHEMA_VERSION,
     "hypothesis": "violence_against_women",
+    "category_set_version": CATEGORY_SET_VERSION,
+    "category_definition_hash": category_definition_hash(
+        get_category_set(CATEGORY_SET_VERSION)
+    ),
     "source_table": "public.disque100_reports",
     "start_date": START_DATE,
     "end_date": END_DATE,
@@ -455,6 +489,7 @@ manifest = {
     "log_ratio_limit": LOG_RATIO_LIMIT,
     "case_seeds": CASE_SEEDS,
     "dimensions": [label for _, label in CASE_FIELDS],
+    "dimension_count": len(CASE_FIELDS),
     "category_order": category_order,
     "category_count": len(category_order),
     "balanced_sample_size": balanced_sample_size,
@@ -467,16 +502,21 @@ manifest = {
         "case_balanced_root": "case_balanced",
     },
 }
+assert manifest["category_count"] == len(get_category_set(CATEGORY_SET_VERSION))
+assert manifest["dimension_count"] == 20
 write_json(COMMON_WORK_ROOT / "artifact-manifest.json", manifest)
 write_json(HYPOTHESIS_ROOT / "manifest.json", {
     "hypothesis": "violence_against_women",
     "artifact_schema_version": ARTIFACT_SCHEMA_VERSION,
+    "default_category_set_version": "v2_30",
+    "category_set_versions": ["v1_14", "v2_30"],
     "notebooks": [
         "00_create_artifacts.ipynb",
         "01_experiment_case_full.ipynb",
         "02_experiment_case_balanced.ipynb",
         "03_experiment_normalized_categories.ipynb",
         "04_compare_experiments.ipynb",
+        "05_compare_category_sets.ipynb",
     ],
 })
 print("Artifact manifest written.")
@@ -488,6 +528,7 @@ print("Artifact manifest written.")
 EXPERIMENT_SETUP = r'''
 from pathlib import Path
 from itertools import combinations
+import os
 import sys
 
 import numpy as np
@@ -504,13 +545,9 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from hypotheses.violence_against_women.scripts.experiment_common import (
     BIAS_WARNING_THRESHOLD,
-    CASE_BALANCED_WORK_ROOT,
-    CASE_FULL_WORK_ROOT,
     CASE_SEEDS,
-    COMMON_WORK_ROOT,
     NCD_COLOR_VMAX,
-    NORMALIZED_WORK_ROOT,
-    RESULTS_ROOT,
+    artifact_paths,
     case_execution,
     category_order_from_manifest,
     ensure_artifact_directories,
@@ -527,14 +564,25 @@ from hypotheses.violence_against_women.scripts.experiment_common import (
     write_common_result_artifacts,
 )
 
-ensure_artifact_directories()
-manifest = load_artifact_manifest()
+CATEGORY_SET_VERSION = os.getenv("DAMICORE_CATEGORY_SET_VERSION", "v2_30")
+PATHS = artifact_paths(CATEGORY_SET_VERSION)
+COMMON_WORK_ROOT = PATHS.common
+NORMALIZED_WORK_ROOT = PATHS.normalized
+CASE_FULL_WORK_ROOT = PATHS.case_full
+CASE_BALANCED_WORK_ROOT = PATHS.case_balanced
+RESULTS_ROOT = PATHS.results
+ensure_artifact_directories(PATHS)
+manifest = load_artifact_manifest(
+    COMMON_WORK_ROOT / "artifact-manifest.json",
+    category_set_version=CATEGORY_SET_VERSION,
+)
 category_order = category_order_from_manifest(manifest)
 category_map = load_category_map(COMMON_WORK_ROOT / "category-map.csv")
 category_support = pd.read_csv(COMMON_WORK_ROOT / "category-support.csv")
 category_support = category_support.rename(columns={"support": "support"})
 assert category_map["category"].tolist() == category_order
 assert set(category_support["category"]) == set(category_order)
+assert manifest["dimension_count"] == 20
 '''
 
 
@@ -575,6 +623,7 @@ normalized_result = write_common_result_artifacts(
     support_column="support",
     support_label="Distinct reports (log scale)",
     title_prefix="Normalized categories",
+    manifest=manifest,
 )
 display(normalized_result["membership_by_category"])
 display(normalized_result["distance"].round(3))
@@ -611,7 +660,9 @@ case_category_map = pd.read_csv(COMMON_WORK_ROOT / "case-category-map.csv")
 case_full_support = (
     case_category_map.loc[case_category_map["regime"] == "case-full", ["category", "case_count"]]
     .rename(columns={"case_count": "support"})
-    .sort_values("category")
+    .set_index("category")
+    .loc[category_order]
+    .reset_index()
 )
 bytes_by_category = (
     case_category_map.loc[case_category_map["regime"] == "case-full"]
@@ -638,6 +689,7 @@ case_full_result = write_common_result_artifacts(
     support_column="support",
     support_label="Distinct cases (log scale)",
     title_prefix="Case-full",
+    manifest=manifest,
 )
 display(case_full_result["membership_by_category"])
 display(case_full_result["distance"].round(3))
@@ -680,7 +732,7 @@ for index, _seed in enumerate(CASE_SEEDS, start=1):
     replicate_map = case_category_map.loc[
         (case_category_map["regime"] == "case-balanced")
         & (case_category_map["replicate"] == replicate)
-    ].sort_values("category")
+    ].set_index("category").loc[category_order].reset_index()
     support = replicate_map[["category", "case_count"]].rename(
         columns={"case_count": "support"}
     )
@@ -703,6 +755,7 @@ for index, _seed in enumerate(CASE_SEEDS, start=1):
         support_column="support",
         support_label="Distinct cases per category (log scale)",
         title_prefix=f"Case-balanced {replicate}",
+        manifest=manifest,
     )
     replicate_tables.append(packaged)
 '''
@@ -757,8 +810,8 @@ representative["membership_by_category"].to_csv(
 support = case_category_map.loc[
     case_category_map["regime"] == "case-balanced",
     ["category", "case_count"],
-].drop_duplicates("category").rename(columns={"case_count": "support"})
-support = support.sort_values("category")
+].drop_duplicates("category").set_index("category").loc[category_order].reset_index()
+support = support.rename(columns={"case_count": "support"})
 support.to_csv(balanced_output / "support.csv", index=False)
 plot_support(
     support,
@@ -823,6 +876,10 @@ write_json(
     balanced_output / "run-summary.json",
     {
         "experiment": "case_balanced",
+        "category_set_version": manifest["category_set_version"],
+        "category_definition_hash": manifest["category_definition_hash"],
+        "category_count": manifest["category_count"],
+        "dimension_count": manifest["dimension_count"],
         "replicas": list(replicate_results),
         "representative_replicate": representative_replicate,
         "status": "completed",
@@ -1051,11 +1108,142 @@ write_json(
     comparison_dir / "comparison-manifest.json",
     {
         "experiments": experiment_names,
+        "category_set_version": manifest["category_set_version"],
+        "category_definition_hash": manifest["category_definition_hash"],
+        "category_count": manifest["category_count"],
+        "dimension_count": manifest["dimension_count"],
         "category_order": category_order,
         "ncd_color_range": [0.0, NCD_COLOR_VMAX],
         "source_artifact_manifest": str(COMMON_WORK_ROOT / "artifact-manifest.json"),
     },
 )
+'''
+        ),
+    ]
+
+
+def category_set_comparison_notebook():
+    return [
+        markdown(
+            """
+            # Comparison: category-set versions
+
+            This notebook compares versioned result packs by metadata, support and artifact
+            integrity. Trees with different category universes are not compared directly.
+            """
+        ),
+        code(
+            COMMON_SETUP
+            + r'''
+from hypotheses.violence_against_women.scripts.category_sets import CATEGORY_SETS
+from hypotheses.violence_against_women.scripts.experiment_common import (
+    ARTIFACT_ROOT,
+    read_json,
+)
+
+VERSION_NAMES = ["v1_14", "v2_30"]
+EXPERIMENT_NAMES = ["case_full", "case_balanced", "normalized_categories"]
+version_paths = {version: artifact_paths(version) for version in VERSION_NAMES}
+manifests = {
+    version: load_artifact_manifest(
+        paths.common / "artifact-manifest.json",
+        category_set_version=version,
+    )
+    for version, paths in version_paths.items()
+}
+comparison_dir = ARTIFACT_ROOT / "results" / "category_set_comparison"
+comparison_dir.mkdir(parents=True, exist_ok=True)
+'''
+        ),
+        markdown("## Verify manifests, result packs and shared dimensions"),
+        code(
+            r'''
+integrity_rows = []
+metadata_rows = []
+for version, paths in version_paths.items():
+    manifest = manifests[version]
+    category_order = manifest["category_order"]
+    category_map = load_category_map(paths.common / "category-map.csv")
+    assert category_map["category"].tolist() == category_order
+    assert manifest["dimension_count"] == 20
+    assert tuple(category_order) == CATEGORY_SETS[version]
+
+    for experiment in EXPERIMENT_NAMES:
+        result_dir = paths.results / experiment
+        required = [
+            "run-summary.json",
+            "support.csv",
+            "distance-matrix.csv",
+            "clusters.csv",
+            "tree.nwk",
+        ]
+        missing = [name for name in required if not (result_dir / name).exists()]
+        if missing:
+            raise FileNotFoundError(
+                f"Missing result files for {version}/{experiment}: {missing}"
+            )
+        summary = read_json(result_dir / "run-summary.json")
+        support = pd.read_csv(result_dir / "support.csv")
+        distances = pd.read_csv(result_dir / "distance-matrix.csv", index_col=0)
+        clusters = pd.read_csv(result_dir / "clusters.csv")
+        checks = {
+            "manifest_version": summary.get("category_set_version") == version,
+            "manifest_category_count": summary.get("category_count") == len(category_order),
+            "manifest_dimension_count": summary.get("dimension_count") == 20,
+            "support_categories": set(support["category"]) == set(category_order),
+            "distance_categories": (
+                distances.index.tolist() == category_order
+                and distances.columns.tolist() == category_order
+            ),
+            "cluster_categories": set(clusters["category"]) == set(category_order),
+            "tree_present": (result_dir / "tree.nwk").exists(),
+        }
+        if not all(checks.values()):
+            raise ValueError(f"Incompatible result pack: {version}/{experiment}")
+        integrity_rows.append({
+            "category_set_version": version,
+            "experiment": experiment,
+            **checks,
+            "integrity_ok": True,
+        })
+        metadata_rows.append({
+            "category_set_version": version,
+            "experiment": experiment,
+            "category_count": len(category_order),
+            "dimension_count": manifest["dimension_count"],
+            "support_min": int(support["support"].min()),
+            "support_max": int(support["support"].max()),
+            "support_total": int(support["support"].sum()),
+        })
+
+integrity = pd.DataFrame(integrity_rows)
+metadata = pd.DataFrame(metadata_rows)
+integrity.to_csv(comparison_dir / "integrity.csv", index=False)
+metadata.to_csv(comparison_dir / "metadata-comparison.csv", index=False)
+display(metadata)
+display(integrity)
+'''
+        ),
+        markdown("## Exact category overlap"),
+        code(
+            r'''
+shared_categories = sorted(
+    set(manifests["v1_14"]["category_order"])
+    & set(manifests["v2_30"]["category_order"])
+)
+pd.DataFrame({"category": shared_categories}).to_csv(
+    comparison_dir / "shared-categories.csv", index=False
+)
+write_json(
+    comparison_dir / "comparison-manifest.json",
+    {
+        "versions": VERSION_NAMES,
+        "experiments": EXPERIMENT_NAMES,
+        "shared_category_count": len(shared_categories),
+        "direct_tree_distance_comparison": False,
+    },
+)
+print(f"Shared exact categories: {len(shared_categories)}")
 '''
         ),
     ]
@@ -1068,6 +1256,7 @@ def main():
     write_notebook("02_experiment_case_balanced.ipynb", case_balanced_notebook())
     write_notebook("03_experiment_normalized_categories.ipynb", normalized_notebook())
     write_notebook("04_compare_experiments.ipynb", comparison_notebook())
+    write_notebook("05_compare_category_sets.ipynb", category_set_comparison_notebook())
 
 
 if __name__ == "__main__":
