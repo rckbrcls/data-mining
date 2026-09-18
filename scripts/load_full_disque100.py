@@ -34,6 +34,14 @@ COLUMNS = [
 ]
 
 HASH_RE = re.compile(r"^(?:[0-9A-F]{32}|[0-9A-F]{64})$")
+LEGACY_COLUMN_MAPPING = (
+    (0, 0), (1, 1), (4, 2), (24, 3), (2, 4), (9, 5), (5, 6),
+    (6, 7), (8, 8), (10, 12), (31, 13), (23, 14), (11, 16),
+    (33, 17), (12, 18), (25, 19), (5, 27), (6, 28), (8, 29),
+    (13, 31), (15, 33), (28, 34), (14, 35), (17, 37), (18, 39),
+    (26, 40), (22, 44), (27, 48), (19, 52), (21, 54), (29, 55),
+    (20, 56), (30, 61),
+)
 
 
 def clean(value):
@@ -56,15 +64,7 @@ def canonical_row(row):
     if len(row) == 34:
         old = [clean(value) for value in row]
         result = [None] * len(COLUMNS)
-        mapping = [
-            (0, 0), (1, 1), (4, 2), (24, 3), (2, 4), (9, 5), (5, 6),
-            (6, 7), (8, 8), (10, 12), (31, 13), (23, 14), (11, 16),
-            (33, 17), (12, 18), (25, 19), (5, 27), (6, 28), (8, 29),
-            (13, 31), (15, 33), (28, 34), (14, 35), (17, 37), (18, 39),
-            (26, 40), (22, 44), (27, 48), (19, 52), (21, 54), (29, 55),
-            (20, 56), (30, 61),
-        ]
-        for source_index, target_index in mapping:
+        for source_index, target_index in LEGACY_COLUMN_MAPPING:
             result[target_index] = old[source_index]
         result[11] = "1"
     elif len(row) == 62:
@@ -77,7 +77,8 @@ def canonical_row(row):
     result[0] = (result[0] or "").upper()
     if not HASH_RE.fullmatch(result[0]):
         raise ValueError(f"invalid source_hash: {result[0]!r}")
-    result[1] = timestamp(result[1])
+    if len(row) == 34:
+        result[1] = timestamp(result[1])
     try:
         if int(result[11]) <= 0:
             result[11] = "1"

@@ -381,30 +381,29 @@ def ncd_diagnostics(
     bytes_by_category: dict[str, int],
     category_order: list[str],
 ) -> pd.DataFrame:
+    log_support = {category: log10(support_by_category[category]) for category in category_order}
     rows = []
     for left, right in combinations(category_order, 2):
         rows.append(
             {
                 "ncd": float(distance.loc[left, right]),
-                "support_gap": abs(
-                    log10(support_by_category[left])
-                    - log10(support_by_category[right])
-                ),
+                "support_gap": abs(log_support[left] - log_support[right]),
                 "byte_gap": abs(bytes_by_category[left] - bytes_by_category[right]),
             }
         )
     pairwise = pd.DataFrame(rows)
+    ncd_ranks = pairwise["ncd"].rank()
     return pd.DataFrame(
         [
             {
                 "diagnostic": "NCD versus log support gap",
-                "spearman_correlation": pairwise["ncd"].rank().corr(
+                "spearman_correlation": ncd_ranks.corr(
                     pairwise["support_gap"].rank()
                 ),
             },
             {
                 "diagnostic": "NCD versus byte gap",
-                "spearman_correlation": pairwise["ncd"].rank().corr(
+                "spearman_correlation": ncd_ranks.corr(
                     pairwise["byte_gap"].rank()
                 ),
             },
@@ -611,15 +610,22 @@ def upper_triangle_values(matrix: pd.DataFrame, category_order: list[str]) -> pd
 def compare_distance_matrices(
     matrices: dict[str, pd.DataFrame], category_order: list[str]
 ) -> pd.DataFrame:
+    if len(matrices) < 2:
+        return pd.DataFrame([])
+    vectors = {
+        name: upper_triangle_values(matrix, category_order)
+        for name, matrix in matrices.items()
+    }
+    ranks = {name: vector.rank() for name, vector in vectors.items()}
     rows = []
     for left_name, right_name in combinations(matrices, 2):
-        left = upper_triangle_values(matrices[left_name], category_order)
-        right = upper_triangle_values(matrices[right_name], category_order)
+        left = vectors[left_name]
+        right = vectors[right_name]
         rows.append(
             {
                 "left": left_name,
                 "right": right_name,
-                "spearman_correlation": left.rank().corr(right.rank()),
+                "spearman_correlation": ranks[left_name].corr(ranks[right_name]),
                 "mean_absolute_difference": (left - right).abs().mean(),
             }
         )

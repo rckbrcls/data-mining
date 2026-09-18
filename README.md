@@ -65,13 +65,37 @@ DAMICORE; it does not recalculate NCD distances, topology, or clusters.
 
 ## Execution
 
-Open the hypothesis notebooks in order. The artifact notebook is the only database-facing
-stage. The Nitro PostgreSQL container is bound to its loopback interface; create an SSH tunnel and point the notebook to it:
+Open the hypothesis notebooks in order. The artifact notebook delegates to the shared
+preparation script and is the only database-facing notebook. The Nitro PostgreSQL container
+is bound to its loopback interface; create an SSH tunnel and point the preparation to it:
 
 ```bash
 ssh -N -L 5433:127.0.0.1:5432 nitro
 DISQUE100_DATABASE_URL="postgresql://postgres@127.0.0.1:5433/disque100" jupyter lab
 ```
+
+Artifact preparation can also run without Jupyter, from the repository root with the
+project environment active. It reads `DISQUE100_DATABASE_URL` from the environment or
+the repository's `.env`, with the same tunnel address as its default:
+
+```bash
+python -m hypotheses.violence_against_women.scripts.create_artifacts --workers 2
+```
+
+The SQL stage uses one connection. Case serialization and corpus preparation use up to
+two spawned processes, while sampling and result consolidation preserve their original
+order. To run preparation sequentially instead:
+
+```bash
+python -m hypotheses.violence_against_women.scripts.create_artifacts --workers 1
+```
+
+Choose one preparation command. Each rebuilds the selected version's work and results;
+it does not resume or reuse earlier experiments. Select the baseline with
+`--category-set-version v1_14` or `DAMICORE_CATEGORY_SET_VERSION=v1_14`.
+After script preparation, continue with notebooks `01` through `04` using the same
+category-set version. Alternatively, run the complete notebook sequence below;
+notebook `00` uses the same preparation functions and sets `ARTIFACT_WORKERS = 2`.
 
 ```bash
 python -m nbconvert --execute --to notebook --inplace hypotheses/violence_against_women/notebooks/00_create_artifacts.ipynb

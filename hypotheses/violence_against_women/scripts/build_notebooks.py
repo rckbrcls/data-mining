@@ -30,6 +30,7 @@ def write_notebook(filename: str, cells: list):
 
 
 COMMON_SETUP = r'''
+
 from pathlib import Path
 import os
 import sys
@@ -47,26 +48,10 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from hypotheses.violence_against_women.scripts.experiment_common import (
-    BIAS_WARNING_THRESHOLD,
-    CASE_SEEDS,
-    END_DATE,
-    HYPOTHESIS_ROOT,
-    MIN_REPORT_COUNT,
-    START_DATE,
-    VICTIM_GENDER,
     artifact_paths,
-    category_order_from_manifest,
     load_artifact_manifest,
     load_category_map,
-    plot_bias_diagnostics,
-    plot_cluster_stability,
-    plot_ncd_heatmap,
-    plot_support,
-    render_tree_artifacts,
-    same_cluster_pairs,
-    write_json,
 )
-
 load_dotenv(PROJECT_ROOT / ".env")
 CATEGORY_SET_VERSION = os.getenv("DAMICORE_CATEGORY_SET_VERSION", "v2_30")
 PATHS = artifact_paths(CATEGORY_SET_VERSION)
@@ -92,44 +77,37 @@ ARTIFACT_NOTEBOOK_CELLS = [
         """
     ),
     code(
-        COMMON_SETUP
-        + r'''
-import json
-import shutil
-from math import log2
+        r'''
+from pathlib import Path
+import os
+import sys
 
-import numpy as np
-import psycopg
+from dotenv import load_dotenv
+from IPython.display import display
 
-from hypotheses.violence_against_women.scripts.damicore_case_experiment import (
-    CASE_COLUMNS,
-    CASE_FIELDS,
-    build_case_corpora,
-    compare_combination_distributions,
-    load_case_records,
-)
-from hypotheses.violence_against_women.scripts.category_sets import (
-    category_definition_hash,
-    get_category_set,
-)
-from hypotheses.violence_against_women.scripts.experiment_common import (
-    ARTIFACT_SCHEMA_VERSION,
-    LOG_RATIO_LIMIT,
-    SMOOTHING_ALPHA,
-    ensure_artifact_directories,
-    write_json,
-)
+PROJECT_ROOT = Path.cwd().resolve()
+while PROJECT_ROOT != PROJECT_ROOT.parent and not (PROJECT_ROOT / "pyproject.toml").exists():
+    PROJECT_ROOT = PROJECT_ROOT.parent
+if not (PROJECT_ROOT / "pyproject.toml").exists():
+    raise RuntimeError("Run this notebook from the repository or one of its subdirectories.")
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-DATABASE_URL = os.getenv(
-    "DISQUE100_DATABASE_URL",
-    "postgresql://postgres@127.0.0.1:5433/disque100",
+from hypotheses.violence_against_women.scripts.create_artifacts import (
+    configured_database_url,
+    initialize_preparation,
+    prepare_case_artifacts,
+    prepare_normalized_artifacts,
+    prepare_source_data,
+    write_artifact_manifests,
 )
+from hypotheses.violence_against_women.scripts.experiment_common import CASE_SEEDS
 
-# Re-running this cell rebuilds only the selected version. Other category-set versions
-# and the shared raw data remain untouched.
-if PATHS.root.exists():
-    shutil.rmtree(PATHS.root)
-ensure_artifact_directories(PATHS)
+load_dotenv(PROJECT_ROOT / ".env")
+CATEGORY_SET_VERSION = os.getenv("DAMICORE_CATEGORY_SET_VERSION", "v2_30")
+ARTIFACT_WORKERS = 2
+DATABASE_URL = configured_database_url()
+PATHS = initialize_preparation(CATEGORY_SET_VERSION, ARTIFACT_WORKERS)
 '''
     ),
     markdown(
@@ -142,122 +120,11 @@ ensure_artifact_directories(PATHS)
     ),
     code(
         r'''
-if CATEGORY_SET_VERSION == "v1_14":
-    CATEGORY_SQL = """
-    nullif(concat_ws(' > ',
-        nullif(trim(split_part(violation, '>', 1)), ''),
-        nullif(trim(split_part(violation, '>', 2)), '')
-    ), '')
-    """
-else:
-    CATEGORY_SQL = """
-    nullif(
-        array_to_string(
-            ARRAY(
-                SELECT nullif(trim(path_part), '')
-                FROM unnest(string_to_array(violation, '>')) AS split(path_part)
-                WHERE nullif(trim(path_part), '') IS NOT NULL
-            ),
-            ' > '
-        ),
-        ''
-    )
-    """
-
-CONTEXT_FIELDS = [
-    ("faixa_etaria", "victim_age_group"),
-    ("relacao_vitima_suspeito", "victim_suspect_relationship"),
-    ("ambiente", "violation_setting"),
-    ("mes", "registered_at"),
-    ("inicio_violacoes", "violation_start_period"),
-    ("canal_atendimento", "service_channel"),
-    ("tipo_denunciante", "reporter_type"),
-    ("frequencia", "frequency"),
-    ("situacao_emergencia", "emergency_status"),
-    ("motivacao", "motivation"),
-    ("grupo_vulneravel", "vulnerable_group"),
-    ("deficiencia_vitima", "victim_disability"),
-    ("raca_cor_vitima", "victim_race_color"),
-    ("escolaridade_vitima", "victim_education_level"),
-    ("renda_vitima", "victim_income_range"),
-    ("etnia_vitima", "victim_ethnicity"),
-    ("faixa_etaria_suspeito", "suspect_age_group"),
-    ("genero_suspeito", "suspect_gender"),
-    ("escolaridade_suspeito", "suspect_education_level"),
-    ("natureza_juridica_suspeito", "suspect_legal_nature"),
-]
-assert {label for label, _ in CONTEXT_FIELDS} == {label for _, label in CASE_FIELDS}
-assert len(CONTEXT_FIELDS) == len(CASE_COLUMNS) == 20
-
-value_selects = ["source_hash", f"{CATEGORY_SQL} AS category"]
-for label, source_column in CONTEXT_FIELDS:
-    if label == "mes":
-        expression = "to_char(date_trunc('month', registered_at), 'YYYY-MM')"
-    else:
-        expression = f"coalesce(nullif(trim({source_column}), ''), 'DESCONHECIDO')"
-    value_selects.append(f"{expression} AS {label}")
-
-context_selects = [
-    "SELECT category, source_hash, 'denuncia'::text AS dimension, 'TODAS'::text AS value\nFROM report_values WHERE category IS NOT NULL"
-]
-for label, _ in CONTEXT_FIELDS:
-    context_selects.append(
-        f"SELECT category, source_hash, '{label}' AS dimension, {label} AS value\n"
-        "FROM report_values WHERE category IS NOT NULL"
-    )
-
-coverage_query = f"""
-WITH reports AS (
-    SELECT source_hash,
-           bool_or(violation IS NOT NULL) AS has_violation,
-           bool_or(({CATEGORY_SQL}) IS NOT NULL) AS has_category
-    FROM public.disque100_reports
-    WHERE registered_at >= %s AND registered_at < %s
-      AND victim_gender = %s
-    GROUP BY source_hash
-)
-SELECT count(*) AS female_reports,
-       count(*) FILTER (WHERE has_category) AS reports_with_category,
-       count(*) FILTER (WHERE NOT has_violation) AS reports_without_violation
-FROM reports
-"""
-
-context_query = f"""
-WITH report_values AS (
-    SELECT {', '.join(value_selects)}
-    FROM public.disque100_reports
-    WHERE registered_at >= %s AND registered_at < %s
-      AND victim_gender = %s
-), contexts AS (
-    {' UNION ALL '.join(context_selects)}
-)
-SELECT category, dimension, value, count(DISTINCT source_hash) AS report_count
-FROM contexts
-GROUP BY category, dimension, value
-ORDER BY category, dimension, value
-"""
-
-parameters = (START_DATE, END_DATE, VICTIM_GENDER)
-with psycopg.connect(DATABASE_URL) as connection:
-    with connection.cursor() as cursor:
-        cursor.execute(coverage_query, parameters)
-        coverage = pd.DataFrame(
-            cursor.fetchall(),
-            columns=[column.name for column in cursor.description],
-        )
-        cursor.execute(context_query, parameters)
-        context_counts = pd.DataFrame(
-            cursor.fetchall(),
-            columns=[column.name for column in cursor.description],
-        )
-
-assert set(context_counts.columns) == {"category", "dimension", "value", "report_count"}
-assert set(context_counts["dimension"].unique()) == {"denuncia", *{label for label, _ in CASE_FIELDS}}
-coverage.to_csv(COMMON_WORK_ROOT / "coverage.csv", index=False)
-context_counts.to_csv(COMMON_WORK_ROOT / "context-counts.csv", index=False)
+coverage, context_counts, prepared_case_records = prepare_source_data(DATABASE_URL, PATHS)
 display(coverage)
 display(context_counts.head())
 print(f"Context rows: {len(context_counts):,}")
+del coverage
 '''
     ),
     markdown(
@@ -270,130 +137,13 @@ print(f"Context rows: {len(context_counts):,}")
     ),
     code(
         r'''
-category_summary = context_counts.loc[
-    context_counts["dimension"] == "denuncia",
-    ["category", "report_count"],
-].rename(columns={"report_count": "support"})
-
-category_order = list(get_category_set(CATEGORY_SET_VERSION))
-category_set = set(category_order)
-category_support = category_summary.copy()
-category_support["status"] = "out_of_version"
-category_support.loc[category_support["category"].isin(category_set), "status"] = "included"
-category_support.loc[
-    category_support["category"].isin(category_set)
-    & category_support["support"].lt(MIN_REPORT_COUNT),
-    "status",
-] = "below_minimum_support"
-
-selected_support = category_summary.loc[
-    category_summary["category"].isin(category_set)
-].set_index("category")
-missing_categories = [
-    category for category in category_order if category not in selected_support.index
-]
-if missing_categories:
-    raise ValueError(
-        f"Category set {CATEGORY_SET_VERSION} is missing from the source taxonomy: "
-        f"{missing_categories}"
-    )
-below_minimum = [
-    category
-    for category in category_order
-    if int(selected_support.loc[category, "support"]) < MIN_REPORT_COUNT
-]
-if below_minimum:
-    raise ValueError(
-        f"Category set {CATEGORY_SET_VERSION} contains categories below the minimum "
-        f"support of {MIN_REPORT_COUNT}: {below_minimum}"
-    )
-
-included_support = selected_support.loc[category_order].reset_index()
-assert len(included_support) == len(category_order)
-
-profile_counts = context_counts.loc[
-    context_counts["category"].isin(category_order)
-    & context_counts["dimension"].ne("denuncia")
-].copy()
-vocabulary = (
-    profile_counts[["dimension", "value"]]
-    .drop_duplicates()
-    .sort_values(["dimension", "value"])
+category_order, included_support, category_map, normalized_corpus_bytes = prepare_normalized_artifacts(
+    context_counts, PATHS
 )
-expected_dimensions = {label for _, label in CASE_FIELDS}
-assert set(vocabulary["dimension"]) == expected_dimensions
-
-normalized_profiles = (
-    included_support[["category", "support"]]
-    .merge(vocabulary, how="cross")
-    .merge(profile_counts, on=["category", "dimension", "value"], how="left")
-    .sort_values(["category", "dimension", "value"])
-)
-normalized_profiles["report_count"] = normalized_profiles["report_count"].fillna(0).astype(int)
-global_counts = (
-    profile_counts.groupby(["dimension", "value"], as_index=False)["report_count"]
-    .sum()
-    .rename(columns={"report_count": "global_count"})
-)
-global_counts["global_prevalence"] = (
-    global_counts["global_count"]
-    / global_counts.groupby("dimension")["global_count"].transform("sum")
-)
-normalized_profiles = normalized_profiles.merge(
-    global_counts[["dimension", "value", "global_prevalence"]],
-    on=["dimension", "value"],
-    how="left",
-    validate="many_to_one",
-)
-normalized_profiles["smoothed_prevalence"] = (
-    normalized_profiles["report_count"]
-    + SMOOTHING_ALPHA * normalized_profiles["global_prevalence"]
-) / (normalized_profiles["support"] + SMOOTHING_ALPHA)
-normalized_profiles["relative_bps"] = (
-    10_000
-    * (
-        normalized_profiles["smoothed_prevalence"].div(
-            normalized_profiles["global_prevalence"]
-        ).map(log2).clip(-LOG_RATIO_LIMIT, LOG_RATIO_LIMIT)
-        + LOG_RATIO_LIMIT
-    )
-    / (2 * LOG_RATIO_LIMIT)
-).round().astype(int)
-
-category_rows = []
-for number, category in enumerate(category_order, start=1):
-    label = f"category-{number:03d}.txt"
-    rows = normalized_profiles.loc[normalized_profiles["category"] == category]
-    lines = [
-        f"{row.dimension}|{row.value}|{row.relative_bps:05d}"
-        for row in rows.itertuples(index=False)
-    ]
-    corpus_path = NORMALIZED_WORK_ROOT / "corpus" / label
-    corpus_path.parent.mkdir(parents=True, exist_ok=True)
-    corpus_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    category_rows.append(
-        {"label": label, "category": category, "support": int(rows["support"].iloc[0])}
-    )
-
-category_map = pd.DataFrame(category_rows)
-category_map.to_csv(COMMON_WORK_ROOT / "category-map.csv", index=False)
-included_support.to_csv(COMMON_WORK_ROOT / "category-support.csv", index=False)
-category_support.to_csv(COMMON_WORK_ROOT / "category-scope.csv", index=False)
-context_counts.loc[
-    context_counts["category"].isin(category_order)
-].to_csv(COMMON_WORK_ROOT / "eligible-context-counts.csv", index=False)
-
-corpus_sizes = pd.Series(
-    {
-        path.name: path.stat().st_size
-        for path in (NORMALIZED_WORK_ROOT / "corpus").glob("*.txt")
-    },
-    name="bytes",
-)
-assert corpus_sizes.nunique() == 1
+del context_counts
 display(category_map)
 print(f"Included categories: {len(category_order)}")
-print(f"Normalized corpus bytes per category: {int(corpus_sizes.iloc[0]):,}")
+print(f"Normalized corpus bytes per category: {normalized_corpus_bytes:,}")
 '''
     ),
     markdown(
@@ -406,62 +156,19 @@ print(f"Normalized corpus bytes per category: {int(corpus_sizes.iloc[0]):,}")
     ),
     code(
         r'''
-case_records = load_case_records(
-    database_url=DATABASE_URL,
-    start_date=START_DATE,
-    end_date=END_DATE,
-    victim_gender=VICTIM_GENDER,
-    included_categories=category_order,
-    category_sql=CATEGORY_SQL,
+case_category_map, balanced_sample_size, case_count = prepare_case_artifacts(
+    prepared_case_records,
+    category_order,
+    included_support,
+    category_map,
+    PATHS,
+    workers=ARTIFACT_WORKERS,
 )
-case_support = (
-    case_records.groupby("category", as_index=False)["source_hash"]
-    .nunique()
-    .rename(columns={"source_hash": "case_count"})
-)
-expected_support = included_support[["category", "support"]].rename(
-    columns={"support": "expected_case_count"}
-)
-case_support_check = expected_support.merge(
-    case_support, on="category", validate="one_to_one"
-).set_index("category").loc[category_order]
-assert case_support_check["expected_case_count"].equals(
-    case_support_check["case_count"]
-)
-
-case_category_map, case_combination_counts, balanced_sample_size = build_case_corpora(
-    case_records=case_records,
-    category_map=category_map,
-    work_dir=PATHS.work,
-    seeds=CASE_SEEDS,
-    metadata_dir=COMMON_WORK_ROOT,
-)
-case_combination_comparison = compare_combination_distributions(
-    case_combination_counts,
-    COMMON_WORK_ROOT / "case-combination-comparison.csv",
-)
-case_category_map.to_csv(COMMON_WORK_ROOT / "case-category-map.csv", index=False)
-case_combination_counts.to_csv(
-    COMMON_WORK_ROOT / "case-combination-counts.csv", index=False
-)
-
-assert not case_records.duplicated(["source_hash", "category"]).any()
-canonical_keys = case_records["canonical_record"].map(lambda value: set(json.loads(value)))
-assert canonical_keys.map(lambda keys: not {"source_hash", "category", "id"}.intersection(keys)).all()
-assert canonical_keys.map(lambda keys: keys == expected_dimensions).all()
-assert case_category_map["case_count"].gt(0).all()
-assert set(case_category_map["category"]) == set(category_order)
-assert case_category_map.loc[
-    case_category_map["regime"] == "case-balanced", "case_count"
-].eq(balanced_sample_size).all()
-
-print(f"Case records in memory: {len(case_records):,}")
+del prepared_case_records, included_support, category_map
+print(f"Case records in memory: {case_count:,}")
 print(f"Balanced sample size per category and replica: {balanced_sample_size:,}")
 print(f"Balanced replicas: {len(CASE_SEEDS)}")
 display(case_category_map.head())
-
-# Keep identifiers and large in-memory case records out of later notebook state.
-del case_records, case_combination_counts, case_combination_comparison
 '''
     ),
     markdown(
@@ -473,52 +180,7 @@ del case_records, case_combination_counts, case_combination_comparison
     ),
     code(
         r'''
-manifest = {
-    "schema_version": ARTIFACT_SCHEMA_VERSION,
-    "hypothesis": "violence_against_women",
-    "category_set_version": CATEGORY_SET_VERSION,
-    "category_definition_hash": category_definition_hash(
-        get_category_set(CATEGORY_SET_VERSION)
-    ),
-    "source_table": "public.disque100_reports",
-    "start_date": START_DATE,
-    "end_date": END_DATE,
-    "victim_gender": VICTIM_GENDER,
-    "minimum_report_count": MIN_REPORT_COUNT,
-    "smoothing_alpha": SMOOTHING_ALPHA,
-    "log_ratio_limit": LOG_RATIO_LIMIT,
-    "case_seeds": CASE_SEEDS,
-    "dimensions": [label for _, label in CASE_FIELDS],
-    "dimension_count": len(CASE_FIELDS),
-    "category_order": category_order,
-    "category_count": len(category_order),
-    "balanced_sample_size": balanced_sample_size,
-    "paths": {
-        "category_map": "common/category-map.csv",
-        "category_support": "common/category-support.csv",
-        "case_category_map": "common/case-category-map.csv",
-        "normalized_corpus": "normalized_categories/corpus",
-        "case_full_corpus": "case_full/corpus",
-        "case_balanced_root": "case_balanced",
-    },
-}
-assert manifest["category_count"] == len(get_category_set(CATEGORY_SET_VERSION))
-assert manifest["dimension_count"] == 20
-write_json(COMMON_WORK_ROOT / "artifact-manifest.json", manifest)
-write_json(HYPOTHESIS_ROOT / "manifest.json", {
-    "hypothesis": "violence_against_women",
-    "artifact_schema_version": ARTIFACT_SCHEMA_VERSION,
-    "default_category_set_version": "v2_30",
-    "category_set_versions": ["v1_14", "v2_30"],
-    "notebooks": [
-        "00_create_artifacts.ipynb",
-        "01_experiment_case_full.ipynb",
-        "02_experiment_case_balanced.ipynb",
-        "03_experiment_normalized_categories.ipynb",
-        "04_compare_experiments.ipynb",
-        "05_compare_category_sets.ipynb",
-    ],
-})
+manifest = write_artifact_manifests(PATHS, category_order, balanced_sample_size)
 print("Artifact manifest written.")
 '''
     ),
@@ -526,12 +188,11 @@ print("Artifact manifest written.")
 
 
 EXPERIMENT_SETUP = r'''
+
 from pathlib import Path
-from itertools import combinations
 import os
 import sys
 
-import numpy as np
 import pandas as pd
 from IPython.display import display
 
@@ -544,23 +205,13 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from hypotheses.violence_against_women.scripts.experiment_common import (
-    BIAS_WARNING_THRESHOLD,
-    CASE_SEEDS,
-    NCD_COLOR_VMAX,
     artifact_paths,
     case_execution,
     category_order_from_manifest,
     ensure_artifact_directories,
     load_artifact_manifest,
     load_category_map,
-    plot_bias_diagnostics,
-    plot_cluster_stability,
-    plot_ncd_heatmap,
-    plot_support,
-    render_tree_artifacts,
     run_damicore_experiment,
-    same_cluster_pairs,
-    write_json,
     write_common_result_artifacts,
 )
 
@@ -579,10 +230,27 @@ manifest = load_artifact_manifest(
 category_order = category_order_from_manifest(manifest)
 category_map = load_category_map(COMMON_WORK_ROOT / "category-map.csv")
 category_support = pd.read_csv(COMMON_WORK_ROOT / "category-support.csv")
-category_support = category_support.rename(columns={"support": "support"})
 assert category_map["category"].tolist() == category_order
 assert set(category_support["category"]) == set(category_order)
 assert manifest["dimension_count"] == 20
+'''
+
+
+BALANCED_SETUP = r'''
+from itertools import combinations
+
+import numpy as np
+
+from hypotheses.violence_against_women.scripts.experiment_common import (
+    CASE_SEEDS,
+    plot_bias_diagnostics,
+    plot_cluster_stability,
+    plot_ncd_heatmap,
+    plot_support,
+    render_tree_artifacts,
+    same_cluster_pairs,
+    write_json,
+)
 '''
 
 
@@ -718,7 +386,7 @@ def case_balanced_notebook():
             representative tree; all replica outputs remain available below the result directory.
             """
         ),
-        code(EXPERIMENT_SETUP),
+        code(EXPERIMENT_SETUP + BALANCED_SETUP),
         markdown("## Run the five balanced replicas"),
         code(
             r'''
@@ -854,15 +522,20 @@ medoid_table.to_csv(balanced_output / "replicate-medoid-selection.csv", index=Fa
         markdown("## Replica stability"),
         code(
             r'''
+
 all_category_pairs = set(combinations(category_order, 2))
 balanced_memberships = {
     replicate: packaged["membership_by_category"]
     for replicate, packaged in zip(replicate_results, replicate_tables)
 }
+balanced_cluster_pairs = {
+    replicate: same_cluster_pairs(membership, category_order)
+    for replicate, membership in balanced_memberships.items()
+}
 stability_rows = []
 for left_name, right_name in combinations(balanced_memberships, 2):
-    left_pairs = same_cluster_pairs(balanced_memberships[left_name], category_order)
-    right_pairs = same_cluster_pairs(balanced_memberships[right_name], category_order)
+    left_pairs = balanced_cluster_pairs[left_name]
+    right_pairs = balanced_cluster_pairs[right_name]
     stability_rows.append({
         "left": left_name,
         "right": right_name,
@@ -905,25 +578,27 @@ def comparison_notebook():
         code(
             COMMON_SETUP
             + r'''
-import json
+
 from itertools import combinations
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from hypotheses.violence_against_women.scripts.experiment_common import (
+    BIAS_WARNING_THRESHOLD,
     NCD_COLOR_VMAX,
+    category_order_from_manifest,
     compare_distance_matrices,
-    named_distance_matrix,
     plot_distance_agreement,
-    plot_ncd_heatmap,
-    plot_cluster_stability,
     same_cluster_pairs,
     wrapped_label,
     write_json,
 )
 
-manifest = load_artifact_manifest()
+manifest = load_artifact_manifest(
+    COMMON_WORK_ROOT / "artifact-manifest.json",
+    category_set_version=CATEGORY_SET_VERSION,
+)
 category_order = category_order_from_manifest(manifest)
 category_map = load_category_map(COMMON_WORK_ROOT / "category-map.csv")
 experiment_names = ["case_full", "case_balanced", "normalized_categories"]
@@ -960,6 +635,7 @@ assert all(np.allclose(np.diag(matrix.to_numpy()), 0.0) for matrix in distance_m
         markdown("## Distance agreement and common-scale heatmaps"),
         code(
             r'''
+
 comparison_dir = RESULTS_ROOT / "comparison"
 comparison_dir.mkdir(parents=True, exist_ok=True)
 distance_comparison = compare_distance_matrices(distance_matrices, category_order)
@@ -976,10 +652,11 @@ agreement = pd.DataFrame(agreement_values, index=agreement_names, columns=agreem
 agreement.to_csv(comparison_dir / "distance-agreement-matrix.csv")
 plot_distance_agreement(agreement, comparison_dir / "distance-agreement.png")
 
+heatmap_labels = [wrapped_label(category, 20) for category in category_order]
 figure, axes = plt.subplots(1, 3, figsize=(21, 8), constrained_layout=True)
 for axis, (name, matrix) in zip(axes, distance_matrices.items()):
     image = axis.imshow(matrix.to_numpy(), cmap="Blues", vmin=0, vmax=NCD_COLOR_VMAX)
-    labels = [wrapped_label(category, 20) for category in category_order]
+    labels = heatmap_labels
     axis.set_xticks(np.arange(len(labels)))
     axis.set_xticklabels(labels, rotation=90, fontsize=6)
     axis.set_yticks(np.arange(len(labels)))

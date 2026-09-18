@@ -68,13 +68,37 @@ numeric cluster identifiers were stable.
 
 ## Execution
 
-The artifact notebook requires the PostgreSQL connection documented in the root README.
+The artifact notebook calls the same preparation functions as the standalone script.
+Both require the PostgreSQL connection documented in the root README.
 For the default Nitro tunnel:
 
 ```bash
 ssh -N -L 5433:127.0.0.1:5432 nitro
 DISQUE100_DATABASE_URL="postgresql://postgres@127.0.0.1:5433/disque100" jupyter lab
 ```
+
+To prepare artifacts without Jupyter, run from the repository root with the project
+environment active:
+
+```bash
+python -m hypotheses.violence_against_women.scripts.create_artifacts --workers 2
+```
+
+The script reads the repository's `.env` and the current `DISQUE100_DATABASE_URL`.
+Its default category set is `DAMICORE_CATEGORY_SET_VERSION` or `v2_30`; pass
+`--category-set-version v1_14` to prepare the baseline explicitly.
+SQL remains in one connection. Only case serialization and per-category corpus
+preparation run in up to two spawned processes. Sampling seeds, document order,
+formats, and formulas are preserved. To use the sequential path instead:
+
+```bash
+python -m hypotheses.violence_against_women.scripts.create_artifacts --workers 1
+```
+
+Choose one preparation command. Both rebuild the selected version's work and results
+from scratch, without resuming or reusing old experiments. Then execute notebooks `01`
+through `04` with the same category-set version. Notebook `00` is an alternative to the
+script and uses `ARTIFACT_WORKERS = 2`; set it to `1` for sequential preparation.
 
 The notebooks can then be executed in order with `nbconvert`:
 
