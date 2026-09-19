@@ -1,0 +1,7 @@
+experiment,diagnostic,spearman_correlation,absolute_correlation
+case_full,NCD versus log support gap,0.2141633555313491,0.2141633555313491
+case_full,NCD versus byte gap,0.8751544739899895,0.8751544739899895
+case_balanced,NCD versus byte gap,0.053818832001048,0.053818832001048
+case_balanced,NCD versus log support gap,,
+normalized_categories,NCD versus log support gap,0.5633293109739166,0.5633293109739166
+normalized_categories,NCD versus byte gap,,

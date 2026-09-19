@@ -1,0 +1,31 @@
+experiment,object_id,label,category,cluster
+case_balanced_replicate-001,file_000030,category-030.txt,DIREITOS CIVIS E POLÍTICOS > VIOLÊNCIA POLITÍCA DE GÊNERO E CONTRA AS MULHERES,1
+case_balanced_replicate-001,file_000012,category-012.txt,INTEGRIDADE > FÍSICA > AGRESSÃO ou VIAS DE FATO,0
+case_balanced_replicate-001,file_000013,category-013.txt,INTEGRIDADE > FÍSICA > LESÃO CORPORAL,5
+case_balanced_replicate-001,file_000014,category-014.txt,INTEGRIDADE > FÍSICA > MAUS TRATOS,4
+case_balanced_replicate-001,file_000015,category-015.txt,INTEGRIDADE > FÍSICA > TORTURA FÍSICA,5
+case_balanced_replicate-001,file_000016,category-016.txt,INTEGRIDADE > FÍSICA > VIOLÊNCIA OBSTÉTRICA,3
+case_balanced_replicate-001,file_000023,category-023.txt,INTEGRIDADE > PATRIMONIAL > INDIVIDUAL,5
+case_balanced_replicate-001,file_000020,category-020.txt,INTEGRIDADE > PSÍQUICA > ALIENAÇÃO PARENTAL,5
+case_balanced_replicate-001,file_000017,category-017.txt,INTEGRIDADE > PSÍQUICA > AMEAÇA ou COAÇÃO,0
+case_balanced_replicate-001,file_000018,category-018.txt,INTEGRIDADE > PSÍQUICA > ASSÉDIO MORAL,4
+case_balanced_replicate-001,file_000021,category-021.txt,INTEGRIDADE > PSÍQUICA > CONSTRANGIMENTO,5
+case_balanced_replicate-001,file_000022,category-022.txt,INTEGRIDADE > PSÍQUICA > EXPOSIÇÃO (EROTIZAÇÃO),4
+case_balanced_replicate-001,file_000019,category-019.txt,INTEGRIDADE > PSÍQUICA > TORTURA PSÍQUICA,4
+case_balanced_replicate-001,file_000024,category-024.txt,LIBERDADE > DIREITOS INDIVIDUAIS > CÁRCERE PRIVADO,5
+case_balanced_replicate-001,file_000025,category-025.txt,LIBERDADE > DIREITOS INDIVIDUAIS > SEQUESTRO,0
+case_balanced_replicate-001,file_000026,category-026.txt,LIBERDADE > DIREITOS INDIVIDUAIS > STALKING,1
+case_balanced_replicate-001,file_000027,category-027.txt,LIBERDADE > DIREITOS INDIVIDUAIS > TRÁFICO DE MULHERES - INTERNACIONAL,2
+case_balanced_replicate-001,file_000028,category-028.txt,LIBERDADE > DIREITOS INDIVIDUAIS > TRÁFICO DE MULHERES - NACIONAL,2
+case_balanced_replicate-001,file_000005,category-005.txt,LIBERDADE > SEXUAL > ESTUPRO CORRETIVO,1
+case_balanced_replicate-001,file_000002,category-002.txt,LIBERDADE > SEXUAL > ESTUPRO DE VULNERÁVEL,1
+case_balanced_replicate-001,file_000003,category-003.txt,LIBERDADE > SEXUAL > ESTUPRO DE VULNERÁVEL > PEDOFILIA,2
+case_balanced_replicate-001,file_000004,category-004.txt,LIBERDADE > SEXUAL > ESTUPRO VIRTUAL,2
+case_balanced_replicate-001,file_000006,category-006.txt,LIBERDADE > SEXUAL > FÍSICA > ABUSO SEXUAL FÍSICO,3
+case_balanced_replicate-001,file_000001,category-001.txt,LIBERDADE > SEXUAL > FÍSICA > ESTUPRO,0
+case_balanced_replicate-001,file_000007,category-007.txt,LIBERDADE > SEXUAL > FÍSICA > EXPLORAÇÃO SEXUAL,4
+case_balanced_replicate-001,file_000008,category-008.txt,LIBERDADE > SEXUAL > IMPORTUNAÇÃO SEXUAL,1
+case_balanced_replicate-001,file_000009,category-009.txt,LIBERDADE > SEXUAL > PSÍQUICA > ABUSO SEXUAL PSÍQUICO,3
+case_balanced_replicate-001,file_000010,category-010.txt,LIBERDADE > SEXUAL > PSÍQUICA > ASSÉDIO SEXUAL,4
+case_balanced_replicate-001,file_000011,category-011.txt,LIBERDADE > SEXUAL > VIOLÊNCIA SEXUAL MEDIANTE FRAUDE,2
+case_balanced_replicate-001,file_000029,category-029.txt,VIDA > FEMINICÍDIO,3

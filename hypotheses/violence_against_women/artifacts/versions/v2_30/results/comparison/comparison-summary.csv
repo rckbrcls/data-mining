@@ -1,0 +1,7 @@
+left,right,spearman_correlation,mean_absolute_difference,comparison_type,pairwise_cluster_agreement
+case_full,case_balanced,0.3774305363958387,0.20952893862400748,distance,
+case_full,normalized_categories,0.4622321653238415,0.45608823075651617,distance,
+case_balanced,normalized_categories,0.4566556753658805,0.24655929213250866,distance,
+case_full,case_balanced,,,cluster,0.9057471264367816
+case_full,normalized_categories,,,cluster,0.9103448275862069
+case_balanced,normalized_categories,,,cluster,0.903448275862069

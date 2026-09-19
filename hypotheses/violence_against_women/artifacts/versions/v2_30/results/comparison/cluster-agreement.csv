@@ -1,0 +1,4 @@
+left,right,pairwise_cluster_agreement
+case_full,case_balanced,0.9057471264367816
+case_full,normalized_categories,0.9103448275862069
+case_balanced,normalized_categories,0.903448275862069

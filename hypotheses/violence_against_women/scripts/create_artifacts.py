@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
+import fcntl
+import hashlib
 import json
 from math import log2
 import os
 import shutil
-from typing import Any
+import tempfile
+from typing import Any, Iterator
 
 import pandas as pd
 import psycopg
@@ -39,6 +43,86 @@ from .experiment_common import (
     ensure_artifact_directories,
     write_json,
 )
+
+
+PREPARATION_STAGES = ("source", "normalized", "cases", "manifest")
+
+
+class PreparationLock:
+    """Keep one fresh preparation active for a selected artifact output."""
+
+    def __init__(self, paths: ArtifactPaths, descriptor: int, lock_path: str) -> None:
+        self.paths = paths
+        self._descriptor: int | None = descriptor
+        self.lock_path = lock_path
+        self._next_stage = 0
+
+    @property
+    def active(self) -> bool:
+        return self._descriptor is not None
+
+    @contextmanager
+    def stage(self, name: str) -> Iterator[None]:
+        if not self.active:
+            raise RuntimeError("The preparation lock is no longer active; start a fresh run.")
+        expected = PREPARATION_STAGES[self._next_stage]
+        if name != expected:
+            self.release()
+            raise RuntimeError(
+                f"Preparation stage {name!r} cannot run; expected {expected!r}. "
+                "Start a fresh run."
+            )
+        try:
+            yield
+        except BaseException:
+            self.release()
+            raise
+        else:
+            self._next_stage += 1
+            if name == PREPARATION_STAGES[-1]:
+                self.release()
+
+    def release(self) -> None:
+        descriptor = self._descriptor
+        if descriptor is None:
+            return
+        self._descriptor = None
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
+        os.close(descriptor)
+
+    def __enter__(self) -> PreparationLock:
+        if not self.active:
+            raise RuntimeError("The preparation lock is no longer active; start a fresh run.")
+        return self
+
+    def __exit__(self, *_: object) -> None:
+        self.release()
+
+
+def acquire_preparation_lock(
+    category_set_version: str, workers: int = 2
+) -> PreparationLock:
+    """Acquire a non-blocking process lock before deleting versioned outputs."""
+    _validate_workers(workers)
+    paths = artifact_paths(category_set_version)
+    lock_key = hashlib.sha256(os.fsencode(str(paths.root.resolve()))).hexdigest()
+    lock_path = os.path.join(tempfile.gettempdir(), f"damicore-artifacts-{lock_key}.lock")
+    descriptor = os.open(lock_path, os.O_CREAT | os.O_RDWR, 0o600)
+    try:
+        fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError as error:
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        owner = os.read(descriptor, 512).decode("utf-8", errors="replace").strip()
+        os.close(descriptor)
+        detail = f" ({owner})" if owner else ""
+        raise RuntimeError(
+            f"Artifact preparation is already active for {category_set_version}{detail}."
+        ) from error
+    owner = f"pid={os.getpid()} category_set_version={category_set_version}\n".encode()
+    os.ftruncate(descriptor, 0)
+    os.write(descriptor, owner)
+    os.fsync(descriptor)
+    return PreparationLock(paths, descriptor, lock_path)
 
 
 def initialize_preparation(category_set_version: str, workers: int = 2) -> ArtifactPaths:
@@ -184,8 +268,13 @@ def prepare_source_data(
     parameters = (START_DATE, END_DATE, VICTIM_GENDER)
     with psycopg.connect(DATABASE_URL) as connection:
         with connection.cursor() as cursor:
+            cursor.execute("SET LOCAL work_mem = '128MB'")
+            cursor.execute("SET LOCAL temp_buffers = '64MB'")
+            cursor.execute("SET LOCAL client_connection_check_interval = '5s'")
             cursor.execute(prepare_query, parameters)
+            cursor.execute("ANALYZE pg_temp.damicore_report_values")
             cursor.execute(category_map_query)
+            cursor.execute("ANALYZE pg_temp.damicore_category_map")
             cursor.execute(coverage_query)
             coverage = pd.DataFrame(
                 cursor.fetchall(),
@@ -203,7 +292,10 @@ def prepare_source_data(
         )
 
     assert set(context_counts.columns) == {"category", "dimension", "value", "report_count"}
-    assert set(context_counts["dimension"].unique()) == {"denuncia", *{label for label, _ in CASE_FIELDS}}
+    assert set(context_counts["dimension"].unique()) == {
+        "denuncia",
+        *{label for _, label in CASE_FIELDS},
+    }
     coverage.to_csv(COMMON_WORK_ROOT / "coverage.csv", index=False)
     context_counts.to_csv(COMMON_WORK_ROOT / "context-counts.csv", index=False)
     return coverage, context_counts, prepared_case_records
@@ -467,39 +559,51 @@ def run_artifact_preparation(
     workers: int = 2,
 ) -> dict[str, Any]:
     """Build new inputs; never resume or reuse earlier experiment runs."""
-    paths = initialize_preparation(category_set_version, workers)
-    coverage, context_counts, prepared_case_records = prepare_source_data(database_url, paths)
-    print(coverage.to_string(index=False))
-    print(context_counts.head().to_string(index=False))
-    print(f"Context rows: {len(context_counts):,}")
-    del coverage
+    preparation_lock = acquire_preparation_lock(category_set_version, workers)
+    try:
+        paths = initialize_preparation(category_set_version, workers)
+        with preparation_lock.stage("source"):
+            coverage, context_counts, prepared_case_records = prepare_source_data(
+                database_url, paths
+            )
+            print(coverage.to_string(index=False))
+            print(context_counts.head().to_string(index=False))
+            print(f"Context rows: {len(context_counts):,}")
+            del coverage
 
-    category_order, included_support, category_map, corpus_bytes = prepare_normalized_artifacts(
-        context_counts, paths
-    )
-    del context_counts
-    print(category_map.to_string(index=False))
-    print(f"Included categories: {len(category_order)}")
-    print(f"Normalized corpus bytes per category: {corpus_bytes:,}")
+        with preparation_lock.stage("normalized"):
+            category_order, included_support, category_map, corpus_bytes = (
+                prepare_normalized_artifacts(context_counts, paths)
+            )
+            del context_counts
+            print(category_map.to_string(index=False))
+            print(f"Included categories: {len(category_order)}")
+            print(f"Normalized corpus bytes per category: {corpus_bytes:,}")
 
-    case_category_map, balanced_sample_size, case_count = prepare_case_artifacts(
-        prepared_case_records,
-        category_order,
-        included_support,
-        category_map,
-        paths,
-        workers=workers,
-    )
-    del prepared_case_records, included_support, category_map
-    print(f"Case records in memory: {case_count:,}")
-    print(f"Balanced sample size per category and replica: {balanced_sample_size:,}")
-    print(f"Balanced replicas: {len(CASE_SEEDS)}")
-    print(case_category_map.head().to_string(index=False))
-    del case_category_map
+        with preparation_lock.stage("cases"):
+            case_category_map, balanced_sample_size, case_count = prepare_case_artifacts(
+                prepared_case_records,
+                category_order,
+                included_support,
+                category_map,
+                paths,
+                workers=workers,
+            )
+            del prepared_case_records, included_support, category_map
+            print(f"Case records in memory: {case_count:,}")
+            print(f"Balanced sample size per category and replica: {balanced_sample_size:,}")
+            print(f"Balanced replicas: {len(CASE_SEEDS)}")
+            print(case_category_map.head().to_string(index=False))
+            del case_category_map
 
-    manifest = write_artifact_manifests(paths, category_order, balanced_sample_size)
-    print("Artifact manifest written.")
-    return manifest
+        with preparation_lock.stage("manifest"):
+            manifest = write_artifact_manifests(
+                paths, category_order, balanced_sample_size
+            )
+            print("Artifact manifest written.")
+        return manifest
+    finally:
+        preparation_lock.release()
 
 
 def main() -> None:

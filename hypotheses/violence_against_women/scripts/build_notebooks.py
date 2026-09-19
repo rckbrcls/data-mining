@@ -94,6 +94,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from hypotheses.violence_against_women.scripts.create_artifacts import (
+    acquire_preparation_lock,
     configured_database_url,
     initialize_preparation,
     prepare_case_artifacts,
@@ -107,7 +108,12 @@ load_dotenv(PROJECT_ROOT / ".env")
 CATEGORY_SET_VERSION = os.getenv("DAMICORE_CATEGORY_SET_VERSION", "v2_30")
 ARTIFACT_WORKERS = 2
 DATABASE_URL = configured_database_url()
-PATHS = initialize_preparation(CATEGORY_SET_VERSION, ARTIFACT_WORKERS)
+PREPARATION_LOCK = acquire_preparation_lock(CATEGORY_SET_VERSION, ARTIFACT_WORKERS)
+try:
+    PATHS = initialize_preparation(CATEGORY_SET_VERSION, ARTIFACT_WORKERS)
+except BaseException:
+    PREPARATION_LOCK.release()
+    raise
 '''
     ),
     markdown(
@@ -120,11 +126,12 @@ PATHS = initialize_preparation(CATEGORY_SET_VERSION, ARTIFACT_WORKERS)
     ),
     code(
         r'''
-coverage, context_counts, prepared_case_records = prepare_source_data(DATABASE_URL, PATHS)
-display(coverage)
-display(context_counts.head())
-print(f"Context rows: {len(context_counts):,}")
-del coverage
+with PREPARATION_LOCK.stage("source"):
+    coverage, context_counts, prepared_case_records = prepare_source_data(DATABASE_URL, PATHS)
+    display(coverage)
+    display(context_counts.head())
+    print(f"Context rows: {len(context_counts):,}")
+    del coverage
 '''
     ),
     markdown(
@@ -137,13 +144,14 @@ del coverage
     ),
     code(
         r'''
-category_order, included_support, category_map, normalized_corpus_bytes = prepare_normalized_artifacts(
-    context_counts, PATHS
-)
-del context_counts
-display(category_map)
-print(f"Included categories: {len(category_order)}")
-print(f"Normalized corpus bytes per category: {normalized_corpus_bytes:,}")
+with PREPARATION_LOCK.stage("normalized"):
+    category_order, included_support, category_map, normalized_corpus_bytes = (
+        prepare_normalized_artifacts(context_counts, PATHS)
+    )
+    del context_counts
+    display(category_map)
+    print(f"Included categories: {len(category_order)}")
+    print(f"Normalized corpus bytes per category: {normalized_corpus_bytes:,}")
 '''
     ),
     markdown(
@@ -156,19 +164,20 @@ print(f"Normalized corpus bytes per category: {normalized_corpus_bytes:,}")
     ),
     code(
         r'''
-case_category_map, balanced_sample_size, case_count = prepare_case_artifacts(
-    prepared_case_records,
-    category_order,
-    included_support,
-    category_map,
-    PATHS,
-    workers=ARTIFACT_WORKERS,
-)
-del prepared_case_records, included_support, category_map
-print(f"Case records in memory: {case_count:,}")
-print(f"Balanced sample size per category and replica: {balanced_sample_size:,}")
-print(f"Balanced replicas: {len(CASE_SEEDS)}")
-display(case_category_map.head())
+with PREPARATION_LOCK.stage("cases"):
+    case_category_map, balanced_sample_size, case_count = prepare_case_artifacts(
+        prepared_case_records,
+        category_order,
+        included_support,
+        category_map,
+        PATHS,
+        workers=ARTIFACT_WORKERS,
+    )
+    del prepared_case_records, included_support, category_map
+    print(f"Case records in memory: {case_count:,}")
+    print(f"Balanced sample size per category and replica: {balanced_sample_size:,}")
+    print(f"Balanced replicas: {len(CASE_SEEDS)}")
+    display(case_category_map.head())
 '''
     ),
     markdown(
@@ -180,8 +189,9 @@ display(case_category_map.head())
     ),
     code(
         r'''
-manifest = write_artifact_manifests(PATHS, category_order, balanced_sample_size)
-print("Artifact manifest written.")
+with PREPARATION_LOCK.stage("manifest"):
+    manifest = write_artifact_manifests(PATHS, category_order, balanced_sample_size)
+    print("Artifact manifest written.")
 '''
     ),
 ]

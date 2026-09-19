@@ -1,0 +1,16 @@
+{
+  "experiment": "case_balanced",
+  "category_set_version": "v2_30",
+  "category_definition_hash": "8dbb53bf4a4ea505a3b39be51b124c65cfe245077a4610481b9f93cf838b6bac",
+  "category_count": 30,
+  "dimension_count": 20,
+  "replicas": [
+    "replicate-001",
+    "replicate-002",
+    "replicate-003",
+    "replicate-004",
+    "replicate-005"
+  ],
+  "representative_replicate": "replicate-005",
+  "status": "completed"
+}

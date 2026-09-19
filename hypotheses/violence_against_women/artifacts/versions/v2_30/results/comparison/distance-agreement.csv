@@ -1,0 +1,4 @@
+left,right,spearman_correlation,mean_absolute_difference
+case_full,case_balanced,0.3774305363958387,0.20952893862400748
+case_full,normalized_categories,0.4622321653238415,0.45608823075651617
+case_balanced,normalized_categories,0.4566556753658805,0.24655929213250866
