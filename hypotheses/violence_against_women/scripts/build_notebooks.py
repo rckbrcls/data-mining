@@ -37,7 +37,7 @@ import sys
 
 import pandas as pd
 from dotenv import load_dotenv
-from IPython.display import display
+from IPython.display import SVG, display
 
 PROJECT_ROOT = Path.cwd().resolve()
 while PROJECT_ROOT != PROJECT_ROOT.parent and not (PROJECT_ROOT / "pyproject.toml").exists():
@@ -305,6 +305,7 @@ normalized_result = write_common_result_artifacts(
 )
 display(normalized_result["membership_by_category"])
 display(normalized_result["distance"].round(3))
+display(SVG(filename=str(output_dir / "tree.svg")))
 '''
         ),
         markdown(
@@ -371,6 +372,7 @@ case_full_result = write_common_result_artifacts(
 )
 display(case_full_result["membership_by_category"])
 display(case_full_result["distance"].round(3))
+display(SVG(filename=str(RESULTS_ROOT / "case_full" / "tree.svg")))
 '''
         ),
         markdown(
@@ -570,6 +572,7 @@ write_json(
 )
 display(medoid_table)
 display(stability)
+display(SVG(filename=str(balanced_output / "tree.svg")))
 '''
         ),
     ]

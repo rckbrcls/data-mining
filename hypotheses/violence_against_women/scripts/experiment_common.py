@@ -551,6 +551,7 @@ def render_tree_artifacts(
         tip_labels_style={"font-size": "12px", "font-family": "Helvetica"},
         node_labels=False,
         node_mask=False,
+        use_edge_lengths=False,
         edge_style={"stroke": "#718090", "stroke-width": 1.8, "stroke-opacity": 0.95},
         edge_align_style={
             "stroke": "#5D6C7A",
@@ -558,7 +559,7 @@ def render_tree_artifacts(
             "stroke-opacity": 0.95,
             "stroke-dasharray": "2,4",
         },
-        scale_bar=True,
+        scale_bar=False,
     )
     canvas.style = {"background-color": "#121820"}
     axes.x.spine.style = {"stroke": "#556474", "stroke-width": 1.2}
@@ -573,7 +574,7 @@ def render_tree_artifacts(
     canvas.text(
         35,
         46,
-        "Contextual profiles shown by category; colors are local cluster labels.",
+        "Topology-only cladogram; branch lengths are visually uniform, and colors are local cluster labels.",
         style={"font-size": "12px", "fill": "#AAB7C4"},
     )
     legend_markers = [
