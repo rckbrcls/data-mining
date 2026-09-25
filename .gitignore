@@ -10,4 +10,5 @@ dist/
 nitro-notebook.local.md
 artifacts/**/work/
 **/artifacts/**/work/
+hypotheses/emergency_feature_selection/artifacts/
 ssh.txt
