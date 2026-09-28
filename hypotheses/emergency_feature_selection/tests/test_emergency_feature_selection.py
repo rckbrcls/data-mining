@@ -1,261 +1,164 @@
-"""Small synthetic checks for report preparation and equal-budget search."""
+"""Synthetic checks for the objective, Pareto tools, DAMICORE inputs, and the AED run."""
 
 from __future__ import annotations
 
 from dataclasses import replace
-from contextlib import redirect_stdout
-import io
-import os
 from pathlib import Path
-import secrets
-import shutil
-import subprocess
+import random
 import tempfile
 import unittest
+import zlib
 
 import numpy as np
-import nbformat
-import psycopg
+import pandas as pd
 
-from ..pipeline.config import DEFAULT_CONFIG, FEATURES, KNOWN_STATUSES, NEGATIVE_STATUS
-from ..pipeline.data import prepare_data, report_query, stratified_limits
-from ..pipeline.experiment import execute_experiment
-from ..pipeline.model import FULL_MASK, validate_mask
-from ..pipeline.search import (
-    block_distributions,
-    damicore_groups,
-    initial_pool,
+from ..scripts.config import DEFAULT_CONFIG, FEATURES
+from ..scripts.fitness import (
+    FULL_MASK,
+    MaskEvaluator,
+    all_masks,
+    code_fold,
+    exhaustive_scores,
+    mask_string,
+    score_mask,
+    selected_features,
+)
+from ..scripts.pareto import nondominated_ranks, pareto_front
+from ..scripts.search import (
+    initial_population,
+    probability_tables,
     run_search,
     validate_partition,
+    write_feature_series,
 )
 
 
-class PreparationTests(unittest.TestCase):
-    def test_fixed_stratified_allocation(self) -> None:
-        self.assertEqual(stratified_limits({0: 90, 1: 10}, 20), {0: 18, 1: 2})
-        self.assertEqual(stratified_limits({0: 3, 1: 97}, 20), {0: 1, 1: 19})
-        self.assertEqual(stratified_limits({0: 3, 1: 2}, None), {0: None, 1: None})
-
-    def test_forbidden_predictors_not_selected(self) -> None:
-        self.assertEqual(len(FEATURES), 15)
-        self.assertFalse(
-            {"emergency_status", "violation", "registered_at", "source_hash"}
-            .intersection(FEATURES)
-        )
-        self.assertIn("GROUP BY source_hash", report_query())
-        self.assertEqual(sum(validate_mask(FULL_MASK)), 15)
+def synthetic_frame(rows: int, seed: int) -> pd.DataFrame:
+    """Field 0 copies the target, field 1 is noise, the rest are constant."""
+    rng = np.random.default_rng(seed)
+    target = (rng.random(rows) < 0.2).astype(int)
+    frame = pd.DataFrame({feature: "SAME" for feature in FEATURES}, index=range(rows))
+    frame[FEATURES[0]] = np.where(target == 1, "YES", "NO")
+    frame[FEATURES[1]] = rng.choice(["A", "B", "C"], size=rows)
+    frame["target"] = target
+    return frame
 
 
-class TemporaryPostgresTests(unittest.TestCase):
+def single(index: int) -> tuple[int, ...]:
+    return tuple(int(position == index) for position in range(len(FEATURES)))
+
+
+class MaskTests(unittest.TestCase):
+    def test_selected_features_returns_names_in_order(self) -> None:
+        mask = single(0)[:2] + (1,) + (0,) * (len(FEATURES) - 3)
+        self.assertEqual(selected_features(mask), [FEATURES[0], FEATURES[2]])
+        self.assertEqual(selected_features(FULL_MASK), list(FEATURES))
+
+    def test_all_masks_enumerates_every_nonempty_subset(self) -> None:
+        masks = all_masks()
+        self.assertEqual(len(masks), 2 ** len(FEATURES) - 1)
+        self.assertEqual(len(set(masks)), len(masks))
+
+
+class ObjectiveTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        if not shutil.which("initdb") or not shutil.which("pg_ctl"):
-            raise unittest.SkipTest("PostgreSQL server binaries are unavailable")
-        cls.temporary = tempfile.TemporaryDirectory(prefix="emergency-postgres-")
-        root = Path(cls.temporary.name)
-        cls.data_dir = root / "data"
-        cls.socket_dir = root / "socket"
-        cls.socket_dir.mkdir()
-        initialization = subprocess.run(
-            ["initdb", "-A", "trust", "-D", str(cls.data_dir), "--no-instructions"],
-            capture_output=True, text=True,
-        )
-        if initialization.returncode:
-            raise RuntimeError(initialization.stderr)
-        cls.port = 40000 + secrets.randbelow(20000)
-        start = subprocess.run(
-            ["pg_ctl", "-D", str(cls.data_dir), "-l", str(root / "server.log"), "-o",
-             f"-k {cls.socket_dir} -p {cls.port} -c listen_addresses=''",
-             "-w", "start"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30,
-        )
-        if start.returncode:
-            raise RuntimeError((root / "server.log").read_text(encoding="utf-8"))
-        cls.dsn = f"host={cls.socket_dir} port={cls.port} dbname=postgres"
-        with psycopg.connect(cls.dsn) as connection:
-            with connection.cursor() as cursor:
-                fields = ", ".join(f"{feature} text" for feature in FEATURES)
-                cursor.execute(
-                    "CREATE TABLE public.disque100_reports ("
-                    f"source_hash text, registered_at timestamp, emergency_status text, {fields})"
-                )
-                columns = ("source_hash", "registered_at", "emergency_status", *FEATURES)
-                placeholders = ", ".join("%s" for _ in columns)
-                insert = f"INSERT INTO public.disque100_reports VALUES ({placeholders})"
+        cls.fold = code_fold("synthetic", synthetic_frame(4000, 1), synthetic_frame(2000, 2))
 
-                def add(hash_value: str, date: str, status: str | None,
-                        channel: str = "WEB") -> None:
-                    values = {feature: "VALUE" for feature in FEATURES}
-                    values["service_channel"] = channel
-                    cursor.execute(
-                        insert,
-                        (hash_value, date, status, *(values[field] for field in FEATURES)),
-                    )
+    def test_informative_field_gains_close_to_target_entropy(self) -> None:
+        gain = score_mask(single(0), [self.fold])["synthetic"]
+        rate = self.fold.validation_target.mean()
+        entropy = -(rate * np.log2(rate) + (1 - rate) * np.log2(1 - rate))
+        self.assertGreater(gain, 0.9 * entropy)
 
-                for prefix, date in (("train", "2024-02-01"),
-                                     ("validation", "2026-02-01"),
-                                     ("test", "2026-05-01")):
-                    for number in range(4):
-                        status = NEGATIVE_STATUS if number < 2 else KNOWN_STATUSES[1]
-                        add(f"{prefix}-{number}", date, status)
-                add("train-0", "2024-02-01", NEGATIVE_STATUS, "PHONE")
-                add("conflict", "2024-03-01", NEGATIVE_STATUS)
-                add("conflict", "2024-03-01", KNOWN_STATUSES[1])
-                add("unknown", "2024-03-01", None)
-                add("unsupported", "2024-03-01", "UNDEFINED")
-                add("date-conflict", "2024-03-01", NEGATIVE_STATUS)
-                add("date-conflict", "2024-03-02", NEGATIVE_STATUS)
-                add("mixed-null", "2024-03-01", NEGATIVE_STATUS)
-                add("mixed-null", "2024-03-01", None)
+    def test_noise_and_constant_fields_gain_nothing(self) -> None:
+        self.assertLess(abs(score_mask(single(1), [self.fold])["synthetic"]), 0.005)
+        self.assertLess(abs(score_mask(single(5), [self.fold])["synthetic"]), 1e-9)
 
-    @classmethod
-    def tearDownClass(cls) -> None:
-        subprocess.run(
-            ["pg_ctl", "-D", str(cls.data_dir), "-m", "immediate", "-w", "stop"],
-            check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            timeout=30,
-        )
-        cls.temporary.cleanup()
-
-    def test_report_aggregation_and_target(self) -> None:
-        config = replace(DEFAULT_CONFIG, search_train_limit=4,
-                         validation_limit=4, final_train_limit=8)
-        prepared = prepare_data(self.dsn, config)
-        self.assertEqual(prepared.audit["reports_in_scope"], 17)
-        self.assertEqual(prepared.audit["usable_reports"], 12)
-        self.assertEqual(prepared.audit["excluded_reports"], 5)
-        self.assertEqual(prepared.audit["date_conflicts"], 1)
-        self.assertEqual(prepared.audit["status_conflicts"], 2)
-        self.assertEqual(prepared.audit["unknown_status"], 1)
-        self.assertEqual(prepared.audit["unsupported_status"], 1)
-        self.assertEqual(prepared.audit["feature_conflicts"]["service_channel"], 1)
-        self.assertIn("MULTIPLE", set(prepared.search_train.service_channel))
-        for frame in (prepared.search_train, prepared.validation,
-                      prepared.final_train, prepared.test):
-            self.assertEqual(set(frame.columns), {*FEATURES, "target"})
-            self.assertEqual(set(frame.target), {0, 1})
-            self.assertNotIn("source_hash", frame.columns)
-        self.assertEqual(len(prepared.test), 4)
-
-    def test_end_to_end_search_and_aggregate_artifacts(self) -> None:
-        config = replace(DEFAULT_CONFIG, search_train_limit=4,
-                         validation_limit=4, final_train_limit=8,
-                         initial_pool_size=18, elite_size=8,
-                         generations=2, offspring_per_generation=4,
-                         seeds=(7,))
-        prepared = prepare_data(self.dsn, config)
-        with tempfile.TemporaryDirectory() as directory:
-            results = execute_experiment(prepared, config, Path(directory))
-            self.assertEqual(set(results.validation.method),
-                             {"all_fields", "greedy_forward", "random",
-                              "independent", "damicore"})
-            self.assertEqual(set(results.test.method), set(results.validation.method))
-            self.assertEqual(set(results.history.evaluations), {18, 22, 26})
-            self.assertEqual(
-                results.history.groupby("method").evaluations.max().to_dict(),
-                {"random": 26, "independent": 26, "damicore": 26},
+    def test_exhaustive_enumeration_matches_direct_scoring(self) -> None:
+        table = exhaustive_scores([self.fold], replace(DEFAULT_CONFIG, exhaustive_workers=1))
+        self.assertEqual(len(table), 2 ** len(FEATURES) - 1)
+        by_mask = table.set_index("mask")["mean_gain_bits"]
+        for mask in (single(0), single(1), FULL_MASK, single(0)[:1] + (1,) + (0,) * 13):
+            self.assertAlmostEqual(
+                by_mask[mask_string(mask)], score_mask(mask, [self.fold])["synthetic"], places=12
             )
-            self.assertTrue((results.output_dir / "audit.json").exists())
-            self.assertTrue((results.output_dir / "damicore_blocks.csv").exists())
-            self.assertNotIn("source_hash", " ".join(
-                path.read_text(encoding="utf-8")
-                for path in results.output_dir.glob("*.csv")
-            ))
 
-    def test_all_notebook_code_cells_on_synthetic_database(self) -> None:
-        notebook_path = Path(__file__).resolve().parents[1] / "emergency_feature_selection.ipynb"
-        notebook = nbformat.read(notebook_path, as_version=4)
-        namespace: dict = {"__name__": "__main__"}
-        previous_url = os.environ.get("DISQUE100_DATABASE_URL")
-        os.environ["DISQUE100_DATABASE_URL"] = self.dsn
-        try:
-            with tempfile.TemporaryDirectory() as directory, redirect_stdout(io.StringIO()):
-                first_code_cell = True
-                for cell in notebook.cells:
-                    if cell.cell_type != "code":
-                        continue
-                    exec(compile(cell.source, str(notebook_path), "exec"), namespace)
-                    if first_code_cell:
-                        first_code_cell = False
-                        namespace["DEFAULT_CONFIG"] = replace(
-                            DEFAULT_CONFIG, search_train_limit=4,
-                            validation_limit=4, final_train_limit=8,
-                            initial_pool_size=18, elite_size=8,
-                            generations=1, offspring_per_generation=4,
-                            seeds=(7,),
-                        )
-                        original_execute = namespace["execute_experiment"]
-                        namespace["execute_experiment"] = (
-                            lambda prepared, config: original_execute(
-                                prepared, config, Path(directory)
-                            )
-                        )
-                self.assertTrue(
-                    (namespace["results"].output_dir / "search_evolution.png").exists()
-                )
-        finally:
-            if previous_url is None:
-                os.environ.pop("DISQUE100_DATABASE_URL", None)
-            else:
-                os.environ["DISQUE100_DATABASE_URL"] = previous_url
+    def test_evaluator_matches_direct_scoring(self) -> None:
+        evaluator = MaskEvaluator([self.fold])
+        for mask in (single(0), single(1), FULL_MASK):
+            self.assertAlmostEqual(
+                evaluator.quality(mask), score_mask(mask, [self.fold])["synthetic"], places=12
+            )
 
 
-class CheapEvaluator:
-    def __init__(self) -> None:
-        self.masks = set()
+class ParetoTests(unittest.TestCase):
+    def test_ranks_and_front(self) -> None:
+        points = [(0.5, 1), (0.8, 2), (0.4, 2), (0.9, 5), (0.7, 5)]
+        self.assertEqual(list(nondominated_ranks(points)), [0, 0, 1, 0, 1])
+        table = pd.DataFrame(
+            {
+                "mask": ["a", "b", "c", "d", "e"],
+                "feature_count": [p[1] for p in points],
+                "mean_gain_bits": [p[0] for p in points],
+            }
+        )
+        self.assertEqual(list(pareto_front(table)["mask"]), ["a", "b", "d"])
 
-    def evaluate(self, mask):
-        self.masks.add(mask)
-        return self
 
-    def rank(self, mask):
-        self.evaluate(mask)
-        return (abs(sum(mask) - 4), sum(mask), mask)
+class DamicoreInputTests(unittest.TestCase):
+    def test_series_are_one_byte_per_mask_in_shared_order(self) -> None:
+        masks = initial_population(3, replace(DEFAULT_CONFIG, population_size=30))
+        with tempfile.TemporaryDirectory() as directory:
+            length = write_feature_series(masks, Path(directory))
+            for index in range(len(FEATURES)):
+                payload = (Path(directory) / f"feature-{index:02d}.txt").read_bytes()
+                self.assertEqual(len(payload), length)
+                self.assertEqual(payload, bytes(ord("0") + mask[index] for mask in masks))
 
-    def is_acceptable(self, mask):
-        return sum(mask) == 4
+    def test_ncd_separates_identical_from_independent_series_at_used_lengths(self) -> None:
+        def ncd(left: bytes, right: bytes) -> float:
+            sizes = [len(zlib.compress(value, 6)) for value in (left, right, left + right)]
+            return (sizes[2] - min(sizes[:2])) / max(sizes[:2])
 
-    def as_dict(self):
-        return {"log_loss": 0.1}
+        generator = random.Random(0)
+        for length in (120, 336, 500):
+            base = bytes(generator.choice(b"01") for _ in range(length))
+            other = bytes(generator.choice(b"01") for _ in range(length))
+            self.assertLess(ncd(base, base) + 0.3, ncd(base, other))
 
 
 class SearchTests(unittest.TestCase):
-    def test_probability_blocks_and_equal_budgets(self) -> None:
-        config = replace(DEFAULT_CONFIG, initial_pool_size=18, elite_size=8,
-                         generations=2, offspring_per_generation=4)
-        groups = [tuple(range(0, 4)), tuple(range(4, 8)),
-                  tuple(range(8, 12)), tuple(range(12, 15))]
-        validate_partition(groups, config)
-        elite = initial_pool(7, config)[:config.elite_size]
-        distributions = block_distributions(elite, groups, config)
+    def test_run_spends_the_budget_with_damicore_blocks(self) -> None:
+        weights = np.linspace(1.0, 0.1, len(FEATURES))
+
+        class SyntheticEvaluator:
+            def quality(self, mask):
+                return float(np.dot(mask, weights) - 0.08 * sum(mask) ** 2)
+
+            def worst_fold(self, mask):
+                return self.quality(mask)
+
+        config = replace(
+            DEFAULT_CONFIG, population_size=40, generations=2, offspring_per_generation=10
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            result = run_search(7, SyntheticEvaluator(), Path(directory), config)
+        self.assertEqual(len(result.history), config.evaluations_per_seed)
+        self.assertEqual(len({row["mask"] for row in result.history}), len(result.history))
+        self.assertEqual(len(result.diagnostics), config.generations)
+        for diagnostics in result.diagnostics:
+            validate_partition(
+                [tuple(FEATURES.index(name) for name in block) for block in diagnostics["blocks"]]
+            )
+
+    def test_probability_tables_sum_to_one_per_block(self) -> None:
+        masks = initial_population(5, replace(DEFAULT_CONFIG, population_size=30))
+        groups = [tuple(range(start, min(start + 4, len(FEATURES)))) for start in range(0, 15, 4)]
+        distributions, _ = probability_tables(masks, groups)
         for distribution in distributions:
             self.assertAlmostEqual(float(distribution.sum()), 1.0)
-            self.assertTrue(np.all(distribution > 0))
-
-        def fixed_groups(*_args):
-            return groups
-
-        with tempfile.TemporaryDirectory() as directory:
-            results = [
-                run_search(method, 7, CheapEvaluator(), Path(directory), config,
-                           group_builder=fixed_groups)
-                for method in ("random", "independent", "damicore")
-            ]
-            repeated = run_search("damicore", 7, CheapEvaluator(), Path(directory),
-                                  config, group_builder=fixed_groups)
-        self.assertTrue(all(len(result.evaluated_masks) == 26 for result in results))
-        self.assertEqual(
-            [result.evaluated_masks[:18] for result in results],
-            [results[0].evaluated_masks[:18]] * 3,
-        )
-        self.assertEqual(results[2].evaluated_masks, repeated.evaluated_masks)
-
-    def test_real_damicore_partitions_all_decisions(self) -> None:
-        config = replace(DEFAULT_CONFIG, initial_pool_size=32, elite_size=16)
-        elite = initial_pool(11, config)[:16]
-        with tempfile.TemporaryDirectory() as directory:
-            groups = damicore_groups(elite, Path(directory), 11, 1, config)
-        validate_partition(groups, config)
+            self.assertTrue((distribution > 0).all())
 
 
 if __name__ == "__main__":

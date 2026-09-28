@@ -1,0 +1,57 @@
+{
+  "hypothesis": "emergency_feature_selection",
+  "artifact_schema_version": "3.0",
+  "method": "damicore_guided_multiobjective_aed",
+  "source_table": "public.disque100_reports",
+  "analysis_unit": "distinct source_hash aggregated inside PostgreSQL",
+  "target": {
+    "positive_statuses": [
+      "RISCO IMINENTE DE MORTE DA VÍTIMA",
+      "SITUAÇÃO FLAGRANTE - ATÉ 24H DA OCORRÊNCIA - SEM FREQUÊNCIA",
+      "SITUAÇÃO FLAGRANTE - ATÉ 24H DA OCORRÊNCIA",
+      "VÍTIMA EM SANGRAMENTO"
+    ],
+    "negative_status": "NÃO",
+    "other_statuses": "excluded"
+  },
+  "feature_count": 15,
+  "objectives": {
+    "quality": "validation information gain of shrunk cell rates, bits per report, mean of folds",
+    "cost": "number of fields"
+  },
+  "evaluations_per_run": 1200,
+  "data_profiles": {
+    "full": {
+      "validation_periods": [
+        "2025-Q3",
+        "2025-Q4",
+        "2026-Q1"
+      ],
+      "final_test_period": "2026-Q2"
+    },
+    "local_2026": {
+      "validation_periods": [
+        "2026-03",
+        "2026-04",
+        "2026-05"
+      ],
+      "final_test_period": "2026-06"
+    }
+  },
+  "notebooks": [
+    "notebooks/01_emergency_feature_selection.ipynb"
+  ],
+  "scripts": [
+    "scripts/config.py",
+    "scripts/data.py",
+    "scripts/fitness.py",
+    "scripts/pareto.py",
+    "scripts/search.py",
+    "scripts/experiment.py",
+    "scripts/build_notebooks.py"
+  ],
+  "artifact_directory": "artifacts/<profile>-<run_id>/",
+  "seeds": 10,
+  "ground_truth_check": "all 32,767 subsets scored once, used only to check the AED result",
+  "reserved_period_check": "same quality measure on the reserved period"
+}
