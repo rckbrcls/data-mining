@@ -76,6 +76,30 @@ ARTIFACT_NOTEBOOK_CELLS = [
         June 2026, restricted to the exploratory violence-related source taxonomy.
         """
     ),
+    markdown(
+        """
+        ## Contextual dimensions used in all three experiments
+
+        The `case_full`, `case_balanced`, and `normalized_categories` experiments use the same
+        20 contextual dimensions. Their input profiles use these fields; report identifiers are
+        excluded. The experiments differ in how category profiles or case samples are represented,
+        not in this dimension set.
+
+        - **Report and occurrence:** victim age group (`faixa_etaria`); victim–suspect relationship
+          (`relacao_vitima_suspeito`); setting (`ambiente`); report month (`mes`); violation start
+          period (`inicio_violacoes`); service channel (`canal_atendimento`); reporter type
+          (`tipo_denunciante`); frequency (`frequencia`); emergency status (`situacao_emergencia`);
+          motivation (`motivacao`).
+        - **Victim context:** vulnerable group (`grupo_vulneravel`); disability
+          (`deficiencia_vitima`); race/color (`raca_cor_vitima`); education
+          (`escolaridade_vitima`); income range (`renda_vitima`); ethnicity (`etnia_vitima`).
+        - **Suspect context:** age group (`faixa_etaria_suspeito`); gender (`genero_suspeito`);
+          education (`escolaridade_suspeito`); legal nature (`natureza_juridica_suspeito`).
+
+        The category-set comparison (`v1_14` and `v2_30`) changes the violence categories, not
+        these 20 contextual dimensions.
+        """
+    ),
     code(
         r'''
 from pathlib import Path
@@ -387,6 +411,55 @@ display(SVG(filename=str(RESULTS_ROOT / "case_full" / "tree.svg")))
     ]
 
 
+def balanced_distance_matrix_cells():
+    cells = [
+        markdown(
+            """
+            ## Distance matrices
+
+            Each table loads a saved NCD matrix. The final table is the element-wise median
+            across the five replicas, not a sixth DAMICORE run.
+            """
+        )
+    ]
+    matrix_artifacts = [
+        (
+            f"Replica {index:03d}",
+            "RESULTS_ROOT / \"case_balanced\" / \"replicates\" "
+            f"/ \"replicate-{index:03d}\" / \"distance-matrix.csv\"",
+        )
+        for index in range(1, 6)
+    ]
+    matrix_artifacts.append(
+        (
+            "Element-wise median",
+            'RESULTS_ROOT / "case_balanced" / "distance-matrix.csv"',
+        )
+    )
+
+    for label, path_expression in matrix_artifacts:
+        cells.extend(
+            [
+                markdown(f"### {label}"),
+                code(
+                    f"""
+matrix_path = {path_expression}
+if not matrix_path.is_file():
+    raise FileNotFoundError(f"Missing saved distance matrix: {{matrix_path}}")
+distance_matrix = pd.read_csv(matrix_path, index_col=0)
+if (
+    distance_matrix.index.tolist() != category_order
+    or distance_matrix.columns.tolist() != category_order
+):
+    raise ValueError(f"Unexpected category order in {{matrix_path}}")
+display(distance_matrix.style.format(precision=3))
+"""
+                ),
+            ]
+        )
+    return cells
+
+
 def case_balanced_notebook():
     return [
         markdown(
@@ -575,6 +648,7 @@ display(stability)
 display(SVG(filename=str(balanced_output / "tree.svg")))
 '''
         ),
+        *balanced_distance_matrix_cells(),
     ]
 
 
