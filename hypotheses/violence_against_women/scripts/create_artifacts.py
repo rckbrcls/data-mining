@@ -138,7 +138,7 @@ def initialize_preparation(category_set_version: str, workers: int = 2) -> Artif
 def configured_database_url() -> str:
     return os.getenv(
         "DISQUE100_DATABASE_URL",
-        "postgresql://postgres@127.0.0.1:5433/disque100",
+        "postgresql://postgres@nitro.taile3753b.ts.net:5432/disque100",
     )
 
 

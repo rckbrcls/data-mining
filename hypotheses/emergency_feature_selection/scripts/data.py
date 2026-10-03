@@ -42,7 +42,7 @@ def configured_database_url(profile: DataProfile | None = None) -> str:
     load_dotenv(HYPOTHESIS_ROOT.parents[1] / ".env")
     return os.getenv(
         "DISQUE100_DATABASE_URL",
-        "postgresql://postgres@127.0.0.1:5433/disque100",
+        "postgresql://postgres@nitro.taile3753b.ts.net:5432/disque100",
     )
 
 
