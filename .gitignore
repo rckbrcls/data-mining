@@ -12,3 +12,5 @@ artifacts/**/work/
 **/artifacts/**/work/
 hypotheses/emergency_feature_selection/artifacts/
 ssh.txt
+hypotheses/concrete_mix_design/artifacts/
+hypotheses/deceptive_trap_linkage/artifacts/
