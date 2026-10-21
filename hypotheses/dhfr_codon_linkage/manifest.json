@@ -1,0 +1,35 @@
+{
+  "hypothesis": "dhfr_codon_linkage",
+  "artifact_schema_version": "1.0",
+  "method": "damicore_built_aed",
+  "source": "Papkou et al. (2023), Science 382:eadh3860; Zenodo 10.5281/zenodo.8228920 (in_data/fitness_data_wt.rds), CC BY 4.0",
+  "analysis_unit": "9-nucleotide sequence of E. coli folA codons 26-28 (4^9 = 262,144; 261,333 measured)",
+  "objective": "maximize fitness (log growth under trimethoprim relative to the wild type GCCGATCTC)",
+  "budget": "1,000 distinct sequences measured per run (0.38% of the space)",
+  "seeds": 30,
+  "ground_truth": "codons {1,2,3}, {4,5,6}, {7,8,9} and pair epistasis from the full table, used only to score DAMICORE's groups",
+  "metrics": [
+    "share of runs reaching the top 70 measured sequences, and the global optimum",
+    "best fitness found per run and evaluations until the top 70",
+    "share of DAMICORE groupings in which each pair of positions shares a group",
+    "codon test: rank and exact p-value of the codon split among all 280 splits into three triples",
+    "Spearman correlation between pair co-grouping and pair epistasis"
+  ],
+  "notebooks": [
+    "notebooks/01_dhfr_codon_linkage.ipynb"
+  ],
+  "scripts": [
+    "scripts/config.py",
+    "scripts/landscape.py",
+    "scripts/search.py",
+    "scripts/experiment.py",
+    "scripts/build_notebooks.py"
+  ],
+  "data": [
+    "data/papkou2023_dhfr_fitness.csv.gz"
+  ],
+  "artifact_directory": "artifacts/<run_id>/",
+  "damicore_roles": [
+    "position groups over the promising sequences of each generation"
+  ]
+}
