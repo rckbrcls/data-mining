@@ -65,6 +65,7 @@ CELLS = [
         import sys
 
         import matplotlib.pyplot as plt
+        import numpy as np
         import pandas as pd
         import toytree
         from IPython.display import display
@@ -171,7 +172,8 @@ CELLS = [
 
         Primeira geração da primeira execução. Abaixo: o começo de cada arquivo (um
         caractere por formulário promissor), a árvore que o DAMICORE montou com esses
-        arquivos, os grupos que ele encontrou e as tabelas de probabilidade de cada grupo.
+        arquivos, a matriz de distâncias NCD que deu origem à árvore, os grupos que ele
+        encontrou e as tabelas de probabilidade de cada grupo.
         """
     ),
     code(
@@ -184,10 +186,27 @@ CELLS = [
             series = (generation_dir / "feature_series" / file_name).read_text()
             print(f"{feature:<28} {series[:60]}…  ({len(series)} formulários)")
 
+        # DAMICORE names the leaves file_000001, file_000002...; membership.csv maps them
+        # back to the series files, and those to the fields.
+        membership = pd.read_csv(generation_dir / "damicore_run" / "membership.csv")
+        field_of = dict(zip(membership["object_id"], membership["label"].map(names)))
         tree = toytree.tree((generation_dir / "tree.nwk").read_text(encoding="utf-8"))
-        labels = [names.get(str(tip).strip("'\\""), str(tip)) for tip in tree.get_tip_labels()]
-        canvas, _, _ = tree.draw(tip_labels=labels, width=520, height=420)
+        labels = [field_of.get(str(tip).strip("'\\""), str(tip)) for tip in tree.get_tip_labels()]
+        canvas, _, _ = tree.draw(tip_labels=labels, width=560, height=440)
+        canvas.style["background-color"] = "white"
         display(canvas)
+
+        ncd = pd.read_csv(generation_dir / "ncd_matrix.csv", index_col=0)
+        figure, axis = plt.subplots(figsize=(9, 7.5))
+        image = axis.imshow(ncd.mask(np.eye(len(ncd), dtype=bool)), cmap="viridis_r")
+        for (row, column), value in np.ndenumerate(ncd.to_numpy()):
+            axis.text(column, row, f"{value:.2f}", ha="center", va="center", fontsize=7,
+                      color="grey" if row == column else "black")
+        axis.set_xticks(range(len(ncd)), ncd.columns, rotation=60, ha="right")
+        axis.set_yticks(range(len(ncd)), ncd.index)
+        axis.set_title("Distâncias NCD entre os campos (amarelo = mais perto)")
+        figure.colorbar(image, ax=axis, shrink=0.8, label="NCD")
+        plt.show()
 
         blocks = results.damicore_blocks
         display(
