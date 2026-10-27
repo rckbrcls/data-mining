@@ -1,1 +1,0 @@
-"""Research hypotheses package."""
